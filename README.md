@@ -1,2 +1,2 @@
 # Gmeek
-Gmeek is a blog based on github page and actions
+Gmeek is a Blog Generator based on `Github Page` and `Github Issues` and `Github Actions`. 
