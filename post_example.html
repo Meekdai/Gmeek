@@ -1,0 +1,142 @@
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="../static/github-light.css" rel="stylesheet" />
+<link href="https://unpkg.com/@primer/css@^21.0.7/dist/primer.css" rel="stylesheet" />
+
+</head>
+<style>
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 900px;
+    margin: 10px auto;
+    padding: 45px;
+    font-family: sans-serif;
+}
+@media (max-width: 560px) {
+    .markdown-body { padding: 8px;} 
+}
+
+.avatar {transition: 0.8s;}
+.avatar:hover {transform: scale(1.15) rotate(360deg);}
+
+h1 {display:flex;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right button{margin-left:8px;padding:16px;}
+.SideNav{min-width: 360px;}
+.SideNav-icon{margin-right: 16px}
+.comments{border-top: 2px solid var(--color-border-default);margin-top:64px;}
+.footer {margin: 40px auto; text-align: center;font-size: small;}
+#cmButton{height:48px;margin-top:48px;}
+</style>
+
+<body>
+<div class="markdown-body">
+    <h1>
+        <div id="postTitle"></div>
+        <div class="title-right">
+        <button class="btn btn-invisible circle" onclick="window.location.href='/'" title="首页"><svg class="octicon octicon-sun" width="16" height="16"><path id="pathHome" fill-rule="evenodd"></path></svg></button>
+        
+        <button class="btn btn-invisible circle" onclick="gotoSource()" title="Issue"><svg class="octicon octicon-sun" width="16" height="16"><path id="pathIssue" fill-rule="evenodd"></path></svg></button>
+        
+        <button class="btn btn-invisible circle" onclick="modeSwitch()" title="切换主题"><svg class="octicon octicon-sun" width="16" height="16"><path id="themeSwitch" fill-rule="evenodd"></path></svg></button>
+        </div>
+    </h1>
+    <div id="postBody"></div>
+
+    <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">Comments </button>
+    <div class="comments" style="display:none;" id="comments"></div>
+
+    <div class="footer">Copyright © <span id="year"></span> <a id="footerblogTitle" href=""></a> <p><span id="filingNum"></span><span id="runday"></span>Powered by <a href="https://github.com/Meekdai/Gmeek" target="_blank">Gmeek</a></p></div>
+</div>
+</body>
+
+<script src="../static/icon.js"></script>
+<script>
+
+var blogBase=%s
+if(blogBase["startSite"]!=""){
+    var now=new Date();
+    var startSite=new Date(blogBase["startSite"]);
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    document.getElementById("runday").innerHTML="Blog run "+diffDay+" days • ";
+}
+
+document.title=blogBase["postTitle"];
+document.getElementById("postTitle").innerHTML=blogBase["postTitle"];
+document.getElementById("postBody").innerHTML=blogBase["postBody"];
+
+if(blogBase["faviconUrl"]!=""){
+    link=document.createElement("link");
+    link.setAttribute("rel","icon");
+    link.setAttribute("href",blogBase["faviconUrl"]);
+    document.head.appendChild(link);
+}
+
+if(blogBase["filingNum"]!=""){document.getElementById("filingNum").innerHTML=blogBase["filingNum"]+" • ";}
+document.getElementById("footerblogTitle").innerHTML=blogBase["title"];
+document.getElementById("footerblogTitle").href=blogBase["homeUrl"];
+
+function gotoSource(){window.open(blogBase["postSourceUrl"]);}
+
+var utterancesLoad=0
+document.getElementById("pathHome").setAttribute("d",value=IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",value=IconList["github"]);
+document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
+if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light")}
+else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
+else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+
+function changeDark(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
+    document.getElementById("themeSwitch").attributes.getNamedItem("d").value=IconList["moon"];
+    if(utterancesLoad==1){utterancesTheme("dark-blue");}
+}
+function changeLight(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
+    document.getElementById("themeSwitch").attributes.getNamedItem("d").value=IconList["sun"];
+    if(utterancesLoad==1){utterancesTheme("github-light");}
+}
+function modeSwitch(){
+    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
+    else{changeLight();localStorage.setItem("meek_theme","light");}
+}
+function utterancesTheme(theme){
+    const message = {type: 'set-theme',theme: theme};
+    const iframe = document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+}
+
+if(blogBase["commentNum"]>0){
+    cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML=blogBase["commentNum"];
+    cmButton.appendChild(span);
+}
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo",blogBase["repoName"]);
+    script.setAttribute("issue-term","title");
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else{script.setAttribute("theme","github-light");}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    cmButton.style.display="none";
+    cm.style.display="block";
+    utterancesLoad=1;
+}
+
+</script>
+</html>

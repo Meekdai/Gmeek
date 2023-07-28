@@ -1,0 +1,3 @@
+PyGithub
+requests
+xpinyin

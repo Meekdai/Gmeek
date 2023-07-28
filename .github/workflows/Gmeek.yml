@@ -1,0 +1,53 @@
+name: build Gmeek
+
+on:
+  workflow_dispatch:
+  issues:
+    types: [opened, edited]
+
+env:
+  GITHUB_NAME: Meekdai
+  GITHUB_EMAIL: meekdai@163.com
+
+jobs:
+  sync:
+    name: Generate blog
+    runs-on: ubuntu-20.04
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Configure pip cache
+        uses: actions/cache@v1
+        id: pip-cache
+        with:
+          path: venv
+          key: pip-1-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+        if: steps.pip-cache.outputs.cache-hit != 'true'
+
+      - name: Generate new html
+        run: |
+          source venv/bin/activate
+          python Gmeek.py ${{ secrets.meblog }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
+        
+      - name: update html
+        run: |
+          git config --local user.email "${{ env.GITHUB_EMAIL }}"
+          git config --local user.name "${{ env.GITHUB_NAME }}"
+          git add .
+          git commit -a -m '🎉auto update by action' || echo "nothing to commit"
+          git push || echo "nothing to push"
