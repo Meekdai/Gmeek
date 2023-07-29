@@ -1,6 +1,9 @@
 # 配置文件说明
 
 ### `config.js` 文件
+
+里面的`key`值请不要修改，如没有其中的`value`值请填写`""`
+
 ```javascript
 {
     "title":"Meekdai",
