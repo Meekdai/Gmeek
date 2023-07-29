@@ -1,7 +1,7 @@
 **简体中文** | **[English](README-en.md)**
 # Gmeek
 
-一个博客框架，完全基于`Github Page` 、 `Github Issues` 和 `Github Actions`。不需要本地部署，从搭建到写作，只需要几分钟的时间。
+一个博客框架，完全基于`Github Pages` 、 `Github Issues` 和 `Github Actions`。不需要本地部署，从搭建到写作，只需要几分钟的时间。
 
 - [Demo页面](http://meekdai.github.io/)
 - [更新日志](https://meekdai.github.io/post/Gmeek-geng-xin-ri-zhi.html)
