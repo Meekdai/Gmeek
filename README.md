@@ -1,31 +1,30 @@
+**简体中文** | **[English](README-en.md)**
 # Gmeek
 
-### [中文说明](https://github.com/Meekdai/Gmeek/blob/main/README_CN.md)
+一个博客框架，完全基于`Github Page` 、 `Github Issues` 和 `Github Actions`。不需要本地部署，从搭建到写作，只需要几分钟的时间。
 
-Gmeek is a Blog Generator based on `Github Pages` and `Github Issues` and `Github Actions`. No local deployment is required, and it only takes a few minutes from building to writing.
+- [Demo页面](http://meekdai.github.io/)
+- [更新日志](https://meekdai.github.io/post/Gmeek-geng-xin-ri-zhi.html)
 
-- [Demo](http://meekdai.github.io/)
-- [Update Log](https://meekdai.github.io/post/Gmeek-geng-xin-ri-zhi.html)
+### 特性
 
-### Feature
+- UI界面和Github同源，只引入了Github原生CSS：[primer.style](https://primer.style/css)
+- 博客写作在Issues中完成后，自动触发Actions执行部署任务
+- 评论系统引入[utteranc.es](https://utteranc.es/)
 
-- The UI interface is of the same origin as Github, only Github’s native CSS is introduced：[primer.style](https://primer.style/css)
-- After blog writing is completed in Issues, Actions are automatically triggered to perform deployment tasks.
-- The comment system used [utteranc.es](https://utteranc.es/)
+### 安装
 
-### Installation
+1. 克隆本仓库到自己的`XXX.github.io`的仓库
+2. 在仓库中配置自己的秘钥`secrets.meblog`有读写权限等，关键字定义在`Geek.yml`中可改
+3. 修改`Geek.yml`文件中的`GITHUB_NAME` 和 `GITHUB_EMAIL`
+4. 在仓库配置中设置`github page`的相关参数，网站根目录需要指定到`docs/`，需要配置个人域名的也在这里配置
+5. 配置`config.json`中的参数，如没有请留空，不能删除`key`值
+6. 给仓库的Issues添加标签，如`link`、`about`等
+7. 最后打开一个Issues，开始编写文章，保存后即可通过https://XXX..github.io 访问
 
-1. Clone this repository to your own `XXX.github.io` repository
-2. Configure your own secret key `secrets.meblog` in the repository to have read and write permissions, etc. The keyword definition can be changed in `Geek.yml`
-3. Modify `GITHUB_NAME` and `GITHUB_EMAIL` in the `Geek.yml` file
-4. Set the relevant parameters of `github page` in the repository configuration. The root directory of the website needs to be assigned to `docs/`, and the personal domain name needs to be configured here.
-5. Configure the parameters in `config.json`, if not use, please use `''`, the `key` value cannot be deleted.
-6. Add tags to the Issues of the repository, such as `link`, `about`, etc.
-7. Finally, open an Issue and start writing an article. After saving, you can access it through https://XXX..github.io
+以上安装仅仅只是一个指导，其中有一些配置细节会在后续编写，如果有问题可在本仓库提交[Issues](https://github.com/Meekdai/Gmeek/issues),或者添加 QQ：`294977308`
 
-The above installation is just a guide, and some configuration details will be written later. If you have any questions, please submit [Issues](https://github.com/Meekdai/Gmeek/issues) in this repository
-
-### Thanks
+### 鸣谢
 
 - [utteranc.es](https://utteranc.es/)
 - [primer.style](https://primer.style/css)
