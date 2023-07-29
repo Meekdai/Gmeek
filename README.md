@@ -22,7 +22,7 @@
 6. 给仓库的Issues添加标签，如`link`、`about`等
 7. 最后打开一个Issues，开始编写文章，保存后即可通过https://XXX..github.io 访问
 
-以上安装仅仅只是一个指导，其中有一些配置细节会在后续编写，如果有问题可在本仓库提交[Issues](https://github.com/Meekdai/Gmeek/issues),或者添加 QQ：`294977308`
+以上安装仅仅只是一个指导，其中有一些配置细节会在后续编写，如果有问题可在本仓库提交[Issues](https://github.com/Meekdai/Gmeek/issues) 或者添加 QQ：`294977308`
 
 ### 鸣谢
 
