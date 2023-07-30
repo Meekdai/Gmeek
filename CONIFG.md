@@ -15,7 +15,8 @@
     "filingNum":"浙ICP备20023628号",
     "singlePage":["link","about"],
     "commentLabelColor":"#006b75",
-    "yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"]
+    "yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],
+    "i18n":"CN"
 }
 ```
 
