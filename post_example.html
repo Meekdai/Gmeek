@@ -38,11 +38,11 @@ h1 {display:flex;}
     <h1>
         <div id="postTitle"></div>
         <div class="title-right">
-        <button class="btn btn-invisible circle" onclick="window.location.href='/'" title="首页"><svg class="octicon octicon-sun" width="16" height="16"><path id="pathHome" fill-rule="evenodd"></path></svg></button>
+        <button id="buttonHome" class="btn btn-invisible circle" onclick="window.location.href='/'"><svg class="octicon octicon-sun" width="16" height="16"><path id="pathHome" fill-rule="evenodd"></path></svg></button>
         
         <button class="btn btn-invisible circle" onclick="gotoSource()" title="Issue"><svg class="octicon octicon-sun" width="16" height="16"><path id="pathIssue" fill-rule="evenodd"></path></svg></button>
         
-        <button class="btn btn-invisible circle" onclick="modeSwitch()" title="切换主题"><svg class="octicon octicon-sun" width="16" height="16"><path id="themeSwitch" fill-rule="evenodd"></path></svg></button>
+        <button id="changeTheme" class="btn btn-invisible circle" onclick="modeSwitch()"><svg class="octicon octicon-sun" width="16" height="16"><path id="themeSwitch" fill-rule="evenodd"></path></svg></button>
         </div>
     </h1>
     <div id="postBody"></div>
@@ -58,18 +58,26 @@ h1 {display:flex;}
 <script>
 
 var blogBase=%s
+
+var i18nEN=["switch theme","website run","days","Home"];
+var i18nCN=["切换主题","网站运行","天","首页"];
+if(blogBase["i18n"]=="CN"){var i18n=i18nCN;}
+else{var i18n=i18nEN;}
+
 if(blogBase["startSite"]!=""){
     var now=new Date();
     var startSite=new Date(blogBase["startSite"]);
     var diff=now.getTime()-startSite.getTime();
     var diffDay=Math.floor(diff/(1000*60*60*24));
     document.getElementById("year").innerHTML=now.getFullYear();
-    document.getElementById("runday").innerHTML="Blog run "+diffDay+" days • ";
+    document.getElementById("runday").innerHTML=i18n[1]+diffDay+i18n[2]+" • ";
 }
 
 document.title=blogBase["postTitle"];
 document.getElementById("postTitle").innerHTML=blogBase["postTitle"];
 document.getElementById("postBody").innerHTML=blogBase["postBody"];
+document.getElementById("changeTheme").setAttribute("title",i18n[0]);
+document.getElementById("buttonHome").setAttribute("title",i18n[3]);
 
 if(blogBase["faviconUrl"]!=""){
     link=document.createElement("link");
