@@ -36,26 +36,20 @@ env:
   GITHUB_EMAIL: meekdai@163.com
 
 jobs:
-  sync:
+  build:
     name: Generate blog
     runs-on: ubuntu-20.04
-    if: github.event.repository.owner.id == github.event.sender.id
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-    concurrency:
-      group: "pages"
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-      
+    if: github.event.repository.owner.id == github.event.sender.id 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v3
+
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: 3.8
 
@@ -76,7 +70,8 @@ jobs:
           cat config.json
           echo "====== check config.josn end  ======"
           python Gmeek.py ${{ secrets.meblog }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
-          cp -a /opt/Gmeek/docs/. ${{ github.workspace }} 
+          cp -a /opt/Gmeek/docs ${{ github.workspace }} 
+          cp -a /opt/Gmeek/backup ${{ github.workspace }} 
           cp /opt/Gmeek/blogBase.json ${{ github.workspace }} 
         
       - name: update html
@@ -86,16 +81,28 @@ jobs:
           git add .
           git commit -a -m '🎉auto update by Gmeek action' || echo "nothing to commit"
           git push || echo "nothing to push"
-    
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
+          sleep 3
+          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          # Upload entire repository
-          path: '.'
+          path: 'docs/.'
+          
+  deploy:
+    name: Deploy blog
+    runs-on: ubuntu-20.04
+    needs: build
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
