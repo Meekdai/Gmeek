@@ -75,6 +75,7 @@ class GMEEK():
         postBase["faviconUrl"]=self.blogBase["faviconUrl"]
         postBase["filingNum"]=self.blogBase["filingNum"]
         postBase["startSite"]=self.blogBase["startSite"]
+        postBase["i18n"]=self.blogBase["i18n"]
         postBase["commentNum"]=issue["commentNum"]
         postBase["repoName"]=options.repo_name
 
