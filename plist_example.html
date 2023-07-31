@@ -92,7 +92,7 @@ var postListJson=blogBase["postListJson"]
 
 document.title=blogBase["title"];
 document.getElementById("avatarImg").src=blogBase["avatarUrl"];
-document.getElementById("blogTitle").innerHTML=blogBase["title"].substring(1);
+document.getElementById("blogTitle").innerHTML=blogBase["displayTitle"];
 document.getElementById("blogSubTitle").innerHTML=blogBase["subTitle"];
 document.getElementById("changeTheme").setAttribute("title",i18n[0]);
 document.getElementById("buttonLink").setAttribute("title",i18n[3]);
