@@ -147,19 +147,27 @@ function openComments(){
     script.setAttribute("async","");
     cm.appendChild(script);
 
-    while(utterancesLoad==0){
-        utterancesFrame=document.getElementsByClassName("utterances-frame")[0];
-        if(utterancesFrame!=null){
-            if (utterancesFrame.attachEvent){
-                utterancesFrame.attachEvent("onload", function(){utterancesLoad=1;});
-            }
-            else {
-                utterancesFrame.onload = function(){utterancesLoad=1;};
-            }
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    utterancesFrame=document.getElementsByClassName("utterances-frame")[0];
+    if(utterancesFrame!=null){
+        if (utterancesFrame.attachEvent){
+            utterancesFrame.attachEvent("onload", function(){iFrameOK();});
+        }
+        else {
+            utterancesFrame.onload = function(){iFrameOK();};
         }
     }
-    cmButton.style.display="none";
-    cm.style.display="block";
+}
+
+function iFrameOK(){
+    utterancesLoad=1;
+    int=window.clearInterval(int);
+    document.getElementById("cmButton").style.display="none";
+    document.getElementById("comments").style.display="block";
+    console.log("utterances Load OK");
 }
 
 </script>
