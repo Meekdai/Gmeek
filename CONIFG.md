@@ -36,7 +36,7 @@ on:
 env:
   GITHUB_NAME: Meekdai
   GITHUB_EMAIL: meekdai@163.com
-  GMEEK_VERSION: v1.0
+  GMEEK_VERSION: v1.1
 
 jobs:
   build:
