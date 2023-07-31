@@ -7,6 +7,7 @@
 ```javascript
 {
     "title":"Meekdai",
+    "displayTitle":"eekdai",
     "subTitle":"童话是一种生活态度，仅此而已。",
     "homeUrl":"http://blog.meekdai.com",
     "avatarUrl":"http://meekdai.com/avatar.jpg",
