@@ -13,7 +13,7 @@
 - 评论系统引入[utteranc.es](https://utteranc.es/)
 
 ### 安装
-1. 创建自己的`XXX.github.io`的仓库，配置自己的秘钥`secrets.meblog`有读写权限等。
+1. 创建自己的`XXX.github.io`的仓库。
 2. 在仓库中创建文件`config.json`和`.github/workflows/Gmeek.yml`复制[链接](CONIFG.md)中的代码分别保存。
 3. 在Issues中删除多余标签，创建自己的标签，如`link`、`about`、`日常`等。
 4. 打开一篇issue，开始写作，保存issue后会自动创建博客内容，片刻后可通过https://XXX.github.io 访问
