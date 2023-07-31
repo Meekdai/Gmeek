@@ -28,7 +28,6 @@ h1 {display:flex;}
 .title-right button{margin-left:8px;padding:16px;}
 .SideNav{min-width: 360px;}
 .SideNav-icon{margin-right: 16px}
-.comments{border-top: 2px solid var(--color-border-default);margin-top:64px;}
 .footer {margin: 40px auto; text-align: center;font-size: small;}
 #cmButton{height:48px;margin-top:48px;}
 </style>
@@ -48,7 +47,7 @@ h1 {display:flex;}
     <div id="postBody"></div>
 
     <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton"> </button>
-    <div class="comments" style="display:none;" id="comments"></div>
+    <div class="comments" id="comments"></div>
 
     <div class="footer">Copyright © <span id="year"></span> <a id="footerblogTitle" href=""></a> <p><span id="filingNum"></span><span id="runday"></span>Powered by <a href="https://github.com/Meekdai/Gmeek" target="_blank">Gmeek</a></p></div>
 </div>
@@ -165,8 +164,8 @@ function iFrameLoading(){
 function iFrameOK(){
     utterancesLoad=1;
     int=window.clearInterval(int);
+    document.getElementById("comments").setAttribute("style","border-top: 2px solid var(--color-border-default);margin-top:64px;");
     document.getElementById("cmButton").style.display="none";
-    document.getElementById("comments").style.display="block";
     console.log("utterances Load OK");
 }
 
