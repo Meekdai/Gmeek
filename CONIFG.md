@@ -40,7 +40,8 @@ jobs:
   build:
     name: Generate blog
     runs-on: ubuntu-20.04
-    if: github.event.repository.owner.id == github.event.sender.id 
+    if: github.event.repository.owner.id == github.event.sender.id
+    permissions: write-all
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -70,7 +71,7 @@ jobs:
           echo "====== check config.josn file ======"
           cat config.json
           echo "====== check config.josn end  ======"
-          python Gmeek.py ${{ secrets.meblog }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
+          python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
           cp -a /opt/Gmeek/docs ${{ github.workspace }} 
           cp -a /opt/Gmeek/backup ${{ github.workspace }} 
           cp /opt/Gmeek/blogBase.json ${{ github.workspace }} 
