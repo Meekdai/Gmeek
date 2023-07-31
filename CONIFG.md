@@ -73,7 +73,7 @@ jobs:
           echo "====== check config.josn file ======"
           cat config.json
           echo "====== check config.josn end  ======"
-          python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
+          python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} ${{ env.GMEEK_VERSION }} --issue_number '${{ github.event.issue.number }}'
           cp -a /opt/Gmeek/docs ${{ github.workspace }} 
           cp -a /opt/Gmeek/backup ${{ github.workspace }} 
           cp /opt/Gmeek/blogBase.json ${{ github.workspace }} 
