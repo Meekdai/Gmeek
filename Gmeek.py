@@ -4,6 +4,7 @@ import json
 import time
 import datetime
 import shutil
+import urllib
 import requests
 import argparse
 from github import Github
@@ -99,7 +100,7 @@ class GMEEK():
             self.blogBase["postListJson"][postNum]["label"]=issue.labels[0].name
             self.blogBase["postListJson"][postNum]["labelColor"]=self.labelColorDict[issue.labels[0].name]
             self.blogBase["postListJson"][postNum]["postTitle"]=issue.title
-            self.blogBase["postListJson"][postNum]["postUrl"]=self.post_folder+'{}.html'.format(Pinyin().get_pinyin(issue.title))
+            self.blogBase["postListJson"][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(Pinyin().get_pinyin(issue.title)))
             self.blogBase["postListJson"][postNum]["postSourceUrl"]="https://github.com/"+options.repo_name+"/issues/"+str(issue.number)
             self.blogBase["postListJson"][postNum]["commentNum"]=issue.get_comments().totalCount
             
