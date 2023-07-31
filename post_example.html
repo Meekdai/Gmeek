@@ -149,12 +149,7 @@ function openComments(){
 
     while(utterancesLoad==0){
         utterancesFrame=document.getElementsByClassName("utterances-frame")[0];
-        if (utterancesFrame.attachEvent){
-            utterancesFrame.attachEvent("onload", function(){utterancesLoad=1;});
-        }
-        else {
-            utterancesFrame.onload = function(){utterancesLoad=1;};
-        }
+        utterancesFrame.onload = function(){utterancesLoad=1;};
     }
     cmButton.style.display="none";
     cm.style.display="block";
