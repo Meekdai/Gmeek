@@ -152,7 +152,7 @@ function openComments(){
 function iFrameLoading(){
     var utterances=document.getElementsByClassName('utterances');
     if(utterances.length==1){
-        if(utterances.style.height!=""){
+        if(utterances[0].style.height!=""){
             utterancesLoad=1;
             int=window.clearInterval(int);
             document.getElementById("comments").setAttribute("style","border-top: 1px solid var(--color-border-default);margin-top:64px;");
