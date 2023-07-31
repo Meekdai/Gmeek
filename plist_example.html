@@ -50,7 +50,7 @@ h1 a{margin-left: 4px;margin-top: 16px;}
         <div class="title-right">
             
             <div class="subnav-search">
-                <form action="https://www.google.com/search" method="get" target="_blank"><input type="search" name="q" class="form-control subnav-search-input" aria-label="Search site" value=""><button class="btn" type="submit" id="buttonSearch"></button></form>
+                <form action="https://www.google.com/search" method="get" target="_blank"><input id="searchSite" type="hidden" name="q"><input type="search" name="q" class="form-control subnav-search-input" aria-label="Search site" value=""><button class="btn" type="submit" id="buttonSearch"></button></form>
                 <svg class="subnav-search-icon octicon octicon-search" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"> <path id="searchSVG" fill-rule="evenodd" d=""></path></svg>
             </div>
             
@@ -94,6 +94,8 @@ document.title=blogBase["title"];
 document.getElementById("avatarImg").src=blogBase["avatarUrl"];
 document.getElementById("blogTitle").innerHTML=blogBase["displayTitle"];
 document.getElementById("blogSubTitle").innerHTML=blogBase["subTitle"];
+document.getElementById("searchSite").setAttribute("value",blogBase["homeUrl"]);
+
 document.getElementById("changeTheme").setAttribute("title",i18n[0]);
 document.getElementById("buttonLink").setAttribute("title",i18n[3]);
 document.getElementById("buttonAbout").setAttribute("title",i18n[4]);
