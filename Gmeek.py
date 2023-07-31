@@ -33,6 +33,7 @@ class GMEEK():
         print(self.labelColorDict)
 
         self.blogBase=self.config.copy()
+        self.blogBase["GMEEK_VERSION"]=options.Gmeek_version
         self.blogBase["postListJson"]=json.loads('{}')
 
     def cleanFile(self):
@@ -79,6 +80,7 @@ class GMEEK():
         postBase["i18n"]=self.blogBase["i18n"]
         postBase["commentNum"]=issue["commentNum"]
         postBase["repoName"]=options.repo_name
+        postBase["GMEEK_VERSION"]=options.Gmeek_version
 
         f = open(gen_Html, 'w', encoding='UTF-8')
         f.write(self.post_example % json.dumps(postBase))
@@ -144,6 +146,7 @@ class GMEEK():
 parser = argparse.ArgumentParser()
 parser.add_argument("github_token", help="github_token")
 parser.add_argument("repo_name", help="repo_name")
+parser.add_argument("Gmeek_version", help="Gmeek_version")
 parser.add_argument("--issue_number", help="issue_number", default=0, required=False)
 options = parser.parse_args()
 
