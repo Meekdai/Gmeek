@@ -1,3 +1,4 @@
 PyGithub
 requests
 xpinyin
+feedgen

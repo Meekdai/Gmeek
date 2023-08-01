@@ -9,6 +9,7 @@ import requests
 import argparse
 from github import Github
 from xpinyin import Pinyin
+from feedgen.feed import FeedGenerator
 
 ######################################################################################
 class GMEEK():
@@ -22,6 +23,7 @@ class GMEEK():
 
         self.plist_example=open('plist_example.html', 'r', encoding='utf-8').read()
         self.post_example=open('post_example.html', 'r', encoding='utf-8').read()
+        self.feed = FeedGenerator()
 
         user = Github(self.options.github_token)
         self.repo = self.get_repo(user, options.repo_name)
@@ -87,13 +89,37 @@ class GMEEK():
         f.close()
         print("create postPage title=%s file=%s " % (issue["postTitle"],gen_Html))
 
-    def creatPlistHtml(self):
+    def createPlistHtml(self):
         self.blogBase["postListJson"]=dict(sorted(self.blogBase["postListJson"].items(),key=lambda x:x[1]["createdAt"],reverse=True))#使列表由时间排序
 
         f = open(self.root_dir+"index.html", 'w', encoding='UTF-8')
         f.write(self.plist_example % json.dumps(self.blogBase))
         f.close()
         print("create docs/index.html")
+
+    def createFeedXml(self):
+        self.blogBase["postListJson"]=dict(sorted(self.blogBase["postListJson"].items(),key=lambda x:x[1]["createdAt"],reverse=False))#使列表由时间排序
+        feed = FeedGenerator()
+        feed.title(self.blogBase["title"])
+        feed.description(self.blogBase["subTitle"])
+        feed.link(href=self.blogBase["homeUrl"])
+        feed.image(url=self.blogBase["avatarUrl"],title="avatar", link=self.blogBase["homeUrl"])
+        feed.pubDate(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()))
+        feed.copyright(self.blogBase["title"])
+        feed.managingEditor(self.blogBase["title"])
+        feed.webMaster(self.blogBase["title"])
+        feed.ttl("60")
+
+        for num in self.blogBase["postListJson"]:
+            item=feed.add_item()
+            item.guid(self.blogBase["homeUrl"]+"/"+self.blogBase["postListJson"][num]["postUrl"],permalink=True)
+            item.title(self.blogBase["postListJson"][num]["postTitle"])
+            item.description(self.blogBase["postListJson"][num]["description"])
+            item.link(href=self.blogBase["homeUrl"]+"/"+self.blogBase["postListJson"][num]["postUrl"])
+            item.pubDate(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime(self.blogBase["postListJson"][num]["createdAt"])))
+
+        feed.rss_file(self.root_dir+'rss.xml')
+
 
     def addOnePostJson(self,issue):
         if len(issue.labels)==1:
@@ -105,6 +131,11 @@ class GMEEK():
             self.blogBase["postListJson"][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(Pinyin().get_pinyin(issue.title)))
             self.blogBase["postListJson"][postNum]["postSourceUrl"]="https://github.com/"+options.repo_name+"/issues/"+str(issue.number)
             self.blogBase["postListJson"][postNum]["commentNum"]=issue.get_comments().totalCount
+            if self.blogBase["i18n"]=="CN":
+                period="。"
+            else:
+                period="."
+            self.blogBase["postListJson"][postNum]["description"]=issue.body.split(period)[0]+period
             
             try:
                 modifyTime=json.loads(issue.body.split("\r\n")[-1:][0].split("##")[1])
@@ -130,7 +161,8 @@ class GMEEK():
         for issue in self.blogBase["postListJson"].values():
             self.createPostHtml(issue)
 
-        self.creatPlistHtml()
+        self.createPlistHtml()
+        self.createFeedXml()
         print("====== create static html end ======")
 
     def runOne(self,number_str):
@@ -138,7 +170,8 @@ class GMEEK():
         issue=self.repo.get_issue(int(number_str))
         self.addOnePostJson(issue)
         self.createPostHtml(self.blogBase["postListJson"]["P"+number_str])
-        self.creatPlistHtml()
+        self.createPlistHtml()
+        self.createFeedXml()
         print("====== create static html end ======")
 
 ######################################################################################

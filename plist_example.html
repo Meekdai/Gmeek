@@ -58,6 +58,8 @@ h1 a{margin-left: 4px;margin-top: 16px;}
 
             <button id="buttonAbout" style="display: none;" class="btn btn-invisible circle" onclick="window.location.href='/about.html'"><svg class="octicon" width="16" height="16" ><path fill-rule="evenodd"></path></svg></button>
 
+            <button id="buttonRSS" class="btn btn-invisible circle" onclick="window.location.href='/rss.xml'"  title="RSS"><svg class="octicon" width="16" height="16" ><path fill-rule="evenodd"></path></svg></button>
+
             <div><button id="changeTheme" class="btn btn-invisible circle" onclick="modeSwitch()"><svg class="octicon" width="16" height="16" ><path id="themeSwitch" fill-rule="evenodd"></path></svg></button></div>
 
 
@@ -96,6 +98,7 @@ document.getElementById("blogTitle").innerHTML=blogBase["displayTitle"];
 document.getElementById("blogSubTitle").innerHTML=blogBase["subTitle"];
 document.getElementById("searchSite").setAttribute("value",blogBase["homeUrl"]);
 
+document.getElementById("buttonRSS").childNodes[0].childNodes[0].setAttribute("d",value=IconList["rss"]);
 document.getElementById("changeTheme").setAttribute("title",i18n[0]);
 document.getElementById("buttonLink").setAttribute("title",i18n[3]);
 document.getElementById("buttonAbout").setAttribute("title",i18n[4]);
