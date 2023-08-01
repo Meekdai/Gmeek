@@ -66,7 +66,7 @@ if(htmlType=="plist"){
     document.getElementById("avatarImg").src=blogBase["avatarUrl"];
     document.getElementById("blogTitle").innerHTML=blogBase["displayTitle"];
     document.getElementById("blogSubTitle").innerHTML=blogBase["subTitle"];
-    document.getElementById("searchSite").setAttribute("value",blogBase["homeUrl"]);
+    document.getElementById("searchSite").setAttribute("value","site:"+blogBase["homeUrl"]);
     document.getElementById("buttonRSS").childNodes[0].childNodes[0].setAttribute("d",value=IconList["rss"]);
     document.getElementById("buttonLink").setAttribute("title",i18n[3]);
     document.getElementById("buttonAbout").setAttribute("title",i18n[4]);
