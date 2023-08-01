@@ -42,7 +42,7 @@ h1 a{margin-left: 4px;margin-top: 16px;}
 .SideNav-item .Label{color: #fff;margin-left:8px;}
 .footer {margin: 40px auto; text-align: center;font-size: small;}
 </style>
-
+<script>var blogBase=%s</script>
 <body>
 <div class="markdown-body">
     <h1>
@@ -72,131 +72,17 @@ h1 a{margin-left: 4px;margin-top: 16px;}
 </div>
 
 </body>
-<script src="./static/icon.js"></script>
+
 <script>
-
-var blogBase=%s
-
-var i18nEN=["switch theme","Run "," days","links","about me","Search"];
-var i18nCN=["切换主题","网站运行","天","友情链接","关于","搜索"];
-if(blogBase["i18n"]=="CN"){var i18n=i18nCN;}
-else{var i18n=i18nEN;}
-
-if(blogBase["startSite"]!=""){
-    var now=new Date();
-    var startSite=new Date(blogBase["startSite"]);
-    var diff=now.getTime()-startSite.getTime();
-    var diffDay=Math.floor(diff/(1000*60*60*24));
-    document.getElementById("year").innerHTML=now.getFullYear();
-    document.getElementById("runday").innerHTML=i18n[1]+diffDay+i18n[2]+" • ";
-}
-
-var postListJson=blogBase["postListJson"]
-
-document.title=blogBase["title"];
-document.getElementById("avatarImg").src=blogBase["avatarUrl"];
-document.getElementById("blogTitle").innerHTML=blogBase["displayTitle"];
-document.getElementById("blogSubTitle").innerHTML=blogBase["subTitle"];
-document.getElementById("searchSite").setAttribute("value",blogBase["homeUrl"]);
-
-document.getElementById("buttonRSS").childNodes[0].childNodes[0].setAttribute("d",value=IconList["rss"]);
-document.getElementById("changeTheme").setAttribute("title",i18n[0]);
-document.getElementById("buttonLink").setAttribute("title",i18n[3]);
-document.getElementById("buttonAbout").setAttribute("title",i18n[4]);
-document.getElementById("buttonSearch").innerHTML=i18n[5];
-
-if(blogBase["filingNum"]!=""){document.getElementById("filingNum").innerHTML=blogBase["filingNum"]+" • ";}
-document.getElementById("footerblogTitle").innerHTML=blogBase["title"];
-document.getElementById("footerblogTitle").href=blogBase["homeUrl"];
-
-var navList=document.getElementById("navList");
-
-if(blogBase["faviconUrl"]!=""){
-    link=document.createElement("link");
-    link.setAttribute("rel","icon");
-    link.setAttribute("href",blogBase["faviconUrl"]);
-    document.head.appendChild(link);
-}
-
-for(var num in postListJson){
-    if(blogBase["singlePage"].indexOf(postListJson[num]["label"])==-1){
-        SideNavItem=document.createElement("a");
-        SideNavItem.setAttribute("class", "SideNav-item d-flex flex-items-center flex-justify-between");
-        SideNavItem.setAttribute("href", postListJson[num]["postUrl"]);
-
-        div=document.createElement("div");
-        svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-        path=document.createElementNS("http://www.w3.org/2000/svg","path"); 
-        span=document.createElement("span");
-        div.setAttribute("class","d-flex flex-items-center");
-        svg.setAttributeNS(null,"class","SideNav-icon octicon");
-        svg.setAttributeNS(null,"style","witdh:16px;height:16px");
-        path.setAttributeNS(null, "d", IconList["post"]);
-        span.innerHTML=postListJson[num]["postTitle"];
-        svg.appendChild(path);
-        div.appendChild(svg);
-        div.appendChild(span);
-        SideNavItem.appendChild(div);
-
-        div=document.createElement("div");
-        div.setAttribute("class","listLabels");
-
-        if(postListJson[num]["commentNum"]>0){
-            span=document.createElement("span");
-            span.setAttribute("class","Label");
-            span.setAttribute("style","background-color:"+blogBase["commentLabelColor"]);
-            span.innerHTML=postListJson[num]["commentNum"];
-            div.appendChild(span);
-        }
-
-        span=document.createElement("span");
-        span.setAttribute("class","Label");
-        span.setAttribute("style","background-color:"+postListJson[num]["labelColor"]);
-        span.innerHTML=postListJson[num]["label"];
-        div.appendChild(span);
-
-        span=document.createElement("span");
-        span.setAttribute("class","Label");
-        span.setAttribute("style","background-color:"+postListJson[num]["dateLabelColor"]);
-        date=new Date(postListJson[num]["createdAt"] * 1000);
-        span.innerHTML=date.getFullYear()+"-"+(date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+"-"+(date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
-        div.appendChild(span);
-        
-        SideNavItem.appendChild(div);
-        navList.appendChild(SideNavItem);
+    function addScript(url){
+        var script = document.createElement('script');
+        script.setAttribute('type','text/javascript');
+        script.setAttribute('src',url);
+        document.body.appendChild(script);
     }
-    else{
-        if(postListJson[num]["label"]=="link"){
-            document.getElementById("buttonLink").childNodes[0].childNodes[0].setAttribute("d",value=IconList["link"]);
-            document.getElementById("buttonLink").style="display:block";
-        }
-        else if(postListJson[num]["label"]=="about"){
-            document.getElementById("buttonAbout").childNodes[0].childNodes[0].setAttribute("d",value=IconList["person"]);
-            document.getElementById("buttonAbout").style="display:block";
-        }
+    window.onload=function(){
+        addScript("https://cdn.jsdelivr.net/gh/Meekdai/Gmeek@"+blogBase["GMEEK_VERSION"]+"/icon.js" );
+        addScript("https://cdn.jsdelivr.net/gh/Meekdai/Gmeek@"+blogBase["GMEEK_VERSION"]+"/Gmeek.js" );
     }
-}
-
-
-document.getElementById("searchSVG").setAttribute("d",value=IconList["search"]);
-document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
-if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light")}
-else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
-else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
-
-function changeDark(){
-    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
-    document.getElementById("themeSwitch").attributes.getNamedItem("d").value=IconList["moon"];
-}
-function changeLight(){
-    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
-    document.getElementById("themeSwitch").attributes.getNamedItem("d").value=IconList["sun"];
-}
-function modeSwitch(){
-    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
-    else{changeLight();localStorage.setItem("meek_theme","light");}
-}
-
-console.log("\n %%c Gmeek "+blogBase["GMEEK_VERSION"]+" %%c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%%, rgb(45, 190, 96) 100%%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%%, rgb(255, 255, 255) 100%%); padding:5px 0;");
-</script>
+    </script>
 </html>

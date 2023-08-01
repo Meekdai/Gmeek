@@ -42,10 +42,11 @@ class GMEEK():
         if os.path.exists("backup/"):
             shutil.rmtree("backup/")
             
-        if os.path.exists(self.post_dir):
-            shutil.rmtree(self.post_dir)
+        if os.path.exists(self.root_dir):
+            shutil.rmtree(self.root_dir)
 
         os.mkdir("backup/")
+        os.mkdir(self.root_dir)
         os.mkdir(self.post_dir)
         
 
