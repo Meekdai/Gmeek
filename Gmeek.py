@@ -82,6 +82,7 @@ class GMEEK():
         postBase["startSite"]=self.blogBase["startSite"]
         postBase["i18n"]=self.blogBase["i18n"]
         postBase["commentNum"]=issue["commentNum"]
+        postBase["fontSize"]=issue["fontSize"]
         postBase["repoName"]=options.repo_name
         postBase["GMEEK_VERSION"]=options.Gmeek_version
 
@@ -139,10 +140,18 @@ class GMEEK():
             self.blogBase["postListJson"][postNum]["description"]=issue.body.split(period)[0]+period
             
             try:
-                modifyTime=json.loads(issue.body.split("\r\n")[-1:][0].split("##")[1])
-                self.blogBase["postListJson"][postNum]["createdAt"]=modifyTime["timestamp"]
+                postConfig=json.loads(issue.body.split("\r\n")[-1:][0].split("##")[1])
             except:
+                postConfig={}
+
+            if "timestamp" in postConfig:
+                self.blogBase["postListJson"][postNum]["createdAt"]=postConfig["timestamp"]
+            else:
                 self.blogBase["postListJson"][postNum]["createdAt"]=int(time.mktime(issue.created_at.timetuple()))
+            if "fontSize" in postConfig:
+                self.blogBase["postListJson"][postNum]["fontSize"]=str(postConfig["fontSize"])
+            else:
+                self.blogBase["postListJson"][postNum]["fontSize"]=""
 
             thisYear=datetime.datetime.fromtimestamp(self.blogBase["postListJson"][postNum]["createdAt"]).year
             self.blogBase["postListJson"][postNum]["dateLabelColor"]=self.blogBase["yearColorList"][int(thisYear)%len(self.blogBase["yearColorList"])]

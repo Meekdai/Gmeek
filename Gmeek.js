@@ -147,6 +147,8 @@ else{
     document.getElementById("pathHome").setAttribute("d",value=IconList["home"]);
     document.getElementById("pathIssue").setAttribute("d",value=IconList["github"]);
 
+    if(blogBase["fontSize"]!=""){document.getElementById("postBody").setAttribute("style","font-size:"+blogBase["fontSize"])}
+
     if(blogBase["commentNum"]>0){
         cmButton=document.getElementById("cmButton");
         span=document.createElement("span");
