@@ -141,8 +141,11 @@ class GMEEK():
             
             try:
                 postConfig=json.loads(issue.body.split("\r\n")[-1:][0].split("##")[1])
+                print("Has Custom JSON parameters")
+                print(postConfig)
             except:
                 postConfig={}
+                print("No Custom JSON parameters")
 
             if "timestamp" in postConfig:
                 self.blogBase["postListJson"][postNum]["createdAt"]=postConfig["timestamp"]
