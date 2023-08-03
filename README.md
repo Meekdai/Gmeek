@@ -6,6 +6,8 @@
 - [Demo页面](http://meekdai.github.io/)
 - [更新日志](https://meekdai.github.io/post/Gmeek-geng-xin-ri-zhi.html)
 
+![light](light.jpg)
+
 ### 安装
 
 1. 创建自己的`XXX.github.io`的仓库，在仓库的设置中`Pages->Build and deployment->Source`下面选择`Github Actions`。
