@@ -6,6 +6,8 @@ Gmeek is a Blog Generator based on `Github Pages` and `Github Issues` and `Githu
 - [Demo](http://meekdai.github.io/)
 - [Update Log](https://meekdai.github.io/post/Gmeek-geng-xin-ri-zhi.html)
 
+![dark](dark.jpg)
+
 ### Installation
 1. Create your own `XXX.github.io` repository. In the repository `Settings`, select `Github Actions` under `Pages->Build and deployment->Source`.
 2. Create files `config.json` and `.github/workflows/Gmeek.yml` in the repository, copy the code in [link](CONIFG.md) and save them separately.
