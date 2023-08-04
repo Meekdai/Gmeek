@@ -50,7 +50,7 @@ class GMEEK():
         os.mkdir(self.post_dir)
         
 
-    def get_repo(self,user: Github, repo: str):
+    def get_repo(self,user:Github, repo:str):
         return user.get_repo(repo)
 
     def markdown2html(self,mdstr):
@@ -83,6 +83,7 @@ class GMEEK():
         postBase["i18n"]=self.blogBase["i18n"]
         postBase["commentNum"]=issue["commentNum"]
         postBase["fontSize"]=issue["fontSize"]
+        postBase["top"]=issue["top"]
         postBase["repoName"]=options.repo_name
         postBase["GMEEK_VERSION"]=options.Gmeek_version
 
@@ -92,7 +93,7 @@ class GMEEK():
         print("create postPage title=%s file=%s " % (issue["postTitle"],gen_Html))
 
     def createPlistHtml(self):
-        self.blogBase["postListJson"]=dict(sorted(self.blogBase["postListJson"].items(),key=lambda x:x[1]["createdAt"],reverse=True))#使列表由时间排序
+        self.blogBase["postListJson"]=dict(sorted(self.blogBase["postListJson"].items(),key=lambda x:(x[1]["top"],x[1]["createdAt"]),reverse=True))#使列表由时间排序
 
         f = open(self.root_dir+"index.html", 'w', encoding='UTF-8')
         f.write(self.plist_example % json.dumps(self.blogBase))
@@ -138,14 +139,21 @@ class GMEEK():
             else:
                 period="."
             self.blogBase["postListJson"][postNum]["description"]=issue.body.split(period)[0]+period
-            
+
+            self.blogBase["postListJson"][postNum]["top"]=0
+            for event in issue.get_events():
+                if event.event=="pinned":
+                    self.blogBase["postListJson"][postNum]["top"]=1
+                    break
+                elif event.event=="unpinned":
+                    break
+
             try:
                 postConfig=json.loads(issue.body.split("\r\n")[-1:][0].split("##")[1])
                 print("Has Custom JSON parameters")
                 print(postConfig)
             except:
                 postConfig={}
-                print("No Custom JSON parameters")
 
             if "timestamp" in postConfig:
                 self.blogBase["postListJson"][postNum]["createdAt"]=postConfig["timestamp"]

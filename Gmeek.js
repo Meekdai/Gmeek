@@ -86,8 +86,15 @@ if(htmlType=="plist"){
             span=document.createElement("span");
             div.setAttribute("class","d-flex flex-items-center");
             svg.setAttributeNS(null,"class","SideNav-icon octicon");
-            svg.setAttributeNS(null,"style","witdh:16px;height:16px");
-            path.setAttributeNS(null, "d", IconList["post"]);
+            if(postListJson[num]["top"]==0){
+                svg.setAttributeNS(null,"style","witdh:16px;height:16px");
+                path.setAttributeNS(null, "d", IconList["post"]);
+            }
+            else{
+                svg.setAttributeNS(null,"style","witdh:16px;height:16px;color:red");
+                path.setAttributeNS(null, "d", IconList["star"]);
+            }
+
             span.innerHTML=postListJson[num]["postTitle"];
             svg.appendChild(path);
             div.appendChild(svg);
