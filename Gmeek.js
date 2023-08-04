@@ -91,8 +91,8 @@ if(htmlType=="plist"){
                 path.setAttributeNS(null, "d", IconList["post"]);
             }
             else{
-                svg.setAttributeNS(null,"style","witdh:16px;height:16px;color:red");
-                path.setAttributeNS(null, "d", IconList["star"]);
+                svg.setAttributeNS(null,"style","witdh:16px;height:16px;color:#f97B7E");
+                path.setAttributeNS(null, "d", IconList["pin"]);
             }
 
             span.innerHTML=postListJson[num]["postTitle"];
