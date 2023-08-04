@@ -35,3 +35,7 @@
 - [utteranc.es](https://utteranc.es/)
 - [primer.style](https://primer.style/css)
 - [gitblog](https://github.com/yihong0618/gitblog)
+
+### License
+
+请保留页面底部和console界面版权信息，谢谢！
