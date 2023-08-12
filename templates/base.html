@@ -33,8 +33,38 @@ body{
     <div id="footer">{% include 'footer.html' %}</div>
 </body>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Meekdai/Gmeek@{{ blogBase['GMEEK_VERSION'] }}/icon.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Meekdai/Gmeek@{{ blogBase['GMEEK_VERSION'] }}/Gmeek.js"></script>
 <script>
+var IconList={{ IconList }};
+document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
+if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light")}
+else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
+else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+
+var utterancesLoad=0
+if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light")}
+else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
+else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+
+function changeDark(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
+    document.getElementById("themeSwitch").attributes.getNamedItem("d").value=IconList["moon"];
+    if(utterancesLoad==1){utterancesTheme("dark-blue");}
+}
+function changeLight(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
+    document.getElementById("themeSwitch").attributes.getNamedItem("d").value=IconList["sun"];
+    if(utterancesLoad==1){utterancesTheme("github-light");}
+}
+function modeSwitch(){
+    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
+    else{changeLight();localStorage.setItem("meek_theme","light");}
+}
+function utterancesTheme(theme){
+    const message = {type: 'set-theme',theme: theme};
+    const iframe = document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+}
+
 console.log("\n %c Gmeek {{ blogBase['GMEEK_VERSION'] }} %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
 </script>
 {% block script %}{% endblock %}

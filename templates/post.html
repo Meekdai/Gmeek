@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
-
 {% block title%}{{ blogBase['title'] }}{% endblock %}
-
 {% block style %}
 <style>
 h1 a:not([href]){color:inherit;text-decoration:none;vertical-align: bottom;font-size:40px;font-family:Monaco;}
@@ -10,7 +8,6 @@ h1 a:not([href]){color:inherit;text-decoration:none;vertical-align: bottom;font-
 #cmButton{height:48px;margin-top:48px;}
 </style>
 {% endblock %}
-
 {% block header %}
 <h1>
     <a>{{ blogBase['postTitle'] }}</a>
@@ -50,6 +47,39 @@ h1 a:not([href]){color:inherit;text-decoration:none;vertical-align: bottom;font-
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo",cmButton.value);
+    script.setAttribute("issue-term","title");
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else{script.setAttribute("theme","github-light");}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
 
 </script>
 {% endblock %}
