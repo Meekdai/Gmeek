@@ -19,7 +19,7 @@
     "commentLabelColor":"#006b75",
     "yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],
     "i18n":"CN",
-    "GMEEK_VERSION":"v1.2"
+    "GMEEK_VERSION":"v2.0"
 }
 ```
 

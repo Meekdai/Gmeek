@@ -22,6 +22,7 @@
 - UI界面和Github同源，只引入了Github原生CSS：[primer.style](https://primer.style/css)
 - 博客写作在Issues中完成后，自动触发Actions执行部署任务
 - 评论系统引入[utteranc.es](https://utteranc.es/)
+- 使用jinja2对html进行渲染，可通过模板自定义UI主题
 
 ### 说明
 1. 请确保每一篇文章有且仅有一个`Label`，为了防止他人提交的Issue也被抓取生成文章。

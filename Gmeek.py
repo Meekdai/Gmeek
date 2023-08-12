@@ -12,7 +12,8 @@ from xpinyin import Pinyin
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
 ######################################################################################
-i18n={"Search":"搜索","switchTheme":"切换主题","link":"友情链接","home":"首页","comments":"评论","run":"网站运行","days":"天"}
+i18n={"Search":"Search","switchTheme":"switch theme","link":"link","home":"home","comments":"comments","run":"run","days":"days"}
+i18nCN={"Search":"搜索","switchTheme":"切换主题","link":"友情链接","home":"首页","comments":"评论","run":"网站运行","days":"天"}
 IconPlist={
     "post":"M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25ZM3.5 6.25a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75Zm.75 2.25h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1 0-1.5Z",
     "link":"m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z",
@@ -53,6 +54,11 @@ class GMEEK():
         self.blogBase=config.copy()
         self.blogBase["GMEEK_VERSION"]=options.Gmeek_version
         self.blogBase["postListJson"]=json.loads('{}')
+
+        if self.blogBase["i18n"]=="CN":
+            self.i18n=i18nCN
+        else:
+            self.i18n=i18n
 
     def cleanFile(self):
         if os.path.exists(self.backup_dir):
@@ -105,7 +111,7 @@ class GMEEK():
         file_loader = FileSystemLoader('templates')
         env = Environment(loader=file_loader)
         template = env.get_template('post.html')
-        output = template.render(blogBase=postBase,i18n=i18n,IconList=IconPost)
+        output = template.render(blogBase=postBase,i18n=self.i18n,IconList=IconPost)
 
         f = open(gen_Html, 'w', encoding='UTF-8')
         f.write(output)
@@ -117,7 +123,7 @@ class GMEEK():
         file_loader = FileSystemLoader('templates')
         env = Environment(loader=file_loader)
         template = env.get_template('plist.html')
-        output = template.render(blogBase=self.blogBase,postListJson=self.blogBase["postListJson"],i18n=i18n,IconList=IconPlist)
+        output = template.render(blogBase=self.blogBase,postListJson=self.blogBase["postListJson"],i18n=self.i18n,IconList=IconPlist)
 
         f = open(self.root_dir+"index.html", 'w', encoding='UTF-8')
         f.write(output)
