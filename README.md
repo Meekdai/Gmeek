@@ -6,7 +6,7 @@
 - [Demo页面](http://meekdai.github.io/)
 - [更新日志](https://meekdai.github.io/post/Gmeek-geng-xin-ri-zhi.html)
 
-![light](light.jpg)
+![light](img/light.jpg)
 
 ### 安装
 
