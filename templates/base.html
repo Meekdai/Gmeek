@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://unpkg.com/@primer/css@21.0.7/dist/primer.css" rel="stylesheet" />
+    <link rel="icon" href="{{ blogBase['faviconUrl'] }}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<style>
+body{
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 45px;
+    font-size: 16px;
+    font-family: sans-serif;
+    line-height: 1.25;
+}
+.avatar {transition: 0.8s;}
+.avatar:hover {transform: scale(1.15) rotate(360deg);}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin: 40px auto; text-align: center;font-size: small;}
+
+</style>
+{% block style %}{% endblock %}
+
+<body>
+    <div id="header">{% block header %}{% endblock %}</div>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">{% include 'footer.html' %}</div>
+</body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Meekdai/Gmeek@{{ blogBase['GMEEK_VERSION'] }}/icon.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Meekdai/Gmeek@{{ blogBase['GMEEK_VERSION'] }}/Gmeek.js"></script>
+<script>
+console.log("\n %c Gmeek {{ blogBase['GMEEK_VERSION'] }} %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
+</script>
+{% block script %}{% endblock %}
+</html>
+

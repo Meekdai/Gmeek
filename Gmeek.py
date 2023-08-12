@@ -10,45 +10,44 @@ import argparse
 from github import Github
 from xpinyin import Pinyin
 from feedgen.feed import FeedGenerator
-
+from jinja2 import Environment, FileSystemLoader
+######################################################################################
+i18n={"Search":"搜索","switchTheme":"切换主题","link":"友情链接","home":"首页","comments":"评论","run":"网站运行","days":"天"}
 ######################################################################################
 class GMEEK():
     def __init__(self,options):
         self.options=options
-        self.config=json.loads(open('config.json', 'r', encoding='utf-8').read())
-
+        
         self.root_dir='docs/'
         self.post_folder='post/'
+        self.backup_dir='backup/'
         self.post_dir=self.root_dir+self.post_folder
-
-        self.plist_example=open('plist_example.html', 'r', encoding='utf-8').read()
-        self.post_example=open('post_example.html', 'r', encoding='utf-8').read()
-        self.feed = FeedGenerator()
 
         user = Github(self.options.github_token)
         self.repo = self.get_repo(user, options.repo_name)
+        self.feed = FeedGenerator()
 
         self.labelColorDict=json.loads('{}')
         for label in self.repo.get_labels():
             self.labelColorDict[label.name]='#'+label.color
 
         print(self.labelColorDict)
-
-        self.blogBase=self.config.copy()
+        
+        config=json.loads(open('config.json', 'r', encoding='utf-8').read())
+        self.blogBase=config.copy()
         self.blogBase["GMEEK_VERSION"]=options.Gmeek_version
         self.blogBase["postListJson"]=json.loads('{}')
 
     def cleanFile(self):
-        if os.path.exists("backup/"):
-            shutil.rmtree("backup/")
+        if os.path.exists(self.backup_dir):
+            shutil.rmtree(self.backup_dir)
             
         if os.path.exists(self.root_dir):
             shutil.rmtree(self.root_dir)
 
-        os.mkdir("backup/")
+        os.mkdir(self.backup_dir)
         os.mkdir(self.root_dir)
         os.mkdir(self.post_dir)
-        
 
     def get_repo(self,user:Github, repo:str):
         return user.get_repo(repo)
@@ -87,16 +86,25 @@ class GMEEK():
         postBase["repoName"]=options.repo_name
         postBase["GMEEK_VERSION"]=options.Gmeek_version
 
+        file_loader = FileSystemLoader('templates')
+        env = Environment(loader=file_loader)
+        template = env.get_template('post.html')
+        output = template.render(blogBase=postBase,i18n=i18n)
+
         f = open(gen_Html, 'w', encoding='UTF-8')
-        f.write(self.post_example % json.dumps(postBase))
+        f.write(output)
         f.close()
         print("create postPage title=%s file=%s " % (issue["postTitle"],gen_Html))
 
     def createPlistHtml(self):
         self.blogBase["postListJson"]=dict(sorted(self.blogBase["postListJson"].items(),key=lambda x:(x[1]["top"],x[1]["createdAt"]),reverse=True))#使列表由时间排序
+        file_loader = FileSystemLoader('templates')
+        env = Environment(loader=file_loader)
+        template = env.get_template('plist.html')
+        output = template.render(blogBase=self.blogBase,postListJson=self.blogBase["postListJson"],i18n=i18n)
 
         f = open(self.root_dir+"index.html", 'w', encoding='UTF-8')
-        f.write(self.plist_example % json.dumps(self.blogBase))
+        f.write(output)
         f.close()
         print("create docs/index.html")
 
@@ -122,7 +130,6 @@ class GMEEK():
             item.pubDate(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime(self.blogBase["postListJson"][num]["createdAt"])))
 
         feed.rss_file(self.root_dir+'rss.xml')
-
 
     def addOnePostJson(self,issue):
         if len(issue.labels)==1:
@@ -164,7 +171,9 @@ class GMEEK():
             else:
                 self.blogBase["postListJson"][postNum]["fontSize"]=""
 
-            thisYear=datetime.datetime.fromtimestamp(self.blogBase["postListJson"][postNum]["createdAt"]).year
+            thisTime=datetime.datetime.fromtimestamp(self.blogBase["postListJson"][postNum]["createdAt"])
+            thisYear=thisTime.year
+            self.blogBase["postListJson"][postNum]["createdDate"]=thisTime.strftime("%Y-%m-%d")
             self.blogBase["postListJson"][postNum]["dateLabelColor"]=self.blogBase["yearColorList"][int(thisYear)%len(self.blogBase["yearColorList"])]
 
             f = open("backup/"+issue.title+".md", 'w', encoding='UTF-8')
@@ -196,7 +205,6 @@ class GMEEK():
         print("====== create static html end ======")
 
 ######################################################################################
-
 parser = argparse.ArgumentParser()
 parser.add_argument("github_token", help="github_token")
 parser.add_argument("repo_name", help="repo_name")
@@ -223,6 +231,4 @@ else:
 listFile=open("blogBase.json","w")
 listFile.write(json.dumps(blog.blogBase))
 listFile.close()
-
-
 ######################################################################################

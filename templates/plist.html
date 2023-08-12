@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title%}{{ blogBase['title'] }}{% endblock %}
+
+{% block style %}
+<style>
+h1 a:not([href]){color:inherit;text-decoration:none;vertical-align: bottom;font-size:40px;font-family:Monaco;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right button{margin-right:8px;padding:16px;}
+
+.subnav-search{margin-top:8px;margin-right:8px;}
+.subnav-search-input{width:160px;border-top-right-radius:0px;border-bottom-right-radius:0px;}
+.subnav-search button{padding:5px 8px;border-top-left-radius:0px;border-bottom-left-radius:0px;}
+
+.title-right .circle{padding: 14px 16px;}
+
+.SideNav{min-width: 360px;}
+.SideNav-icon{margin-right: 16px}
+.SideNav-item .Label{color: #fff;margin-left:8px;}
+</style>
+{% endblock %}
+
+{% block header %}
+<h1>
+    <img src="{{ blogBase['avatarUrl'] }}" size="64" height="64" width="64" class="avatar circle" id="avatarImg">
+    <a>{{ blogBase['displayTitle'] }}</a>
+</h1>
+<div class="title-right">
+    <div class="subnav-search">
+        <form action="https://www.google.com/search" method="get" target="_blank">
+            <input id="searchSite" type="hidden" name="q">
+            <input type="search" name="q" class="form-control subnav-search-input float-left" aria-label="Search site" value="">
+            <button class="btn float-left" type="submit">{{ i18n['Search'] }}</button>
+        </form>
+        <svg class="subnav-search-icon octicon octicon-search" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+            <path id="searchSVG" fill-rule="evenodd" d=""></path>
+        </svg>
+    </div>
+    {% for num in postListJson %}
+    {% if postListJson[num]['label'] in blogBase['singlePage'] %}
+    <button class="btn btn-invisible circle" onclick="window.location.href='/{{ postListJson[num]["label"] }}.html'" title="{{ postListJson[num]['postTitle'] }}">
+        <svg class="octicon" width="16" height="16" >
+            <path id="{{ postListJson[num]['postTitle'] }}" fill-rule="evenodd"></path>
+        </svg>
+    </button>
+    {% endif %}
+    {% endfor %}
+    <button id="changeTheme" class="btn btn-invisible circle" onclick="modeSwitch()" title="{{ i18n['switchTheme'] }}">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </button>
+
+</div>
+{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 16px;">{{ blogBase['subTitle'] }}</div>
+
+<nav class="SideNav border">
+{% for num in postListJson %}
+
+{% if postListJson[num]['label'] not in blogBase['singlePage'] %}
+<a class="SideNav-item d-flex flex-items-center flex-justify-between" href="{{ postListJson[num]['postUrl']|e }}">
+    <div class="d-flex flex-items-center">
+        <svg class="SideNav-icon octicon" style="witdh:16px;height:16px"><path class="svgTop{{ postListJson[num]['top'] }}" d=""></path>
+        </svg>
+        <span>{{ postListJson[num]['postTitle']|e }}</span>
+    </div>
+    <div class="listLabels">
+        {% if postListJson[num]['commentNum']>0 %}<span class="Label" style="background-color:{{ blogBase['commentLabelColor'] }}">{{ postListJson[num]['commentNum'] }}</span>{% endif %}
+        <span class="Label" style="background-color:{{ postListJson[num]['labelColor'] }}">{{ postListJson[num]['label'] }}</span>
+        <span class="Label" style="background-color:{{ postListJson[num]['dateLabelColor'] }}">{{ postListJson[num]['createdDate'] }}</span>
+    </div>
+</a>
+{% endif %}
+
+{% endfor %}
+</nav>
+{% endblock %}
+
+{% block script %}
+<script>
+document.getElementById("searchSVG").setAttribute("d",IconList["search"]);
+
+{% for num in postListJson %}
+{% if postListJson[num]['label'] in blogBase['singlePage'] %}
+document.getElementById("{{ postListJson[num]['postTitle'] }}").setAttribute("d",value=IconList["{{ postListJson[num]['label'] }}"]);
+{% endif %}
+{% endfor %}
+</script>
+{% endblock %}
