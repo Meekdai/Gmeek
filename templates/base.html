@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="https://unpkg.com/@primer/css@21.0.7/dist/primer.css" rel="stylesheet" />
     <link rel="icon" href="{{ blogBase['faviconUrl'] }}">
-    <title>{% block title %}{% endblock %}</title>
+    {% block head %}{% endblock %}
 </head>
 <style>
 body{
