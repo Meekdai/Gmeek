@@ -192,6 +192,10 @@ class GMEEK():
                 self.blogBase["postListJson"][postNum]["fontSize"]=str(postConfig["fontSize"])
             else:
                 self.blogBase["postListJson"][postNum]["fontSize"]=""
+            if "script" in postConfig:
+                self.blogBase["postListJson"][postNum]["script"]=str(postConfig["script"])
+            else:
+                self.blogBase["postListJson"][postNum]["script"]=""
 
             thisTime=datetime.datetime.fromtimestamp(self.blogBase["postListJson"][postNum]["createdAt"])
             thisYear=thisTime.year
