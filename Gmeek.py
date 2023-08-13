@@ -104,6 +104,7 @@ class GMEEK():
         postBase["i18n"]=self.blogBase["i18n"]
         postBase["commentNum"]=issue["commentNum"]
         postBase["fontSize"]=issue["fontSize"]
+        postBase["script"]=issue["script"]
         postBase["top"]=issue["top"]
         postBase["repoName"]=options.repo_name
         postBase["GMEEK_VERSION"]=options.Gmeek_version
