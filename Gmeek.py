@@ -103,7 +103,7 @@ class GMEEK():
         postBase["startSite"]=self.blogBase["startSite"]
         postBase["i18n"]=self.blogBase["i18n"]
         postBase["commentNum"]=issue["commentNum"]
-        postBase["fontSize"]=issue["fontSize"]
+        postBase["style"]=issue["style"]
         postBase["script"]=issue["script"]
         postBase["top"]=issue["top"]
         postBase["repoName"]=options.repo_name
@@ -189,10 +189,10 @@ class GMEEK():
                 self.blogBase["postListJson"][postNum]["createdAt"]=postConfig["timestamp"]
             else:
                 self.blogBase["postListJson"][postNum]["createdAt"]=int(time.mktime(issue.created_at.timetuple()))
-            if "fontSize" in postConfig:
-                self.blogBase["postListJson"][postNum]["fontSize"]=str(postConfig["fontSize"])
+            if "style" in postConfig:
+                self.blogBase["postListJson"][postNum]["style"]=str(postConfig["style"])
             else:
-                self.blogBase["postListJson"][postNum]["fontSize"]=""
+                self.blogBase["postListJson"][postNum]["style"]=""
             if "script" in postConfig:
                 self.blogBase["postListJson"][postNum]["script"]=str(postConfig["script"])
             else:
