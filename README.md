@@ -29,20 +29,28 @@
 
 2. 如果要导入以前的文章，如何设置发布时间呢？  
 如需上传旧博客的文章需要修改发布时间，可以在文章最后一行添加如下代码。里面的时间是采用时间戳的形式，可以用如下[网站](https://tool.lu/timestamp)转换。  
-```<!-- ##{"timestamp":1490764800}## -->```  
+```html
+<!-- ##{"timestamp":1490764800}## -->
+```
 
-3. 如果修改过config.json里面的参数后，发现生成文章失败，或其他奇奇怪怪的问题。  
+3. 自定义单篇文章页面的`style`和`script`，同样是在文章最后一行添加如下代码，为JSON格式。
+```html
+<!-- ##{"style":"<style>#postBody{font-size:20px}</style>"}## -->
+```
+```html
+<!-- ##{"script":"<script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'></script>"}## -->
+```
+4. 可同时一起添加多种自定义参数：  
+```html
+<!-- ##{"script":"<script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'></script>","style":"<style>#postBody{font-size:20px}</style>","timestamp":1490764800}## -->
+```
+
+5. 如果修改过config.json里面的参数后，发现生成文章失败，或其他奇奇怪怪的问题。  
 建议通过Actions->build Gmeek->Run workflow->里面的按钮全局重新生成一次就行。
 
-4. 置顶博客文章,只需要`Pin issue`即可。  
+6. 置顶博客文章,只需要`Pin issue`即可。  
 
-5. 如何自定义单篇文章页面的`style`和`script`  
-同样是在文章最后一行添加如下代码，为JSON格式：  
-```<!-- ##{"style":"<style>#postBody{font-size:20px}</style>"}## -->```  
-```<!-- ##{"script":"<script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'></script>"}## -->```  
 
-可一起添加多种自定义参数：  
-```<!-- ##{"script":"<script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'></script>","style":"<style>#postBody{font-size:20px}</style>","timestamp":1490764800}## -->```  
 
 
 ### 鸣谢
