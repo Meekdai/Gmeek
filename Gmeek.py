@@ -92,22 +92,14 @@ class GMEEK():
         post_body=self.markdown2html(f.read())
         f.close()
 
-        postBase=json.loads('{}')
+        postBase=self.blogBase.copy()
         postBase["postTitle"]=issue["postTitle"]
         postBase["postBody"]=post_body
-        postBase["title"]=self.blogBase["title"]
-        postBase["homeUrl"]=self.blogBase["homeUrl"]
-        postBase["postSourceUrl"]=issue["postSourceUrl"]
-        postBase["faviconUrl"]=self.blogBase["faviconUrl"]
-        postBase["filingNum"]=self.blogBase["filingNum"]
-        postBase["startSite"]=self.blogBase["startSite"]
-        postBase["i18n"]=self.blogBase["i18n"]
         postBase["commentNum"]=issue["commentNum"]
         postBase["style"]=issue["style"]
         postBase["script"]=issue["script"]
         postBase["top"]=issue["top"]
         postBase["repoName"]=options.repo_name
-        postBase["GMEEK_VERSION"]=options.Gmeek_version
 
         file_loader = FileSystemLoader('templates')
         env = Environment(loader=file_loader)
