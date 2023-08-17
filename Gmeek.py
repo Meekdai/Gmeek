@@ -99,6 +99,7 @@ class GMEEK():
         postBase["style"]=issue["style"]
         postBase["script"]=issue["script"]
         postBase["top"]=issue["top"]
+        postBase["postSourceUrl"]=issue["postSourceUrl"]
         postBase["repoName"]=options.repo_name
 
         file_loader = FileSystemLoader('templates')
