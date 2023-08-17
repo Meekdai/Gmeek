@@ -45,14 +45,12 @@ h1 a:not([href]){color:inherit;text-decoration:none;vertical-align: bottom;font-
             <path id="searchSVG" fill-rule="evenodd" d=""></path>
         </svg>
     </div>
-    {% for num in postListJson -%}
-    {% if postListJson[num]['label'] in blogBase['singlePage'] -%}
-    <a href="/{{ postListJson[num]['label'] }}.html"><button class="btn btn-invisible circle" title="{{ postListJson[num]['postTitle'] }}">
+    {% for num in blogBase['singeListJson'] -%}
+    <a href="/{{ blogBase['singeListJson'][num]['label'] }}.html"><button class="btn btn-invisible circle" title="{{ blogBase['singeListJson'][num]['postTitle'] }}">
         <svg class="octicon" width="16" height="16" >
-            <path id="{{ postListJson[num]['postTitle'] }}" fill-rule="evenodd"></path>
+            <path id="{{ blogBase['singeListJson'][num]['postTitle'] }}" fill-rule="evenodd"></path>
         </svg>
     </button></a>
-    {%- endif %}
     {%- endfor %}
     <a href="/rss.xml" target="_blank"><button id="buttonRSS" class="btn btn-invisible circle" title="RSS">
         <svg class="octicon" width="16" height="16" >
@@ -71,8 +69,6 @@ h1 a:not([href]){color:inherit;text-decoration:none;vertical-align: bottom;font-
 <div style="margin-bottom: 16px;">{{ blogBase['subTitle'] }}</div>
 <nav class="SideNav border">
 {% for num in postListJson -%}
-
-{% if postListJson[num]['label'] not in blogBase['singlePage'] -%}
 <a class="SideNav-item d-flex flex-items-center flex-justify-between" href="{{ postListJson[num]['postUrl']|e }}">
     <div class="d-flex flex-items-center">
         <svg class="SideNav-icon octicon" style="witdh:16px;height:16px"><path class="svgTop{{ postListJson[num]['top'] }}" d=""></path>
@@ -85,10 +81,26 @@ h1 a:not([href]){color:inherit;text-decoration:none;vertical-align: bottom;font-
         <span class="Label" style="background-color:{{ postListJson[num]['dateLabelColor'] }}">{{ postListJson[num]['createdDate'] }}</span>
     </div>
 </a>
-{%- endif %}
-
 {%- endfor %}
 </nav>
+{%- if blogBase['prevUrl']!='disabled' or blogBase['nextUrl']!='disabled' -%}
+<nav class="paginate-container" aria-label="Pagination">
+    <div class="pagination">
+        {%- if blogBase['prevUrl']=='disabled' -%}
+        <span class="previous_page" aria-disabled="true">{{ i18n['Previous'] }}</span>
+        {% else -%}
+        <a class="previous_page" rel="previous" href="{{ blogBase['prevUrl'] }}" aria-label="Previous Page">{{ i18n['Previous'] }}</a>
+        {%- endif -%}
+
+        {%- if blogBase['nextUrl']=='disabled' -%}
+        <span class="next_page" aria-disabled="true">{{ i18n['Next'] }}</span>
+        {% else -%}
+        <a class="next_page" rel="next" href="{{ blogBase['nextUrl'] }}" aria-label="Next Page">{{ i18n['Next'] }}</a>
+        {%- endif -%}
+
+    </div>
+</nav>
+{%- endif %}
 {% endblock %}
 
 {% block script %}
@@ -105,10 +117,8 @@ for(var i=0;i<iconPost.length;i++){
     iconPost[i].setAttribute("d",IconList["post"]);
 }
 
-{% for num in postListJson -%}
-{% if postListJson[num]['label'] in blogBase['singlePage'] -%}
-document.getElementById("{{ postListJson[num]['postTitle'] }}").setAttribute("d",value=IconList["{{ postListJson[num]['label'] }}"]);
-{%- endif %}
+{% for num in blogBase['singeListJson'] -%}
+document.getElementById("{{ blogBase['singeListJson'][num]['postTitle'] }}").setAttribute("d",value=IconList["{{ blogBase['singeListJson'][num]['label'] }}"]);
 {%- endfor %}
 </script>
 {% endblock %}
