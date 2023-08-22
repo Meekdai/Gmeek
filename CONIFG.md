@@ -1,6 +1,6 @@
 # 配置文件说明
 
-### `config.js` 文件
+### `config.json` 文件
 
 里面的`key`值请不要修改，如没有其中的`value`值请填写`""`
 
@@ -20,7 +20,7 @@
     "commentLabelColor":"#006b75",
     "yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],
     "i18n":"CN",
-    "GMEEK_VERSION":"v2.1"
+    "GMEEK_VERSION":"v2.2"
 }
 ```
 
