@@ -47,13 +47,13 @@ else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
 
 function changeDark(){
     document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
-    document.getElementById("themeSwitch").attributes.getNamedItem("d").value=IconList["moon"];
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["moon"]);
     document.getElementById("themeSwitch").parentNode.style.color="#00f0ff";
     if(utterancesLoad==1){utterancesTheme("dark-blue");}
 }
 function changeLight(){
     document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
-    document.getElementById("themeSwitch").attributes.getNamedItem("d").value=IconList["sun"];
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
     document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
     if(utterancesLoad==1){utterancesTheme("github-light");}
 }
