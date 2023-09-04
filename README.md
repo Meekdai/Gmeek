@@ -51,9 +51,8 @@
 6. 置顶博客文章,只需要`Pin issue`即可。
 
 7. 如果在评论里面登录后评论报错，可直接按照提示安装`utteranc app`即可
-```
-Error: utterances is not installed on aixcyi/aixcyi.github.io. If you own this repo, install the app. Read more about this change in the PR.
-```
+> Error: utterances is not installed on xxx/xxx.github.io. If you own this repo, install the app. Read more about this change in the PR.
+
 
 
 
