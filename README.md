@@ -48,8 +48,12 @@
 5. 如果修改过config.json里面的参数后，发现生成文章失败，或其他奇奇怪怪的问题。  
 建议通过Actions->build Gmeek->Run workflow->里面的按钮全局重新生成一次就行。
 
-6. 置顶博客文章,只需要`Pin issue`即可。  
+6. 置顶博客文章,只需要`Pin issue`即可。
 
+7. 如果在评论里面登录后评论报错，可直接按照提示安装`utteranc app`即可
+```
+Error: utterances is not installed on aixcyi/aixcyi.github.io. If you own this repo, install the app. Read more about this change in the PR.
+```
 
 
 
