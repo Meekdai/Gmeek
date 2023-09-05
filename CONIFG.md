@@ -2,8 +2,6 @@
 
 ### `config.json` 文件
 
-里面的`key`值请不要修改，如没有其中的`value`值请填写`""`
-
 ```javascript
 {
     "title":"Meekdai",
@@ -13,9 +11,25 @@
     "avatarUrl":"http://meekdai.com/avatar.jpg",
     "faviconUrl":"http://meekdai.com/favicon.ico",
     "singlePage":["link","about"],
-    "GMEEK_VERSION":"v2.3"
+    "GMEEK_VERSION":"v2.4"
 }
 ```
+
+以上是必须的字段，修改为自己的信息即可，下面是可以自定义字段的描述，可以选择加入到`config.json`中。
+
+```javascript
+"email":"meekdai@163.com",
+"startSite":"02/16/2015",
+"filingNum":"浙ICP备20023628号",
+"onePageListNum":15,
+"commentLabelColor":"#006b75",
+"yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],
+"i18n":"CN",
+"dayTheme":"light",
+"nightTheme":"dark_colorblind",
+```
+另有不清楚的也可以参考 https://github.com/Meekdai/meekdai.github.io/blob/main/config.json
+
 
 ### `.github/workflows/Gmeek.yml` 文件 
 
