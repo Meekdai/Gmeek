@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light">
+<html data-color-mode="light" data-dark-theme="{{ blogBase['nightTheme'] }}" data-light-theme="{{ blogBase['dayTheme'] }}">
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="content-type" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -8,8 +8,8 @@
     <link rel="icon" href="{{ blogBase['faviconUrl'] }}">
     <script>
         if(localStorage.getItem("meek_theme")==null){}
-        else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="{{ blogBase['nightTheme'] }}";}
-        else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="{{ blogBase['dayTheme'] }}";}
+        else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
+        else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
     </script>
     {% block head %}{% endblock %}
 </head>
@@ -46,13 +46,13 @@ else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
 else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
 
 function changeDark(){
-    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="{{ blogBase['nightTheme'] }}";
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
     document.getElementById("themeSwitch").setAttribute("d",value=IconList["moon"]);
     document.getElementById("themeSwitch").parentNode.style.color="#00f0ff";
     if(utterancesLoad==1){utterancesTheme("dark-blue");}
 }
 function changeLight(){
-    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="{{ blogBase['dayTheme'] }}";
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
     document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
     document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
     if(utterancesLoad==1){utterancesTheme("github-light");}
