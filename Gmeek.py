@@ -43,18 +43,9 @@ class GMEEK():
         self.labelColorDict=json.loads('{}')
         for label in self.repo.get_labels():
             self.labelColorDict[label.name]='#'+label.color
-
         print(self.labelColorDict)
         
-        config=json.loads(open('config.json', 'r', encoding='utf-8').read())
-        self.blogBase=config.copy()
-        self.blogBase["postListJson"]=json.loads('{}')
-        self.blogBase["singeListJson"]=json.loads('{}')
-        
-        if self.blogBase["i18n"]=="CN":
-            self.i18n=i18nCN
-        else:
-            self.i18n=i18n
+        self.defaultConfig()
 
     def cleanFile(self):
         if os.path.exists(self.backup_dir):
@@ -66,6 +57,17 @@ class GMEEK():
         os.mkdir(self.backup_dir)
         os.mkdir(self.root_dir)
         os.mkdir(self.post_dir)
+
+    def defaultConfig(self):
+        dconfig={"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark"}
+        config=json.loads(open('config.json', 'r', encoding='utf-8').read())
+        self.blogBase={**dconfig,**config}.copy()
+        self.blogBase["postListJson"]=json.loads('{}')
+        self.blogBase["singeListJson"]=json.loads('{}')
+        if self.blogBase["i18n"]=="CN":
+            self.i18n=i18nCN
+        else:
+            self.i18n=i18n
 
     def get_repo(self,user:Github, repo:str):
         return user.get_repo(repo)
