@@ -94,11 +94,6 @@ class GMEEK():
         post_body=self.markdown2html(f.read())
         f.close()
 
-        if "highlight" in post_body:
-            postBase["highlight"]=1
-        else:
-            postBase["highlight"]=0
-
         postBase=self.blogBase.copy()
         postBase["postTitle"]=issue["postTitle"]
         postBase["postBody"]=post_body
@@ -108,6 +103,11 @@ class GMEEK():
         postBase["top"]=issue["top"]
         postBase["postSourceUrl"]=issue["postSourceUrl"]
         postBase["repoName"]=options.repo_name
+        
+        if "highlight" in post_body:
+            postBase["highlight"]=1
+        else:
+            postBase["highlight"]=0
 
         self.renderHtml('post.html',postBase,{},issue["htmlDir"])
         print("create postPage title=%s file=%s " % (issue["postTitle"],issue["htmlDir"]))
