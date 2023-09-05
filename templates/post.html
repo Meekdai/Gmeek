@@ -2,7 +2,7 @@
 
 {% block head %}
 <title>{{ blogBase['postTitle'] }}</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+{% if blogBase['highlight']==1 %}<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />{% endif %}
 {% endblock %}
 
 {% block style %}

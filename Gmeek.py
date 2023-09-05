@@ -94,6 +94,11 @@ class GMEEK():
         post_body=self.markdown2html(f.read())
         f.close()
 
+        if "highlight" in post_body:
+            postBase["highlight"]=1
+        else:
+            postBase["highlight"]=0
+
         postBase=self.blogBase.copy()
         postBase["postTitle"]=issue["postTitle"]
         postBase["postBody"]=post_body
