@@ -44,7 +44,7 @@ class GMEEK():
         for label in self.repo.get_labels():
             self.labelColorDict[label.name]='#'+label.color
         print(self.labelColorDict)
-        
+
         self.defaultConfig()
 
     def cleanFile(self):
@@ -249,6 +249,7 @@ class GMEEK():
             f = open("backup/"+issue.title+".md", 'w', encoding='UTF-8')
             f.write(issue.body)
             f.close()
+            return listJsonName
 
     def runAll(self):
         print("====== start create static html ======")
@@ -271,8 +272,8 @@ class GMEEK():
     def runOne(self,number_str):
         print("====== start create static html ======")
         issue=self.repo.get_issue(int(number_str))
-        self.addOnePostJson(issue)
-        self.createPostHtml(self.blogBase["postListJson"]["P"+number_str])
+        listJsonName=self.addOnePostJson(issue)
+        self.createPostHtml(self.blogBase[listJsonName]["P"+number_str])
         self.createPlistHtml()
         self.createFeedXml()
         print("====== create static html end ======")
