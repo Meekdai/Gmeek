@@ -54,12 +54,8 @@ class GMEEK():
         if os.path.exists(self.root_dir):
             shutil.rmtree(self.root_dir)
 
-        if os.path.exists("copy/"):
-            shutil.copytree("copy/",self.root_dir)
-        else:
-            os.mkdir(self.root_dir)
-            
         os.mkdir(self.backup_dir)
+        os.mkdir(self.root_dir)
         os.mkdir(self.post_dir)
 
     def defaultConfig(self):
