@@ -11,7 +11,7 @@
     "avatarUrl":"http://meekdai.com/avatar.jpg",
     "faviconUrl":"http://meekdai.com/favicon.ico",
     "singlePage":["link","about"],
-    "GMEEK_VERSION":"v2.4"
+    "GMEEK_VERSION":"v2.5"
 }
 ```
 
