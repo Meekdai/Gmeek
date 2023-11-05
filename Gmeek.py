@@ -59,7 +59,7 @@ class GMEEK():
         os.mkdir(self.post_dir)
 
     def defaultConfig(self):
-        dconfig={"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark"}
+        dconfig={"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin"}
         config=json.loads(open('config.json', 'r', encoding='utf-8').read())
         self.blogBase={**dconfig,**config}.copy()
         self.blogBase["postListJson"]=json.loads('{}')
@@ -196,7 +196,10 @@ class GMEEK():
                 gen_Html = 'docs/{}.html'.format(issue.labels[0].name)
             else:
                 listJsonName='postListJson'
-                gen_Html = self.post_dir+'{}.html'.format(Pinyin().get_pinyin(issue.title))
+                if self.blogBase["urlMode"]=="issue":
+                    gen_Html = self.post_dir+'{}.html'.format(str(issue.number))
+                else:
+                    gen_Html = self.post_dir+'{}.html'.format(Pinyin().get_pinyin(issue.title))
 
             postNum="P"+str(issue.number)
             self.blogBase[listJsonName][postNum]=json.loads('{}')
@@ -204,7 +207,10 @@ class GMEEK():
             self.blogBase[listJsonName][postNum]["label"]=issue.labels[0].name
             self.blogBase[listJsonName][postNum]["labelColor"]=self.labelColorDict[issue.labels[0].name]
             self.blogBase[listJsonName][postNum]["postTitle"]=issue.title
-            self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(Pinyin().get_pinyin(issue.title)))
+            if self.blogBase["urlMode"]=="issue":
+                self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(str(issue.number)))
+            else:
+                self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(Pinyin().get_pinyin(issue.title)))
             self.blogBase[listJsonName][postNum]["postSourceUrl"]="https://github.com/"+options.repo_name+"/issues/"+str(issue.number)
             self.blogBase[listJsonName][postNum]["commentNum"]=issue.get_comments().totalCount
             if self.blogBase["i18n"]=="CN":
