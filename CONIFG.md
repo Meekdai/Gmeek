@@ -27,6 +27,7 @@
 "i18n":"CN",
 "dayTheme":"light",
 "nightTheme":"dark_colorblind",
+"urlMode":"pinyin",
 ```
 另有不清楚的也可以参考 https://github.com/Meekdai/meekdai.github.io/blob/main/config.json
 
