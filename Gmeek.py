@@ -73,7 +73,7 @@ class GMEEK():
         return user.get_repo(repo)
 
     def markdown2html(self,mdstr):
-        payload = {"text": mdstr, "mode": "markdown"}
+        payload = {"text": mdstr, "mode": "gfm"}
         ret=requests.post("https://api.github.com/markdown", json=payload,headers={"Authorzation":"token {}".format(self.options.github_token)})
         if ret.status_code==200:
             return ret.text
