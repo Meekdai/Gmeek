@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block head %}
-<title>{{ blogBase['title'] }}</title>
+<title>{{ blogBase['title'] }} - Tag</title>
 {% endblock %}
 
 {% block style %}
@@ -68,7 +68,6 @@ document.getElementById("pathRSS").setAttribute("d",IconList["rss"]);
 document.getElementById("{{ blogBase['singeListJson'][num]['postTitle'] }}").setAttribute("d",value=IconList["{{ blogBase['singeListJson'][num]['label'] }}"]);
 {%- endfor %}
 
-tag=window.location.hash.slice(1);
 tagList=[];
 let requestJson="blogBase.json"
 let request=new XMLHttpRequest();
@@ -78,10 +77,10 @@ request.send();
 request.onload=function(){
     jsonData=JSON.parse(request.response);
     console.log(jsonData);
-    showList(jsonData);
+    showList(jsonData,window.location.hash.slice(1));
 }
 
-function showList(jsonData){
+function showList(jsonData,tag){
     let SideNav=document.getElementsByClassName("SideNav")[0];
     let tagLable=document.getElementById("tagLable");
     for(i in jsonData["postListJson"]){
@@ -92,8 +91,7 @@ function showList(jsonData){
             showLabels.setAttribute("class","Label");
             showLabels.setAttribute("style","background-color:"+jsonData["postListJson"][i]['labelColor']);
             showLabels.innerHTML=jsonData["postListJson"][i]['label'];
-            // showLabels.setAttribute("href",'#'+jsonData["postListJson"][i]['label']);
-            showLabels.setAttribute("onclick","window.location.href='#'"+jsonData['postListJson'][i]['label']);
+            showLabels.setAttribute("onclick",'javascript:updateShowTag('+jsonData["postListJson"][i]['label']+');');
             tagLable.appendChild(showLabels);
         }
 
@@ -137,6 +135,11 @@ function showList(jsonData){
             SideNav.appendChild(item);
         }
     }
+}
+
+function updateShowTag(label){
+    window.location.hash="#"+(label);
+    showList(jsonData,label);
 }
 
 </script>
