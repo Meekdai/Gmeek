@@ -105,51 +105,53 @@ request.onload=function(){
     showList(jsonData);
 }
 
+tag=window.location.hash.slice(1)
+
 function showList(jsonData){
     let SideNav=document.getElementsByClassName("SideNav")[0];
     for(let i=1;i<jsonData.length;i++){
         
-        let item=document.createElement("a");
-        item.setAttribute("class","SideNav-item d-flex flex-items-center flex-justify-between");
-        item.setAttribute("href",jsonData["postListJson"][i]['postUrl']);
-        item.setAttribute("target","_blank");
+        if(jsonData["postListJson"][i]['label']==tag || tag==''){
+            let item=document.createElement("a");
+            item.setAttribute("class","SideNav-item d-flex flex-items-center flex-justify-between");
+            item.setAttribute("href",jsonData["postListJson"][i]['postUrl']);
+            item.setAttribute("target","_blank");
 
-        let center=document.createElement("div");
-        center.setAttribute("class","d-flex flex-items-center");
+            let center=document.createElement("div");
+            center.setAttribute("class","d-flex flex-items-center");
 
-        svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-        path=document.createElementNS("http://www.w3.org/2000/svg","path"); 
-        span=document.createElement("span");
-        svg.setAttributeNS(null,"class","SideNav-icon octicon");
-        svg.setAttributeNS(null,"style","witdh:16px;height:16px");
-        path.setAttributeNS(null, "d", IconList["post"]);
-        svg.appendChild(path);
+            svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+            path=document.createElementNS("http://www.w3.org/2000/svg","path"); 
+            span=document.createElement("span");
+            svg.setAttributeNS(null,"class","SideNav-icon octicon");
+            svg.setAttributeNS(null,"style","witdh:16px;height:16px");
+            path.setAttributeNS(null, "d", IconList["post"]);
+            svg.appendChild(path);
 
-        let title=document.createElement("span");
-        title.setAttribute("class","listTitle");
-        title.innerHTML=jsonData["postListJson"][i]['title'];
-        center.appendChild(svg);
-        center.appendChild(title);
+            let title=document.createElement("span");
+            title.setAttribute("class","listTitle");
+            title.innerHTML=jsonData["postListJson"][i]['title'];
+            center.appendChild(svg);
+            center.appendChild(title);
 
-        let listLabels=document.createElement("div");
-        listLabels.setAttribute("class","listLabels");
-        let LabelName=document.createElement("span");
-        LabelName.setAttribute("class","Label");
-        LabelName.setAttribute("style","background-color:"+jsonData["postListJson"][i]['labelColor']);
-        LabelName.innerHTML=jsonData["postListJson"][i]['label'];
-        listLabels.appendChild(LabelName);
-        let LabelTime=document.createElement("span");
-        LabelTime.setAttribute("class","Label");
-        LabelTime.setAttribute("style","background-color:"+jsonData["postListJson"][i]['dateLabelColor']);
-        LabelTime.innerHTML=jsonData["postListJson"][i]['createdDate'];
-        listLabels.appendChild(LabelTime);
+            let listLabels=document.createElement("div");
+            listLabels.setAttribute("class","listLabels");
+            let LabelName=document.createElement("span");
+            LabelName.setAttribute("class","Label");
+            LabelName.setAttribute("style","background-color:"+jsonData["postListJson"][i]['labelColor']);
+            LabelName.innerHTML=jsonData["postListJson"][i]['label'];
+            listLabels.appendChild(LabelName);
+            let LabelTime=document.createElement("span");
+            LabelTime.setAttribute("class","Label");
+            LabelTime.setAttribute("style","background-color:"+jsonData["postListJson"][i]['dateLabelColor']);
+            LabelTime.innerHTML=jsonData["postListJson"][i]['createdDate'];
+            listLabels.appendChild(LabelTime);
 
-        item.appendChild(center);
-        item.appendChild(listLabels);
-        SideNav.appendChild(item)
-
+            item.appendChild(center);
+            item.appendChild(listLabels);
+            SideNav.appendChild(item);
+        }
     }
-
 }
 </script>
 {% endblock %}
