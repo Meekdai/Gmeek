@@ -158,6 +158,9 @@ class GMEEK():
 
             pageFlag=pageFlag+1
 
+        self.renderHtml('tag.html',self.blogBase,onePageList,self.root_dir+"tag.html")
+        print("create tag.html")
+
     def createFeedXml(self):
         self.blogBase["postListJson"]=dict(sorted(self.blogBase["postListJson"].items(),key=lambda x:x[1]["createdAt"],reverse=False))#使列表由时间排序
         feed = FeedGenerator()
