@@ -92,11 +92,11 @@ function showList(jsonData){
             showLabels.setAttribute("class","Label");
             showLabels.setAttribute("style","background-color:"+jsonData["postListJson"][i]['labelColor']);
             showLabels.innerHTML=jsonData["postListJson"][i]['label'];
-            showLabels.setAttribute("href",'#'+jsonData["postListJson"][i]['label']);
+            showLabels.setAttribute("href",'/tag.html#'+jsonData["postListJson"][i]['label']);
             tagLable.appendChild(showLabels);
         }
 
-        if(jsonData["postListJson"][i]['label']==tag || tag==''){
+        if(encodeURI(jsonData["postListJson"][i]['label'])==tag || tag==''){
             let item=document.createElement("a");
             item.setAttribute("class","SideNav-item d-flex flex-items-center flex-justify-between");
             item.setAttribute("href",jsonData["postListJson"][i]['postUrl']);
