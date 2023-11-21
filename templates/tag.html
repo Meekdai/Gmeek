@@ -92,8 +92,8 @@ function showList(jsonData){
             showLabels.setAttribute("class","Label");
             showLabels.setAttribute("style","background-color:"+jsonData["postListJson"][i]['labelColor']);
             showLabels.innerHTML=jsonData["postListJson"][i]['label'];
-            showLabels.setAttribute("href",'#'+jsonData["postListJson"][i]['label']);
-            showLabels.setAttribute("onclick",'javascript:location.reload();');
+            // showLabels.setAttribute("href",'#'+jsonData["postListJson"][i]['label']);
+            showLabels.setAttribute("onclick","window.location.href='#'"+jsonData['postListJson'][i]['label']);
             tagLable.appendChild(showLabels);
         }
 
