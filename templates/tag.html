@@ -109,7 +109,7 @@ tag=window.location.hash.slice(1)
 
 function showList(jsonData){
     let SideNav=document.getElementsByClassName("SideNav")[0];
-    for(let i=1;i<jsonData.length;i++){
+    for(i in jsonData["postListJson"]){
         
         if(jsonData["postListJson"][i]['label']==tag || tag==''){
             let item=document.createElement("a");
