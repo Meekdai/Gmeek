@@ -87,11 +87,11 @@ function showList(jsonData,tag){
 
         if(!(tagList.includes(jsonData["postListJson"][i]['label']))){
             tagList.push(jsonData["postListJson"][i]['label']);
-            let showLabels=document.createElement("a");
+            let showLabels=document.createElement("button");
             showLabels.setAttribute("class","Label");
             showLabels.setAttribute("style","background-color:"+jsonData["postListJson"][i]['labelColor']);
             showLabels.innerHTML=jsonData["postListJson"][i]['label'];
-            showLabels.setAttribute("onclick",'javascript:updateShowTag("'+jsonData["postListJson"][i]['label']+'");');
+            showLabels.setAttribute("onclick","javascript:updateShowTag('"+jsonData["postListJson"][i]['label']+"');");
             tagLable.appendChild(showLabels);
         }
 
