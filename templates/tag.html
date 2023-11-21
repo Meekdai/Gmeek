@@ -92,7 +92,7 @@ function showList(jsonData){
             showLabels.setAttribute("class","Label");
             showLabels.setAttribute("style","background-color:"+jsonData["postListJson"][i]['labelColor']);
             showLabels.innerHTML=jsonData["postListJson"][i]['label'];
-            showLabels.setAttribute("href",'/tag.html#'+jsonData["postListJson"][i]['label']);
+            showLabels.setAttribute("href",'#'+jsonData["postListJson"][i]['label']);
             tagLable.appendChild(showLabels);
         }
 
@@ -137,5 +137,8 @@ function showList(jsonData){
         }
     }
 }
+
+window.onhashchange=function(event){location.reload();}
+
 </script>
 {% endblock %}
