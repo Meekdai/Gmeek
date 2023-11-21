@@ -293,7 +293,7 @@ options = parser.parse_args()
 
 blog=GMEEK(options)
 
-if not os.path.exists(blog.root_dir+"blogBase.json"):
+if not os.path.exists("blogBase.json"):
     print("blogBase is not exists, runAll")
     blog.runAll()
 else:
@@ -301,13 +301,15 @@ else:
         print("issue_number=='0', runAll")
         blog.runAll()
     else:
-        f=open(blog.root_dir+"blogBase.json","r")
+        f=open("blogBase.json","r")
         print("blogBase is exists and issue_number!=0, runOne")
         blog.blogBase=json.loads(f.read())
         f.close()
         blog.runOne(options.issue_number)
 
-listFile=open(blog.root_dir+"blogBase.json","w")
+listFile=open("blogBase.json","w")
 listFile.write(json.dumps(blog.blogBase))
 listFile.close()
+shutil.copy("blogBase.json",blog.root_dir)
+
 ######################################################################################
