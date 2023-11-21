@@ -56,7 +56,7 @@ h1 a:not([href]){color:inherit;text-decoration:none;vertical-align: bottom;font-
 {% endblock %}
 
 {% block content %}
-<div style="margin-bottom: 16px;">{{ blogBase['subTitle'] }}</div>
+<div id="tagLable" style="margin-bottom: 16px;"></div>
 <nav class="SideNav border"></nav>
 {% endblock %}
 
@@ -68,6 +68,8 @@ document.getElementById("pathRSS").setAttribute("d",IconList["rss"]);
 document.getElementById("{{ blogBase['singeListJson'][num]['postTitle'] }}").setAttribute("d",value=IconList["{{ blogBase['singeListJson'][num]['label'] }}"]);
 {%- endfor %}
 
+tag=window.location.hash.slice(1);
+tagList=[];
 let requestJson="blogBase.json"
 let request=new XMLHttpRequest();
 request.open("GET",requestJson);
@@ -79,11 +81,20 @@ request.onload=function(){
     showList(jsonData);
 }
 
-tag=window.location.hash.slice(1)
-
 function showList(jsonData){
     let SideNav=document.getElementsByClassName("SideNav")[0];
+    let tagLable=document.getElementById("tagLable");
     for(i in jsonData["postListJson"]){
+
+        if(!(jsonData["postListJson"][i]['label'] in tagList)){
+            tagList.push(jsonData["postListJson"][i]['label']);
+            let showLabels=document.createElement("span");
+            showLabels.setAttribute("class","Label");
+            showLabels.setAttribute("style","background-color:"+jsonData["postListJson"][i]['labelColor']);
+            showLabels.innerHTML=jsonData["postListJson"][i]['label'];
+            showLabels.setAttribute("href",'#'+jsonData["postListJson"][i]['label']);
+            tagLable.appendChild(showLabels);
+        }
 
         if(jsonData["postListJson"][i]['label']==tag || tag==''){
             let item=document.createElement("a");
