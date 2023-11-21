@@ -86,7 +86,7 @@ function showList(jsonData){
     let tagLable=document.getElementById("tagLable");
     for(i in jsonData["postListJson"]){
 
-        if(!(jsonData["postListJson"][i]['label'] in tagList)){
+        if(!(tagList.includes(jsonData["postListJson"][i]['label']))){
             tagList.push(jsonData["postListJson"][i]['label']);
             let showLabels=document.createElement("a");
             showLabels.setAttribute("class","Label");
