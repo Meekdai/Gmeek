@@ -313,6 +313,10 @@ else:
 listFile=open("blogBase.json","w")
 listFile.write(json.dumps(blog.blogBase))
 listFile.close()
-shutil.copy("blogBase.json",blog.root_dir)
+# shutil.copy("blogBase.json",blog.root_dir)
 
+blog.blogBase["postListJson"]=dict(sorted(self.blogBase["postListJson"].items(),key=lambda x:x[1]["createdAt"],reverse=True))#使列表由时间排序
+docListFile=open(blog.root_dir+"postList.json","w")
+docListFile.write(json.dumps(blog.blogBase))
+docListFile.close()
 ######################################################################################
