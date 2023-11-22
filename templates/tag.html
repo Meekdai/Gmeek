@@ -25,7 +25,7 @@ h1 a:not([href]){color:inherit;text-decoration:none;vertical-align: bottom;font-
 {% endblock %}
 
 {% block header %}
-<h1><a>Tag</a></h1>
+<h1><a href="/tag.html">Tag</a></h1>
 <div class="title-right">
 
     <a href="/"><button id="buttonHome" class="btn btn-invisible circle" title="{{ i18n['home'] }}">
@@ -83,8 +83,16 @@ request.onload=function(){
 function showList(){
     let SideNav=document.getElementsByClassName("SideNav")[0];
     let tagLable=document.getElementById("tagLable");
-    for(i in jsonData["postListJson"]){
 
+    if(tagList.length==0){
+        let showLabels=document.createElement("button");
+        showLabels.setAttribute("class","Label");
+        showLabels.setAttribute("style","background-color:#000");
+        showLabels.innerHTML="All";
+        showLabels.setAttribute("onclick","javascript:updateShowTag('All');");
+        tagLable.appendChild(showLabels);
+    }
+    for(i in jsonData["postListJson"]){
         if(!(tagList.includes(jsonData["postListJson"][i]['label']))){
             tagList.push(jsonData["postListJson"][i]['label']);
             let showLabels=document.createElement("button");
@@ -95,7 +103,6 @@ function showList(){
             tagLable.appendChild(showLabels);
         }
 
-        // if(encodeURI(jsonData["postListJson"][i]['label'])==tag || tag==''){
         let div=document.createElement("div");
         div.setAttribute("class","lists "+jsonData["postListJson"][i]['label']);
         let item=document.createElement("a");
@@ -136,7 +143,6 @@ function showList(){
         item.appendChild(listLabels);
         div.appendChild(item);
         SideNav.appendChild(div);
-        // }
     }
 }
 
@@ -144,19 +150,22 @@ function updateShowTag(label){
     if(window.location.hash.slice(1)!=encodeURI(label)){
         window.location.hash="#"+(label);
         setClassDisplay(label);
-        console.log("change to "+label);
     }
 }
 
 function setClassDisplay(lable) {
     let lists = document.getElementsByClassName("lists");
-    for(let i = 0; i < lists.length; i++){
-        lists[i].style.display='none';
-    }
 
-    let lables = document.getElementsByClassName(lable);
-    for(let i = 0; i < lables.length; i++){
-        lables[i].style.display='block';
+    if(lable=="All"){for(let i = 0; i < lists.length; i++){lists[i].style.display='block';}}
+    else{
+        for(let i = 0; i < lists.length; i++){
+            lists[i].style.display='none';
+        }
+
+        let lables = document.getElementsByClassName(lable);
+        for(let i = 0; i < lables.length; i++){
+            lables[i].style.display='block';
+        }
     }
 }
 
