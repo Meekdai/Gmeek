@@ -19,9 +19,7 @@ h1 a:not([href]){color:inherit;text-decoration:none;vertical-align: bottom;font-
 @media (max-width: 767px) {
     body { padding: 8px;}
     h1 a{font-size:24px;}
-    .SideNav-item .listLabels{display:none;}
-    .subTitle{display:none;}
-    .genTime{float: none;}
+    .LabelTime{display:none;}
 }
 </style>
 {% endblock %}
@@ -124,12 +122,12 @@ function showList(){
         let listLabels=document.createElement("div");
         listLabels.setAttribute("class","listLabels");
         let LabelName=document.createElement("span");
-        LabelName.setAttribute("class","Label");
+        LabelName.setAttribute("class","Label LabelName");
         LabelName.setAttribute("style","background-color:"+jsonData["postListJson"][i]['labelColor']);
         LabelName.innerHTML=jsonData["postListJson"][i]['label'];
         listLabels.appendChild(LabelName);
         let LabelTime=document.createElement("span");
-        LabelTime.setAttribute("class","Label");
+        LabelTime.setAttribute("class","Label LabelTime");
         LabelTime.setAttribute("style","background-color:"+jsonData["postListJson"][i]['dateLabelColor']);
         LabelTime.innerHTML=jsonData["postListJson"][i]['createdDate'];
         listLabels.appendChild(LabelTime);
