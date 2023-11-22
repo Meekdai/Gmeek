@@ -54,7 +54,7 @@
 {% block content %}
 <div id="tagLable" style="margin-bottom: 16px;"></div>
 <nav class="SideNav border"></nav>
-<div class="notFind" style="display:none;font-size:24px;">Not Find</div>
+<div class="notFind" style="display:none;font-size:24px;margin:8px;">Not Find</div>
 {% endblock %}
 
 {% block script %}
@@ -188,7 +188,11 @@ function searchShow(){
         if(lists[i].childNodes[0].childNodes[0].childNodes[1].innerHTML.toUpperCase().indexOf(searchInput.toUpperCase())==-1){lists[i].style.display='none';}
         else{lists[i].style.display='block';a=a+1;}
     }
-    if(a==0){document.getElementsByClassName("notFind")[0].style.display='block';}
+    if(a==0){
+        let notFind=document.getElementsByClassName("notFind")[0];
+        notFind.style.display='block';
+        notFind.innerHTML='Not Find "'+searchInput+'"';
+    }
     else{document.getElementsByClassName("notFind")[0].style.display='none';}
 }
 
