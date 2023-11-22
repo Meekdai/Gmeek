@@ -9,6 +9,10 @@
 .title-right{display:flex;margin:auto 0 0 auto;}
 .title-right .circle{padding: 14px 16px;margin-right:8px;}
 
+.subnav-search{margin-top:8px;margin-right:8px;}
+.subnav-search-input{width:160px;border-top-right-radius:0px;border-bottom-right-radius:0px;}
+.subnav-search button{padding:5px 8px;border-top-left-radius:0px;border-bottom-left-radius:0px;}
+
 .SideNav-icon{margin-right: 16px}
 .Label{color: #fff;margin-left:8px;}
 .genTime{float: right;}
@@ -27,22 +31,16 @@
 {% block header %}
 <span class="tagTitle">Tag</span>
 <div class="title-right">
-
+    <div class="subnav-search">
+        <input type="search" class="form-control subnav-search-input float-left" aria-label="Search site" value="">
+        <button class="btn float-left" type="submit" onclick="javascript:searchShow()">{{ i18n['Search'] }}</button>
+        <svg class="subnav-search-icon octicon octicon-search" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+            <path id="searchSVG" fill-rule="evenodd" d=""></path>
+        </svg>
+    </div>
     <a href="/"><button id="buttonHome" class="btn btn-invisible circle" title="{{ i18n['home'] }}">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd" d="{{ IconList['home'] }}"></path>
-        </svg>
-    </button></a>
-    {% for num in blogBase['singeListJson'] -%}
-    <a href="/{{ blogBase['singeListJson'][num]['label'] }}.html"><button class="btn btn-invisible circle" title="{{ blogBase['singeListJson'][num]['postTitle'] }}">
-        <svg class="octicon" width="16" height="16" >
-            <path id="{{ blogBase['singeListJson'][num]['postTitle'] }}" fill-rule="evenodd"></path>
-        </svg>
-    </button></a>
-    {%- endfor %}
-    <a href="/rss.xml" target="_blank"><button id="buttonRSS" class="btn btn-invisible circle" title="RSS">
-        <svg class="octicon" width="16" height="16" >
-            <path id="pathRSS" fill-rule="evenodd"></path>
         </svg>
     </button></a>
     <button class="btn btn-invisible circle" onclick="modeSwitch()" title="{{ i18n['switchTheme'] }}">
@@ -153,7 +151,7 @@ function updateShowTag(label){
     }
 }
 
-function setClassDisplay(lable) {
+function setClassDisplay(lable){
     let lists = document.getElementsByClassName("lists");
     let tagTitle = document.getElementsByClassName("tagTitle")[0];
     tagTitle.innerHTML="Tag #"+lable;
@@ -167,6 +165,16 @@ function setClassDisplay(lable) {
         for(let i = 0; i < lables.length; i++){
             lables[i].style.display='block';
         }
+    }
+}
+
+function searchShow(data){
+    let lists = document.getElementsByClassName("lists");
+    let searchInput = document.getElementsByClassName("subnav-search-input")[0].value;
+    console.log("123");
+    for(let i = 0; i < lists.length; i++){
+        if(lists[i].childNodes[0].childNodes[0].childNodes[1].innerHTML.indexOf(data)==-1){lists[i].style.display='none';}
+        else{lists[i].style.display='block';}
     }
 }
 
