@@ -175,7 +175,9 @@ function searchShow(){
     let tagTitle = document.getElementsByClassName("tagTitle")[0];
     let searchInput = document.getElementsByClassName("subnav-search-input")[0].value;
     tagTitle.innerHTML="Search #"+searchInput;
-    document.title=searchInput+" - Meekdai";
+    if(searchInput==''){document.title="Search - Meekdai";}
+    else{document.title=searchInput+" - Meekdai";}
+    
     window.location.hash="#"+(searchInput);
     for(let i = 0; i < lists.length; i++){
         if(lists[i].childNodes[0].childNodes[0].childNodes[1].innerHTML.toUpperCase().indexOf(searchInput.toUpperCase())==-1){lists[i].style.display='none';}
