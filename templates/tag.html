@@ -9,8 +9,8 @@
 .title-right{display:flex;margin:auto 0 0 auto;}
 .title-right .circle{padding: 14px 16px;margin-right:8px;}
 
-.subnav-search{margin-top:8px;margin-right:8px;}
-.subnav-search-input{width:160px;border-top-right-radius:0px;border-bottom-right-radius:0px;}
+.subnav-search{margin-top:8px;margin-right:32px;}
+.subnav-search-input{width:140px;border-top-right-radius:0px;border-bottom-right-radius:0px;}
 .subnav-search button{padding:5px 8px;border-top-left-radius:0px;border-bottom-left-radius:0px;}
 
 .SideNav-icon{margin-right: 16px}
@@ -22,7 +22,7 @@
 
 @media (max-width: 767px) {
     body { padding: 8px;}
-    .tagTitle{font-size:24px;}
+    .tagTitle{display:none;}
     .LabelTime{display:none;}
 }
 </style>
@@ -58,6 +58,7 @@
 
 {% block script %}
 <script>
+document.getElementById("searchSVG").setAttribute("d",IconList["search"]);
 
 tagList=[];
 jsonData='';
@@ -164,15 +165,15 @@ function setClassDisplay(lable){
     }
 }
 
-function searchShow(data){
+function searchShow(){
     let lists = document.getElementsByClassName("lists");
     let tagTitle = document.getElementsByClassName("tagTitle")[0];
     let searchInput = document.getElementsByClassName("subnav-search-input")[0].value;
-    tagTitle.innerHTML="Search #"+data;
-    document.title=data+" - Meekdai";
-    window.location.hash="#"+(data);
+    tagTitle.innerHTML="Search #"+searchInput;
+    document.title=searchInput+" - Meekdai";
+    window.location.hash="#"+(searchInput);
     for(let i = 0; i < lists.length; i++){
-        if(lists[i].childNodes[0].childNodes[0].childNodes[1].innerHTML.indexOf(data)==-1){lists[i].style.display='none';}
+        if(lists[i].childNodes[0].childNodes[0].childNodes[1].innerHTML.indexOf(searchInput)==-1){lists[i].style.display='none';}
         else{lists[i].style.display='block';}
     }
 }
