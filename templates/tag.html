@@ -153,7 +153,7 @@ function setClassDisplay(lable){
     tagTitle.innerHTML="Tag #"+lable;
     document.title=lable+" - Meekdai";
     if(lable=="All"){for(let i = 0; i < lists.length; i++){lists[i].style.display='block';}}
-    else{
+    else if(tagList.indexOf(lable)!=-1){
         for(let i = 0; i < lists.length; i++){
             lists[i].style.display='none';
         }
@@ -162,6 +162,10 @@ function setClassDisplay(lable){
         for(let i = 0; i < lables.length; i++){
             lables[i].style.display='block';
         }
+    }
+    else{
+        document.getElementsByClassName("subnav-search-input")[0].value=lable;
+        searchShow();
     }
 }
 
@@ -173,7 +177,7 @@ function searchShow(){
     document.title=searchInput+" - Meekdai";
     window.location.hash="#"+(searchInput);
     for(let i = 0; i < lists.length; i++){
-        if(lists[i].childNodes[0].childNodes[0].childNodes[1].innerHTML.indexOf(searchInput)==-1){lists[i].style.display='none';}
+        if(lists[i].childNodes[0].childNodes[0].childNodes[1].innerHTML.toUpperCase().indexOf(searchInput.toUpperCase())==-1){lists[i].style.display='none';}
         else{lists[i].style.display='block';}
     }
 }
