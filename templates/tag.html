@@ -54,6 +54,7 @@
 {% block content %}
 <div id="tagLable" style="margin-bottom: 16px;"></div>
 <nav class="SideNav border"></nav>
+<div class="notFind" style="display:none;font-size:24px;">Not Find</div>
 {% endblock %}
 
 {% block script %}
@@ -153,7 +154,10 @@ function setClassDisplay(lable){
     tagTitle.innerHTML="Tag #"+lable;
     document.title=lable+" - Meekdai";
     document.getElementsByClassName("subnav-search-input")[0].value='';
-    if(lable=="All"){for(let i = 0; i < lists.length; i++){lists[i].style.display='block';}}
+    if(lable=="All"){
+        for(let i = 0; i < lists.length; i++){lists[i].style.display='block';}
+        document.getElementsByClassName("notFind")[0].style.display='none';
+    }
     else if(tagList.indexOf(lable)!=-1){
         for(let i = 0; i < lists.length; i++){
             lists[i].style.display='none';
@@ -163,6 +167,7 @@ function setClassDisplay(lable){
         for(let i = 0; i < lables.length; i++){
             lables[i].style.display='block';
         }
+        document.getElementsByClassName("notFind")[0].style.display='none';
     }
     else{
         document.getElementsByClassName("subnav-search-input")[0].value=lable;
@@ -177,12 +182,14 @@ function searchShow(){
     tagTitle.innerHTML="Search #"+searchInput;
     if(searchInput==''){document.title="Search - Meekdai";}
     else{document.title=searchInput+" - Meekdai";}
-    
+    let a=0;
     window.location.hash="#"+(searchInput);
     for(let i = 0; i < lists.length; i++){
         if(lists[i].childNodes[0].childNodes[0].childNodes[1].innerHTML.toUpperCase().indexOf(searchInput.toUpperCase())==-1){lists[i].style.display='none';}
-        else{lists[i].style.display='block';}
+        else{lists[i].style.display='block';a=a+1;}
     }
+    if(a==0){document.getElementsByClassName("notFind")[0].style.display='block';}
+    else{document.getElementsByClassName("notFind")[0].style.display='none';}
 }
 
 </script>
