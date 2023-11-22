@@ -59,10 +59,6 @@
 {% block script %}
 <script>
 
-{% for num in blogBase['singeListJson'] -%}
-document.getElementById("{{ blogBase['singeListJson'][num]['postTitle'] }}").setAttribute("d",value=IconList["{{ blogBase['singeListJson'][num]['label'] }}"]);
-{%- endfor %}
-
 tagList=[];
 jsonData='';
 let requestJson="postList.json"
@@ -154,6 +150,7 @@ function setClassDisplay(lable){
     let lists = document.getElementsByClassName("lists");
     let tagTitle = document.getElementsByClassName("tagTitle")[0];
     tagTitle.innerHTML="Tag #"+lable;
+    document.title=lable+" - Meekdai";
     if(lable=="All"){for(let i = 0; i < lists.length; i++){lists[i].style.display='block';}}
     else{
         for(let i = 0; i < lists.length; i++){
@@ -172,6 +169,8 @@ function searchShow(data){
     let tagTitle = document.getElementsByClassName("tagTitle")[0];
     let searchInput = document.getElementsByClassName("subnav-search-input")[0].value;
     tagTitle.innerHTML="Search #"+data;
+    document.title=data+" - Meekdai";
+    window.location.hash="#"+(data);
     for(let i = 0; i < lists.length; i++){
         if(lists[i].childNodes[0].childNodes[0].childNodes[1].innerHTML.indexOf(data)==-1){lists[i].style.display='none';}
         else{lists[i].style.display='block';}
