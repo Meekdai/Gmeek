@@ -10,11 +10,6 @@
 #header h1 a{color:inherit;text-decoration:none;vertical-align: bottom;font-size:40px;font-family:Monaco;margin-left:8px;}
 .title-right{display:flex;margin:auto 0 0 auto;}
 .title-right button{margin-right:8px;padding:16px;}
-
-.subnav-search{margin-top:8px;margin-right:8px;}
-.subnav-search-input{width:160px;border-top-right-radius:0px;border-bottom-right-radius:0px;}
-.subnav-search button{padding:5px 8px;border-top-left-radius:0px;border-bottom-left-radius:0px;}
-
 .title-right .circle{padding: 14px 16px;}
 
 .SideNav{min-width: 360px;}
@@ -28,8 +23,6 @@
     body {padding: 8px;}
     .avatar {width:40px;height:40px;}
     #header h1 a{font-size:24px;}
-    .subnav-search form{display:none;}
-    .subnav-search svg{display:none;}
     #buttonRSS{display:none;}
     .LabelTime{display:none;}
 }
@@ -46,16 +39,11 @@
     {%- endif -%}
 </h1>
 <div class="title-right">
-    <div class="subnav-search">
-        <form action="https://www.google.com/search" method="get" target="_blank">
-            <input type="hidden" name="q" value="site:{{ blogBase['homeUrl'] }}">
-            <input type="search" name="q" class="form-control subnav-search-input float-left" aria-label="Search site" value="">
-            <button class="btn float-left" type="submit">{{ i18n['Search'] }}</button>
-        </form>
-        <svg class="subnav-search-icon octicon octicon-search" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-            <path id="searchSVG" fill-rule="evenodd" d=""></path>
+    <a href="/tag.html"><button id="buttonSearch" class="btn btn-invisible circle" title="{{ i18n['Search'] }}">
+        <svg class="octicon" width="16" height="16" >
+            <path id="pathSearch" fill-rule="evenodd"></path>
         </svg>
-    </div>
+    </button></a>
     {% for num in blogBase['singeListJson'] -%}
     <a href="/{{ blogBase['singeListJson'][num]['label'] }}.html"><button class="btn btn-invisible circle" title="{{ blogBase['singeListJson'][num]['postTitle'] }}">
         <svg class="octicon" width="16" height="16" >
@@ -116,7 +104,7 @@
 
 {% block script %}
 <script>
-document.getElementById("searchSVG").setAttribute("d",IconList["search"]);
+document.getElementById("pathSearch").setAttribute("d",IconList["search"]);
 document.getElementById("pathRSS").setAttribute("d",IconList["rss"]);
 iconTOP=document.getElementsByClassName("svgTop1");
 iconPost=document.getElementsByClassName("svgTop0");

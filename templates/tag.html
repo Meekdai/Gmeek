@@ -152,6 +152,7 @@ function setClassDisplay(lable){
     let tagTitle = document.getElementsByClassName("tagTitle")[0];
     tagTitle.innerHTML="Tag #"+lable;
     document.title=lable+" - Meekdai";
+    document.getElementsByClassName("subnav-search-input")[0].value='';
     if(lable=="All"){for(let i = 0; i < lists.length; i++){lists[i].style.display='block';}}
     else if(tagList.indexOf(lable)!=-1){
         for(let i = 0; i < lists.length; i++){
