@@ -92,22 +92,22 @@ function showList(){
         showLabels.setAttribute("onclick","javascript:updateShowTag('All');");
         tagLable.appendChild(showLabels);
     }
-    for(i in jsonData["postListJson"]){
-        if(!(tagList.includes(jsonData["postListJson"][i]['label']))){
-            tagList.push(jsonData["postListJson"][i]['label']);
+    for(i in jsonData){
+        if(!(tagList.includes(jsonData[i]['label']))){
+            tagList.push(jsonData[i]['label']);
             let showLabels=document.createElement("button");
             showLabels.setAttribute("class","Label");
-            showLabels.setAttribute("style","background-color:"+jsonData["postListJson"][i]['labelColor']);
-            showLabels.innerHTML=jsonData["postListJson"][i]['label'];
-            showLabels.setAttribute("onclick","javascript:updateShowTag('"+jsonData["postListJson"][i]['label']+"');");
+            showLabels.setAttribute("style","background-color:"+jsonData[i]['labelColor']);
+            showLabels.innerHTML=jsonData[i]['label'];
+            showLabels.setAttribute("onclick","javascript:updateShowTag('"+jsonData[i]['label']+"');");
             tagLable.appendChild(showLabels);
         }
 
         let div=document.createElement("div");
-        div.setAttribute("class","lists "+jsonData["postListJson"][i]['label']);
+        div.setAttribute("class","lists "+jsonData[i]['label']);
         let item=document.createElement("a");
         item.setAttribute("class","SideNav-item d-flex flex-items-center flex-justify-between");
-        item.setAttribute("href",jsonData["postListJson"][i]['postUrl']);
+        item.setAttribute("href",jsonData[i]['postUrl']);
 
         let center=document.createElement("div");
         center.setAttribute("class","d-flex flex-items-center");
@@ -122,7 +122,7 @@ function showList(){
 
         let title=document.createElement("span");
         title.setAttribute("class","listTitle");
-        title.innerHTML=jsonData["postListJson"][i]['postTitle'];
+        title.innerHTML=jsonData[i]['postTitle'];
         center.appendChild(svg);
         center.appendChild(title);
 
@@ -130,13 +130,13 @@ function showList(){
         listLabels.setAttribute("class","listLabels");
         let LabelName=document.createElement("span");
         LabelName.setAttribute("class","Label LabelName");
-        LabelName.setAttribute("style","background-color:"+jsonData["postListJson"][i]['labelColor']);
-        LabelName.innerHTML=jsonData["postListJson"][i]['label'];
+        LabelName.setAttribute("style","background-color:"+jsonData[i]['labelColor']);
+        LabelName.innerHTML=jsonData[i]['label'];
         listLabels.appendChild(LabelName);
         let LabelTime=document.createElement("span");
         LabelTime.setAttribute("class","Label LabelTime");
-        LabelTime.setAttribute("style","background-color:"+jsonData["postListJson"][i]['dateLabelColor']);
-        LabelTime.innerHTML=jsonData["postListJson"][i]['createdDate'];
+        LabelTime.setAttribute("style","background-color:"+jsonData[i]['dateLabelColor']);
+        LabelTime.innerHTML=jsonData[i]['createdDate'];
         listLabels.appendChild(LabelTime);
 
         item.appendChild(center);

@@ -315,8 +315,17 @@ listFile.write(json.dumps(blog.blogBase))
 listFile.close()
 # shutil.copy("blogBase.json",blog.root_dir)
 
-blog.blogBase["postListJson"]=dict(sorted(self.blogBase["postListJson"].items(),key=lambda x:x[1]["createdAt"],reverse=True))#使列表由时间排序
+blog.blogBase["postListJson"]=dict(sorted(blog.blogBase["postListJson"].items(),key=lambda x:x[1]["createdAt"],reverse=True))#使列表由时间排序
+for i in blog.blogBase["postListJson"]:
+    del blog.blogBase["postListJson"][i]["description"]
+    del blog.blogBase["postListJson"][i]["postSourceUrl"]
+    del blog.blogBase["postListJson"][i]["htmlDir"]
+    del blog.blogBase["postListJson"][i]["createdAt"]
+    del blog.blogBase["postListJson"][i]["script"]
+    del blog.blogBase["postListJson"][i]["style"]
+    del blog.blogBase["postListJson"][i]["top"]
+
 docListFile=open(blog.root_dir+"postList.json","w")
-docListFile.write(json.dumps(blog.blogBase))
+docListFile.write(json.dumps(blog.blogBase["postListJson"]))
 docListFile.close()
 ######################################################################################
