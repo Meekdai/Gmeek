@@ -98,8 +98,10 @@ function showList(){
         }
 
         // if(encodeURI(jsonData["postListJson"][i]['label'])==tag || tag==''){
+        let div=document.createElement("div");
+        div.setAttribute("class","lists "+jsonData["postListJson"][i]['label']);
         let item=document.createElement("a");
-        item.setAttribute("class","SideNav-item d-flex flex-items-center flex-justify-between "+jsonData["postListJson"][i]['label']);
+        item.setAttribute("class","SideNav-item d-flex flex-items-center flex-justify-between");
         item.setAttribute("href",jsonData["postListJson"][i]['postUrl']);
 
         let center=document.createElement("div");
@@ -134,7 +136,8 @@ function showList(){
 
         item.appendChild(center);
         item.appendChild(listLabels);
-        SideNav.appendChild(item);
+        div.appendChild(item);
+        SideNav.appendChild(div);
         // }
     }
 }
@@ -148,9 +151,9 @@ function updateShowTag(label){
 }
 
 function setClassDisplay(lable) {
-    let SideNav = document.getElementsByClassName("SideNav-item");
-    for(let i = 0; i < SideNav.length; i++){
-        SideNav[i].style.display='none';
+    let lists = document.getElementsByClassName("lists");
+    for(let i = 0; i < lists.length; i++){
+        lists[i].style.display='none';
     }
 
     let lables = document.getElementsByClassName(lable);
