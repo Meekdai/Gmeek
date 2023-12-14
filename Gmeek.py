@@ -59,7 +59,7 @@ class GMEEK():
         os.mkdir(self.post_dir)
 
     def defaultConfig(self):
-        dconfig={"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin"}
+        dconfig={"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":""}
         config=json.loads(open('config.json', 'r', encoding='utf-8').read())
         self.blogBase={**dconfig,**config}.copy()
         self.blogBase["postListJson"]=json.loads('{}')
@@ -244,14 +244,16 @@ class GMEEK():
                 self.blogBase[listJsonName][postNum]["createdAt"]=postConfig["timestamp"]
             else:
                 self.blogBase[listJsonName][postNum]["createdAt"]=int(time.mktime(issue.created_at.timetuple()))
+            
             if "style" in postConfig:
-                self.blogBase[listJsonName][postNum]["style"]=str(postConfig["style"])
+                self.blogBase[listJsonName][postNum]["style"]=self.blogBase["style"]+str(postConfig["style"])
             else:
-                self.blogBase[listJsonName][postNum]["style"]=""
+                self.blogBase[listJsonName][postNum]["style"]=self.blogBase["style"]
+
             if "script" in postConfig:
-                self.blogBase[listJsonName][postNum]["script"]=str(postConfig["script"])
+                self.blogBase[listJsonName][postNum]["script"]=self.blogBase["script"]+str(postConfig["script"])
             else:
-                self.blogBase[listJsonName][postNum]["script"]=""
+                self.blogBase[listJsonName][postNum]["script"]=self.blogBase["script"]
 
             thisTime=datetime.datetime.fromtimestamp(self.blogBase[listJsonName][postNum]["createdAt"])
             thisYear=thisTime.year
