@@ -220,7 +220,10 @@ class GMEEK():
                 period="。"
             else:
                 period="."
-            self.blogBase[listJsonName][postNum]["description"]=issue.body.split(period)[0]+period
+            try:
+                self.blogBase[listJsonName][postNum]["description"]=issue.body.split(period)[0]+period
+            except:
+                self.blogBase[listJsonName][postNum]["description"]=''
 
             self.blogBase[listJsonName][postNum]["top"]=0
             for event in issue.get_events():
