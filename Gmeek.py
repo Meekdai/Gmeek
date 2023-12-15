@@ -220,11 +220,12 @@ class GMEEK():
                 period="。"
             else:
                 period="."
-            
+
             if issue.body==None:
-                issue.body=''
+                self.blogBase[listJsonName][postNum]["description"]=''
+            else:
+                self.blogBase[listJsonName][postNum]["description"]=issue.body.split(period)[0]+period
                 
-            self.blogBase[listJsonName][postNum]["description"]=issue.body.split(period)[0]+period
             self.blogBase[listJsonName][postNum]["top"]=0
             for event in issue.get_events():
                 if event.event=="pinned":
@@ -261,7 +262,11 @@ class GMEEK():
             self.blogBase[listJsonName][postNum]["dateLabelColor"]=self.blogBase["yearColorList"][int(thisYear)%len(self.blogBase["yearColorList"])]
 
             f = open("backup/"+issue.title+".md", 'w', encoding='UTF-8')
-            f.write(issue.body)
+            
+            if issue.body==None:
+                f.write('')
+            else:
+                f.write(issue.body)
             f.close()
             return listJsonName
 
