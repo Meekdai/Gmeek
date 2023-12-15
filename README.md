@@ -5,6 +5,7 @@
 
 - [Demo页面](http://meekdai.github.io/)
 - [更新日志](https://meekdai.github.io/post/Gmeek-geng-xin-ri-zhi.html)
+- [Gmeek快速上手](https://blog.meekdai.com/post/Gmeek-kuai-su-shang-shou.html)
 
 ![light](img/light.jpg)
 
@@ -16,7 +17,7 @@
 
 3. 打开一篇issue，开始写作，并且添加一个标签，保存issue后会自动创建博客内容，片刻后可通过https://XXX.github.io 访问
 
-> 详情可见[Gmeek快速上手](https://blog.meekdai.com/post/Gmeek-kuai-su-shang-shou.html)，如果还有问题可在本仓库提交[Issues](https://github.com/Meekdai/Gmeek/issues)
+> 如果还有问题可在本仓库提交[Issues](https://github.com/Meekdai/Gmeek/issues)
 
 ### 特性
 
