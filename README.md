@@ -8,7 +8,8 @@
 
 ![light](img/light.jpg)
 
-### 安装 -> 详情可见[Gmeek快速上手](https://blog.meekdai.com/post/Gmeek-kuai-su-shang-shou.html)
+### 安装
+> 详情可见[Gmeek快速上手](https://blog.meekdai.com/post/Gmeek-kuai-su-shang-shou.html)
 
 1. 点击[通过模板创建仓库](https://github.com/new?template_name=Gmeek-template&template_owner=Meekdai)，建议仓库名称为`XXX.github.io`，其中`XXX`为你的github用户名。
 
@@ -16,7 +17,7 @@
 
 3. 打开一篇issue，开始写作，并且添加一个标签，保存issue后会自动创建博客内容，片刻后可通过https://XXX.github.io 访问
 
-如果还有有问题可在本仓库提交[Issues](https://github.com/Meekdai/Gmeek/issues)
+如果还有问题可在本仓库提交[Issues](https://github.com/Meekdai/Gmeek/issues)
 
 ### 特性
 
