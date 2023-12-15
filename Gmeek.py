@@ -220,11 +220,11 @@ class GMEEK():
                 period="。"
             else:
                 period="."
-            try:
-                self.blogBase[listJsonName][postNum]["description"]=issue.body.split(period)[0]+period
-            except:
-                self.blogBase[listJsonName][postNum]["description"]=''
-
+            
+            if issue.body==None:
+                issue.body=''
+                
+            self.blogBase[listJsonName][postNum]["description"]=issue.body.split(period)[0]+period
             self.blogBase[listJsonName][postNum]["top"]=0
             for event in issue.get_events():
                 if event.event=="pinned":
