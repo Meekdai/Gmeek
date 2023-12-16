@@ -230,9 +230,8 @@ class GMEEK():
             for event in issue.get_events():
                 if event.event=="pinned":
                     self.blogBase[listJsonName][postNum]["top"]=1
-                    break
                 elif event.event=="unpinned":
-                    break
+                    self.blogBase[listJsonName][postNum]["top"]=0
 
             try:
                 postConfig=json.loads(issue.body.split("\r\n")[-1:][0].split("##")[1])
