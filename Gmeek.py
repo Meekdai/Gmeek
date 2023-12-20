@@ -95,17 +95,18 @@ class GMEEK():
         post_body=self.markdown2html(f.read())
         f.close()
 
+        postBase=self.blogBase.copy()
+
         if '<math-renderer' in post_body:
             post_body=re.sub(r'<math-renderer.*?>','',post_body)
             post_body=re.sub(r'</math-renderer>','',post_body)
-            self.blogBase["script"]=self.blogBase["script"]+'<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>'
+            postBase["script"]=postBase["script"]+'<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>'
 
-        postBase=self.blogBase.copy()
         postBase["postTitle"]=issue["postTitle"]
         postBase["postBody"]=post_body
         postBase["commentNum"]=issue["commentNum"]
         postBase["style"]=issue["style"]
-        postBase["script"]=issue["script"]
+        postBase["script"]=postBase["script"]+issue["script"]
         postBase["top"]=issue["top"]
         postBase["postSourceUrl"]=issue["postSourceUrl"]
         postBase["repoName"]=options.repo_name
