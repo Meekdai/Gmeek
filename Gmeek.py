@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import re
 import json
 import time
 import datetime
@@ -93,6 +94,11 @@ class GMEEK():
         f = open("backup/"+issue["postTitle"]+".md", 'r', encoding='UTF-8')
         post_body=self.markdown2html(f.read())
         f.close()
+
+        if '<math-renderer' in post_body:
+            post_body=re.sub(r'<math-renderer.*?>','',post_body)
+            post_body=re.sub(r'</math-renderer>','',post_body)
+            self.blogBase["script"]=self.blogBase["script"]+'<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>'
 
         postBase=self.blogBase.copy()
         postBase["postTitle"]=issue["postTitle"]
