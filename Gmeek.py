@@ -199,26 +199,19 @@ class GMEEK():
             item.pubDate(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime(self.blogBase["postListJson"][num]["createdAt"])))
 
         if self.oldFeedString!='':
-            print("====== rss1 ======")
             feed.rss_file(self.root_dir+'new.xml')
-            print("====== rss2 ======")
             newFeed=open(self.root_dir+'new.xml','r',encoding='utf-8')
-            print("====== rss3 ======")
             new=newFeed.read()
-            print("====== rss4 ======")
-            newFeed.cloes()
-            print("====== rss5 ======")
+            newFeed.close()
 
             new=re.sub(r'<lastBuildDate>.*?</lastBuildDate>','',new)
             old=re.sub(r'<lastBuildDate>.*?</lastBuildDate>','',self.oldFeedString)
-            print("====== rss6 ======")
             os.remove(self.root_dir+'new.xml')
-            print("====== rss7 ======")
             if new==old:
                 print("====== rss xml no update ======")
                 feedFile=open(self.root_dir+'rss.xml',"w")
                 feedFile.write(self.oldFeedString)
-                feedFile.cloes()
+                feedFile.close()
                 return
                 
         print("====== create rss xml ======")
