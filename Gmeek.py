@@ -337,7 +337,7 @@ if not os.path.exists("blogBase.json"):
 else:
     if os.path.exists(blog.root_dir+'rss.xml'):
         oldFeedFile=open(blog.root_dir+'rss.xml','r',encoding='utf-8')
-        blog.oldFeedString=oldFeed.read()
+        blog.oldFeedString=oldFeedFile.read()
         oldFeedFile.close()
     if options.issue_number=="0" or options.issue_number=="":
         print("issue_number=='0', runAll")
