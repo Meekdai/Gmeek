@@ -40,6 +40,7 @@ class GMEEK():
         user = Github(self.options.github_token)
         self.repo = self.get_repo(user, options.repo_name)
         self.feed = FeedGenerator()
+        self.oldFeedString=''
 
         self.labelColorDict=json.loads('{}')
         for label in self.repo.get_labels():
@@ -197,19 +198,23 @@ class GMEEK():
             item.link(href=self.blogBase["homeUrl"]+"/"+self.blogBase["postListJson"][num]["postUrl"])
             item.pubDate(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime(self.blogBase["postListJson"][num]["createdAt"])))
 
-        if os.path.exists(self.root_dir+'rss.xml'):
+        if self.oldFeedString!='':
             feed.rss_file(self.root_dir+'new.xml')
-            new=open(self.root_dir+'new.xml','r',encoding='utf-8').read()
-            new=re.sub(r'<lastBuildDate>.*?</lastBuildDate>','',new)
+            newFeed=open(self.root_dir+'new.xml','r',encoding='utf-8')
+            new=newFeed.read()
+            newFeed.cloes()
 
-            old=open(self.root_dir+'rss.xml','r',encoding='utf-8').read()
-            old=re.sub(r'<lastBuildDate>.*?</lastBuildDate>','',old)
+            new=re.sub(r'<lastBuildDate>.*?</lastBuildDate>','',new)
+            old=re.sub(r'<lastBuildDate>.*?</lastBuildDate>','',self.oldFeedString)
 
             os.remove(self.root_dir+'new.xml')
             if new==old:
-                print("====== rss xml exist======")
+                print("====== rss xml no update ======")
+                feedFile=open(self.root_dir+'rss.xml',"w")
+                feedFile.write(self.oldFeedString)
+                feedFile.cloes()
                 return
-
+                
         print("====== create rss xml ======")
         feed.rss_file(self.root_dir+'rss.xml')
 
@@ -330,6 +335,10 @@ if not os.path.exists("blogBase.json"):
     print("blogBase is not exists, runAll")
     blog.runAll()
 else:
+    if os.path.exists(blog.root_dir+'rss.xml'):
+        oldFeedFile=open(blog.root_dir+'rss.xml','r',encoding='utf-8')
+        blog.oldFeedString=oldFeed.read()
+        oldFeedFile.close()
     if options.issue_number=="0" or options.issue_number=="":
         print("issue_number=='0', runAll")
         blog.runAll()
