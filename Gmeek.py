@@ -175,7 +175,7 @@ class GMEEK():
         feed.description(self.blogBase["subTitle"])
         feed.link(href=self.blogBase["homeUrl"])
         feed.image(url=self.blogBase["avatarUrl"],title="avatar", link=self.blogBase["homeUrl"])
-        feed.pubDate(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()))
+        # feed.pubDate(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()))
         feed.copyright(self.blogBase["title"])
         feed.managingEditor(self.blogBase["title"])
         feed.webMaster(self.blogBase["title"])
@@ -197,6 +197,20 @@ class GMEEK():
             item.link(href=self.blogBase["homeUrl"]+"/"+self.blogBase["postListJson"][num]["postUrl"])
             item.pubDate(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime(self.blogBase["postListJson"][num]["createdAt"])))
 
+        if os.path.exists(self.root_dir+'rss.xml'):
+            feed.rss_file(self.root_dir+'new.xml')
+            new=open(self.root_dir+'new.xml','r',encoding='utf-8').read()
+            new=re.sub(r'<lastBuildDate>.*?</lastBuildDate>','',new)
+
+            old=open(self.root_dir+'rss.xml','r',encoding='utf-8').read()
+            old=re.sub(r'<lastBuildDate>.*?</lastBuildDate>','',old)
+
+            os.remove(self.root_dir+'new.xml')
+            if new==old:
+                print("====== rss xml exist======")
+                return
+
+        print("====== create rss xml ======")
         feed.rss_file(self.root_dir+'rss.xml')
 
     def addOnePostJson(self,issue):
