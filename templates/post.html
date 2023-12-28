@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
+<meta name="description" content="{{ blogBase['postTitle'] }}">
 <title>{{ blogBase['postTitle'] }}</title>
 {% if blogBase['highlight']==1 %}<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />{% endif %}
 {% endblock %}
