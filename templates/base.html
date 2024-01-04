@@ -57,7 +57,7 @@ function utterancesTheme(theme){
     iframe.contentWindow.postMessage(message, 'https://utteranc.es');
 }
 
-function updateSourceMedia(colorPreference) {
+function updateSourceMedia(theme) {
     const pictures = document.querySelectorAll('picture')
     pictures.forEach((picture) => {
         const sources = picture.querySelectorAll(`
@@ -68,7 +68,7 @@ function updateSourceMedia(colorPreference) {
             if (source?.media.includes('prefers-color-scheme')) {
                 source.dataset.media = source.media
             }
-        if (source?.dataset.media.includes(colorPreference)) {
+        if (source?.dataset.media.includes(theme)) {
             source.media = 'all'
         } else if (source) {
             source.media = 'none'
