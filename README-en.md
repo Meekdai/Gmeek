@@ -5,14 +5,16 @@ Gmeek is a Blog Generator based on `Github Pages` and `Github Issues` and `Githu
 
 - [Demo](http://meekdai.github.io/)
 - [Update Log](https://meekdai.github.io/post/Gmeek-geng-xin-ri-zhi.html)
+- [Gmeek Get Started](https://blog.meekdai.com/post/Gmeek-kuai-su-shang-shou.html)
 
 ![dark](img/dark.jpg)
 
 ### Installation
-1. Create your own `XXX.github.io` repository. In the repository `Settings`, select `Github Actions` under `Pages->Build and deployment->Source`.
-2. Create files `config.json` and `.github/workflows/Gmeek.yml` in the repository, copy the code in [link](CONIFG.md) and save them separately.
-3. Delete redundant tags in Issues and create your own tags, such as `link`, `about`, `daily`, etc.
-4. Open an issue and start writing. After saving the issue, the blog content will be automatically created. After a while, it can be accessed through https://XXX.github.io
+1. Click [Create a repository from template](https://github.com/new?template_name=Gmeek-template&template_owner=Meekdai), the recommended repository name is `XXX.github.io`,where `XXX` is your github username.
+
+2. In the repository `Settings`, select `Github Actions` in `Pages->Build and deployment->Source`.
+
+3. Open an issue and start writing. After saving the issue, the blog content will be automatically created. After a while, it can be accessed through https://XXX.github.io
 
 The above installation is just a guide, and some configuration details will be written later. If you have any questions, please submit [Issues](https://github.com/Meekdai/Gmeek/issues) in this repository
 
@@ -23,7 +25,7 @@ The above installation is just a guide, and some configuration details will be w
 - The comment system used [utteranc.es](https://utteranc.es/)
 
 ### Thanks
-
+- [jinja2](https://jinja.palletsprojects.com/)
 - [utteranc.es](https://utteranc.es/)
 - [primer.style](https://primer.style/css)
 - [gitblog](https://github.com/yihong0618/gitblog)
