@@ -1,7 +1,7 @@
 **[简体中文](README.md)** | **English**
 # Gmeek
 
-Gmeek is a Blog Generator based on `Github Pages` and `Github Issues` and `Github Actions`. No local deployment is required, and it only takes a few minutes from building to writing.
+Gmeek is a Blog Generator based on `Github Pages` and `Github Issues` and `Github Actions`. No local deployment is required, and it only takes a few minutes to deploy.
 
 - [Demo](http://meekdai.github.io/)
 - [Update Log](https://meekdai.github.io/post/Gmeek-geng-xin-ri-zhi.html)
