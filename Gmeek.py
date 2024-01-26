@@ -116,6 +116,9 @@ class GMEEK():
             postBase["highlight"]=1
         else:
             postBase["highlight"]=0
+        
+        if postBase["label"] in self.blogBase["singlePage"]:
+            postBase["bottomText"]=''
 
         self.renderHtml('post.html',postBase,{},issue["htmlDir"])
         print("create postPage title=%s file=%s " % (issue["postTitle"],issue["htmlDir"]))
