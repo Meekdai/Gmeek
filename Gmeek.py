@@ -117,7 +117,7 @@ class GMEEK():
         else:
             postBase["highlight"]=0
         
-        if postBase["label"] in self.blogBase["singlePage"]:
+        if issue["label"] in self.blogBase["singlePage"]:
             postBase["bottomText"]=''
 
         self.renderHtml('post.html',postBase,{},issue["htmlDir"])
