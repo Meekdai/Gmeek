@@ -187,10 +187,10 @@ class GMEEK():
 
         for num in self.blogBase["singeListJson"]:
             item=feed.add_item()
-            item.guid(self.blogBase["homeUrl"]+"/"+self.blogBase["singeListJson"][num]["htmlDir"],permalink=True)
+            item.guid(self.blogBase["homeUrl"]+"/"+self.blogBase["singeListJson"][num]["label"]+".html",permalink=True)
             item.title(self.blogBase["singeListJson"][num]["postTitle"])
             item.description(self.blogBase["singeListJson"][num]["description"])
-            item.link(href=self.blogBase["homeUrl"]+"/"+self.blogBase["singeListJson"][num]["postUrl"])
+            item.link(href=self.blogBase["homeUrl"]+"/"+self.blogBase["singeListJson"][num]["label"]+".html")
             item.pubDate(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime(self.blogBase["singeListJson"][num]["createdAt"])))
 
         for num in self.blogBase["postListJson"]:
