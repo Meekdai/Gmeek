@@ -187,7 +187,7 @@ class GMEEK():
 
         for num in self.blogBase["singeListJson"]:
             item=feed.add_item()
-            item.guid(self.blogBase["homeUrl"]+"/"+self.blogBase["singeListJson"][num]["postUrl"],permalink=True)
+            item.guid(self.blogBase["homeUrl"]+"/"+self.blogBase["singeListJson"][num]["htmlDir"],permalink=True)
             item.title(self.blogBase["singeListJson"][num]["postTitle"])
             item.description(self.blogBase["singeListJson"][num]["description"])
             item.link(href=self.blogBase["homeUrl"]+"/"+self.blogBase["singeListJson"][num]["postUrl"])
@@ -224,7 +224,7 @@ class GMEEK():
         if len(issue.labels)==1:
             if issue.labels[0].name in self.blogBase["singlePage"]:
                 listJsonName='singeListJson'
-                gen_Html = 'docs/{}.html'.format(issue.labels[0].name)
+                gen_Html = self.root_dir+'{}.html'.format(issue.labels[0].name)
             else:
                 listJsonName='postListJson'
                 if self.blogBase["urlMode"]=="issue":
