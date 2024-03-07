@@ -12,6 +12,7 @@ from github import Github
 from xpinyin import Pinyin
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
+from transliterate import translit
 ######################################################################################
 i18n={"Search":"Search","switchTheme":"switch theme","link":"link","home":"home","comments":"comments","run":"run ","days":" days","Previous":"Previous","Next":"Next"}
 i18nCN={"Search":"搜索","switchTheme":"切换主题","link":"友情链接","home":"首页","comments":"评论","run":"网站运行","days":"天","Previous":"上一页","Next":"下一页"}
@@ -232,6 +233,8 @@ class GMEEK():
                 listJsonName='postListJson'
                 if self.blogBase["urlMode"]=="issue":
                     gen_Html = self.post_dir+'{}.html'.format(str(issue.number))
+                elif self.blogBase["urlMode"]=="ru_translit": 
+                    gen_Html = self.post_dir+'{}.html'.format(str(translit(issue.title, language_code='ru', reversed=True)).replace(' ', '-'))
                 else:
                     gen_Html = self.post_dir+'{}.html'.format(Pinyin().get_pinyin(issue.title))
 
@@ -243,6 +246,8 @@ class GMEEK():
             self.blogBase[listJsonName][postNum]["postTitle"]=issue.title
             if self.blogBase["urlMode"]=="issue":
                 self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(str(issue.number)))
+            elif self.blogBase["urlMode"]=="ru_translit": 
+                self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(str(translit(issue.title, language_code='ru', reversed=True)).replace(' ', '-')))
             else:
                 self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(Pinyin().get_pinyin(issue.title)))
             self.blogBase[listJsonName][postNum]["postSourceUrl"]="https://github.com/"+options.repo_name+"/issues/"+str(issue.number)
