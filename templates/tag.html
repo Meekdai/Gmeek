@@ -153,7 +153,7 @@ function setClassDisplay(lable){
     let lists = document.getElementsByClassName("lists");
     let tagTitle = document.getElementsByClassName("tagTitle")[0];
     tagTitle.innerHTML="Tag #"+lable;
-    document.title=lable+" - Meekdai";
+    document.title=lable+" - {{ blogBase['title'] }}";
     document.getElementsByClassName("subnav-search-input")[0].value='';
     if(lable=="All"){
         for(let i = 0; i < lists.length; i++){lists[i].style.display='block';}
@@ -181,8 +181,8 @@ function searchShow(){
     let tagTitle = document.getElementsByClassName("tagTitle")[0];
     let searchInput = document.getElementsByClassName("subnav-search-input")[0].value;
     tagTitle.innerHTML="Search #"+searchInput;
-    if(searchInput==''){document.title="Search - Meekdai";}
-    else{document.title=searchInput+" - Meekdai";}
+    if(searchInput==''){document.title="Search - {{ blogBase['title'] }}";}
+    else{document.title=searchInput+" - {{ blogBase['title'] }}";}
     let a=0;
     window.location.hash="#"+(searchInput);
     for(let i = 0; i < lists.length; i++){
