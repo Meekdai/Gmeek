@@ -30,7 +30,7 @@
 {% endblock %}
 
 {% block header %}
-<span class="tagTitle"></span>
+<span class="tagTitle"><span>Loading</span><span class="AnimatedEllipsis"></span></span>
 <div class="title-right">
     <div class="subnav-search">
         <input type="search" class="form-control subnav-search-input float-left" aria-label="Search site" value="" style="height:32px;">
@@ -54,7 +54,7 @@
 
 {% block content %}
 <div id="tagLable" style="margin-bottom: 16px;"></div>
-<nav class="SideNav border"></nav>
+<nav class="SideNav"></nav>
 <div class="notFind" style="display:none;font-size:24px;margin:8px;">Not Find</div>
 {% endblock %}
 
@@ -78,6 +78,7 @@ request.onload=function(){
 
 function showList(){
     let SideNav=document.getElementsByClassName("SideNav")[0];
+    SideNav.setAttribute("class","SideNav border");
     let tagLable=document.getElementById("tagLable");
 
     if(tagList.length==0){
