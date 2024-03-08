@@ -18,13 +18,13 @@ Gmeek это блог генератор, использующий `Github Pages
 
 Приведенная выше установка является лишь кратким руководством, некоторые детали конфигурации будут написаны позже. Если у вас есть вопросы, пожалуйста, отправьте [Issues](https://github.com/Meekdai/Gmeek/issues) в этот репозиторий.
 
-### Feature
+### Особенности
 
 - Интерфейс UI имеет то же происхождение, что и Github, только внедрен собственный CSS Github：[primer.style](https://primer.style/css)
 - После завершения написания блога в Issues автоматически запускаются Actions для выполнения задач развертывания.
 - Система комментариев, используется [utteranc.es](https://utteranc.es/)
 
-### Thanks
+### Благодарность
 - [jinja2](https://jinja.palletsprojects.com/)
 - [utteranc.es](https://utteranc.es/)
 - [primer.style](https://primer.style/css)
