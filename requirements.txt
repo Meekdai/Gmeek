@@ -3,3 +3,4 @@ requests
 xpinyin
 feedgen
 Jinja2
+transliterate
