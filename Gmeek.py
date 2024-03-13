@@ -33,7 +33,6 @@ IconList={
 class GMEEK():
     def __init__(self,options):
         self.options=options
-        self.createTimeUpdate=0
         
         self.root_dir='docs/'
         self.post_folder='post/'
@@ -235,7 +234,6 @@ class GMEEK():
                 feedFile.close()
                 return
 
-        self.createTimeUpdate=1
         print("====== create rss xml ======")
         feed.rss_file(self.root_dir+'rss.xml')
 
@@ -393,14 +391,12 @@ docListFile=open(blog.root_dir+"postList.json","w")
 docListFile.write(json.dumps(blog.blogBase["postListJson"]))
 docListFile.close()
 
-if blog.createTimeUpdate==1:
-    print("====== update readme file ======")
-    readme="# "+blog.blogBase["title"]+'\r\n'
-    readme=readme+"### Blog URL :link: "+blog.blogBase["homeUrl"]+'\r\n'
-    readme=readme+"### Created Time :hourglass: "+datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'\r\n'
-    readme=readme+"### Powered by [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
-    readmeFile=open("README.md","w")
-    readmeFile.write(readme)
-    readmeFile.close()
+print("====== update readme file ======")
+readme="# "+blog.blogBase["title"]+'\r\n'
+readme=readme+"### Blog Home :link: "+blog.blogBase["homeUrl"]+'\r\n'
+readme=readme+"### Powered by :heart: [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
+readmeFile=open("README.md","w")
+readmeFile.write(readme)
+readmeFile.close()
 
 ######################################################################################
