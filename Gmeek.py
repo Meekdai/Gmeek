@@ -63,11 +63,13 @@ class GMEEK():
         os.mkdir(self.post_dir)
 
     def defaultConfig(self):
-        dconfig={"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","bottomText":"","showPostSource":1}
+        dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","bottomText":"","showPostSource":1}
         config=json.loads(open('config.json', 'r', encoding='utf-8').read())
         self.blogBase={**dconfig,**config}.copy()
         self.blogBase["postListJson"]=json.loads('{}')
         self.blogBase["singeListJson"]=json.loads('{}')
+        if "displayTitle" not in self.blogBase:
+            self.blogBase["displayTitle"]=self.blogBase["title"]
         if self.blogBase["i18n"]=="CN":
             self.i18n=i18nCN
         elif self.blogBase["i18n"]=="RU":
