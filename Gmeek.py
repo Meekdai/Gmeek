@@ -33,6 +33,7 @@ IconList={
 class GMEEK():
     def __init__(self,options):
         self.options=options
+        self.createTimeUpdate=0
         
         self.root_dir='docs/'
         self.post_folder='post/'
@@ -41,8 +42,6 @@ class GMEEK():
 
         user = Github(self.options.github_token)
         self.repo = self.get_repo(user, options.repo_name)
-        pages_url = f"https://{self.repo.owner.login}.github.io/{self.repo.name}"
-        print(f"GitHub Pages URL: {pages_url}")
         self.feed = FeedGenerator()
         self.oldFeedString=''
 
@@ -72,6 +71,15 @@ class GMEEK():
         self.blogBase["singeListJson"]=json.loads('{}')
         if "displayTitle" not in self.blogBase:
             self.blogBase["displayTitle"]=self.blogBase["title"]
+
+        if "homeUrl" not in self.blogBase:
+            if str(self.repo.name) == (str(self.repo.owner.login)+".github.io"):
+                pages_url = f"https://{self.repo.name}
+            else:
+                pages_url = f"https://{self.repo.owner.login}.github.io/{self.repo.name}"
+            self.blogBase["homeUrl"]=pages_url
+        print(f"GitHub Pages URL: {self.blogBase["homeUrl"]}")
+
         if self.blogBase["i18n"]=="CN":
             self.i18n=i18nCN
         elif self.blogBase["i18n"]=="RU":
@@ -189,7 +197,6 @@ class GMEEK():
         feed.description(self.blogBase["subTitle"])
         feed.link(href=self.blogBase["homeUrl"])
         feed.image(url=self.blogBase["avatarUrl"],title="avatar", link=self.blogBase["homeUrl"])
-        # feed.pubDate(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()))
         feed.copyright(self.blogBase["title"])
         feed.managingEditor(self.blogBase["title"])
         feed.webMaster(self.blogBase["title"])
@@ -220,13 +227,15 @@ class GMEEK():
             new=re.sub(r'<lastBuildDate>.*?</lastBuildDate>','',new)
             old=re.sub(r'<lastBuildDate>.*?</lastBuildDate>','',self.oldFeedString)
             os.remove(self.root_dir+'new.xml')
+            
             if new==old:
                 print("====== rss xml no update ======")
                 feedFile=open(self.root_dir+'rss.xml',"w")
                 feedFile.write(self.oldFeedString)
                 feedFile.close()
                 return
-                
+
+        self.createTimeUpdate=1
         print("====== create rss xml ======")
         feed.rss_file(self.root_dir+'rss.xml')
 
@@ -383,6 +392,13 @@ docListFile=open(blog.root_dir+"postList.json","w")
 docListFile.write(json.dumps(blog.blogBase["postListJson"]))
 docListFile.close()
 
-# readmeFile=open("README.md","w")
+if self.createTimeUpdate==1:
+    readme="# "+self.blogBase["title"]+'\r\n'
+    readme=readme+"### Blog URL :link: "+self.blogBase["homeUrl"]+'\r\n'
+    readme=readme+"### Created Time :hourglass: "+datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'\r\n'
+    readme=readme+"### Powered by [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
+    readmeFile=open("README.md","w")
+    readmeFile.write(readme)
+    readmeFile.close()
 
 ######################################################################################
