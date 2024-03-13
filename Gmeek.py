@@ -78,7 +78,7 @@ class GMEEK():
             else:
                 pages_url = f"https://{self.repo.owner.login}.github.io/{self.repo.name}"
             self.blogBase["homeUrl"]=pages_url
-        print(f"GitHub Pages URL: {self.blogBase["homeUrl"]}")
+        print("GitHub Pages URL: ", self.blogBase["homeUrl"])
 
         if self.blogBase["i18n"]=="CN":
             self.i18n=i18nCN
