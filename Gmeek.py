@@ -378,6 +378,7 @@ listFile=open("blogBase.json","w")
 listFile.write(json.dumps(blog.blogBase))
 listFile.close()
 
+print("====== create postList.json file ======")
 blog.blogBase["postListJson"]=dict(sorted(blog.blogBase["postListJson"].items(),key=lambda x:x[1]["createdAt"],reverse=True))#使列表由时间排序
 for i in blog.blogBase["postListJson"]:
     del blog.blogBase["postListJson"][i]["description"]
@@ -393,6 +394,7 @@ docListFile.write(json.dumps(blog.blogBase["postListJson"]))
 docListFile.close()
 
 if blog.createTimeUpdate==1:
+    print("====== update readme file ======")
     readme="# "+blog.blogBase["title"]+'\r\n'
     readme=readme+"### Blog URL :link: "+blog.blogBase["homeUrl"]+'\r\n'
     readme=readme+"### Created Time :hourglass: "+datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'\r\n'
