@@ -41,6 +41,7 @@ class GMEEK():
 
         user = Github(self.options.github_token)
         self.repo = self.get_repo(user, options.repo_name)
+        print(f"GitHub Pages URL: {self.repo.html_url}")
         self.feed = FeedGenerator()
         self.oldFeedString=''
 
@@ -366,7 +367,6 @@ else:
 listFile=open("blogBase.json","w")
 listFile.write(json.dumps(blog.blogBase))
 listFile.close()
-# shutil.copy("blogBase.json",blog.root_dir)
 
 blog.blogBase["postListJson"]=dict(sorted(blog.blogBase["postListJson"].items(),key=lambda x:x[1]["createdAt"],reverse=True))#使列表由时间排序
 for i in blog.blogBase["postListJson"]:
@@ -381,4 +381,7 @@ for i in blog.blogBase["postListJson"]:
 docListFile=open(blog.root_dir+"postList.json","w")
 docListFile.write(json.dumps(blog.blogBase["postListJson"]))
 docListFile.close()
+
+# readmeFile=open("README.md","w")
+
 ######################################################################################
