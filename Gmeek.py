@@ -41,7 +41,8 @@ class GMEEK():
 
         user = Github(self.options.github_token)
         self.repo = self.get_repo(user, options.repo_name)
-        print(f"GitHub Pages URL: {self.repo.html_url}")
+        pages_url = f"https://{self.repo.owner.login}.github.io/{self.repo.name}"
+        print(f"GitHub Pages URL: {pages_url}")
         self.feed = FeedGenerator()
         self.oldFeedString=''
 
