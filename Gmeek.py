@@ -392,9 +392,9 @@ docListFile=open(blog.root_dir+"postList.json","w")
 docListFile.write(json.dumps(blog.blogBase["postListJson"]))
 docListFile.close()
 
-if self.createTimeUpdate==1:
-    readme="# "+self.blogBase["title"]+'\r\n'
-    readme=readme+"### Blog URL :link: "+self.blogBase["homeUrl"]+'\r\n'
+if blog.createTimeUpdate==1:
+    readme="# "+blog.blogBase["title"]+'\r\n'
+    readme=readme+"### Blog URL :link: "+blog.blogBase["homeUrl"]+'\r\n'
     readme=readme+"### Created Time :hourglass: "+datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'\r\n'
     readme=readme+"### Powered by [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
     readmeFile=open("README.md","w")
