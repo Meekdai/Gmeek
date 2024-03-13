@@ -71,6 +71,9 @@ class GMEEK():
         if "displayTitle" not in self.blogBase:
             self.blogBase["displayTitle"]=self.blogBase["title"]
 
+        if "faviconUrl" not in self.blogBase:
+            self.blogBase["faviconUrl"]=self.blogBase["avatarUrl"]
+
         if "homeUrl" not in self.blogBase:
             if str(self.repo.name) == (str(self.repo.owner.login)+".github.io"):
                 pages_url = f"https://{self.repo.name}"
