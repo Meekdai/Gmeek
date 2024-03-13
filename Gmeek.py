@@ -78,13 +78,15 @@ class GMEEK():
     def get_repo(self,user:Github, repo:str):
         return user.get_repo(repo)
 
-    def markdown2html(self,mdstr):
+    def markdown2html(self, mdstr):
         payload = {"text": mdstr, "mode": "gfm"}
-        ret=requests.post("https://api.github.com/markdown", json=payload,headers={"Authorzation":"token {}".format(self.options.github_token)})
-        if ret.status_code==200:
-            return ret.text
-        else:
-            raise Exception("markdown2html error status_code=%d"%(ret.status_code))
+        headers = {"Authorization": "token {}".format(self.options.github_token)}
+        try:
+            response = requests.post("https://api.github.com/markdown", json=payload, headers=headers)
+            response.raise_for_status()  # Raises an exception if status code is not 200
+            return response.text
+        except requests.RequestException as e:
+            raise Exception("markdown2html error: {}".format(e))
 
     def renderHtml(self,template,blogBase,postListJson,htmlDir):
         file_loader = FileSystemLoader('templates')
