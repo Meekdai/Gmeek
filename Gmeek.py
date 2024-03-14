@@ -76,10 +76,9 @@ class GMEEK():
 
         if "homeUrl" not in self.blogBase:
             if str(self.repo.name) == (str(self.repo.owner.login)+".github.io"):
-                pages_url = f"https://{self.repo.name}"
+                self.blogBase["homeUrl"] = f"https://{self.repo.name}"
             else:
-                pages_url = f"https://{self.repo.owner.login}.github.io/{self.repo.name}"
-            self.blogBase["homeUrl"]=pages_url
+                self.blogBase["homeUrl"] = f"https://{self.repo.owner.login}.github.io/{self.repo.name}"
         print("GitHub Pages URL: ", self.blogBase["homeUrl"])
 
         if self.blogBase["i18n"]=="CN":
@@ -379,6 +378,8 @@ listFile=open("blogBase.json","w")
 listFile.write(json.dumps(blog.blogBase))
 listFile.close()
 
+commentNumSum=0
+wordCount=0
 print("====== create postList.json file ======")
 blog.blogBase["postListJson"]=dict(sorted(blog.blogBase["postListJson"].items(),key=lambda x:x[1]["createdAt"],reverse=True))#使列表由时间排序
 for i in blog.blogBase["postListJson"]:
@@ -390,6 +391,12 @@ for i in blog.blogBase["postListJson"]:
     del blog.blogBase["postListJson"][i]["style"]
     del blog.blogBase["postListJson"][i]["top"]
 
+    if 'commentNum' in blog.blogBase["postListJson"][i]:
+        commentNumSum=commentNumSum+blog.blogBase["postListJson"][i]["commentNum"]
+
+    if 'wordCount' in blog.blogBase["postListJson"][i]:
+        wordCount=wordCount+blog.blogBase["postListJson"][i]["wordCount"]
+
 docListFile=open(blog.root_dir+"postList.json","w")
 docListFile.write(json.dumps(blog.blogBase["postListJson"]))
 docListFile.close()
@@ -399,7 +406,8 @@ print("GitHub Workspace Path: "+str(workspace_path))
 
 print("====== update readme file ======")
 readme="# "+blog.blogBase["title"]+'\r\n'
-readme=readme+"### Blog Home Url :link: "+blog.blogBase["homeUrl"]+'\r\n'
+readme=readme+"### Blog Home :link: "+blog.blogBase["homeUrl"]+'\r\n'
+readme=readme+("### Statistics :monocle_face: Article: %d Comment: %d WordCount: %d\r\n" % (len(blog.blogBase["postListJson"]),commentNumSum,wordCount)) 
 readme=readme+"### Powered by :heart: [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
 readmeFile=open(workspace_path+"/README.md","w")
 readmeFile.write(readme)
