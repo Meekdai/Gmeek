@@ -63,7 +63,7 @@ class GMEEK():
         os.mkdir(self.post_dir)
 
     def defaultConfig(self):
-        dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","bottomText":"","showPostSource":1}
+        dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","bottomText":"","showPostSource":1,"UTC":+8}
         config=json.loads(open('config.json', 'r', encoding='utf-8').read())
         self.blogBase={**dconfig,**config}.copy()
         self.blogBase["postListJson"]=json.loads('{}')
@@ -394,9 +394,11 @@ for i in blog.blogBase["postListJson"]:
 
     if 'commentNum' in blog.blogBase["postListJson"][i]:
         commentNumSum=commentNumSum+blog.blogBase["postListJson"][i]["commentNum"]
+        del blog.blogBase["postListJson"][i]["commentNum"]
 
     if 'wordCount' in blog.blogBase["postListJson"][i]:
         wordCount=wordCount+blog.blogBase["postListJson"][i]["wordCount"]
+        del blog.blogBase["postListJson"][i]["wordCount"]
 
 docListFile=open(blog.root_dir+"postList.json","w")
 docListFile.write(json.dumps(blog.blogBase["postListJson"]))
@@ -406,9 +408,12 @@ workspace_path = os.environ.get('GITHUB_WORKSPACE')
 print("GitHub Workspace Path: "+str(workspace_path))
 
 print("====== update readme file ======")
+now = datetime.datetime.now()
+now = now.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=blog.blogBase["UTC"])))
 readme="# "+blog.blogBase["title"]+'\r\n'
 readme=readme+"### Blog Home :link: "+blog.blogBase["homeUrl"]+'\r\n'
 readme=readme+("### Statistics :eyeglasses: - Article: [%d](%s) :page_facing_up: - Comment: %d :speech_balloon: - WordCount: %d :star: -\r\n" % (len(blog.blogBase["postListJson"]),(blog.blogBase["homeUrl"]+"/tag.html"),commentNumSum,wordCount)) 
+readme=readme+"### Created Time :alarm_clock: "+now.strftime('%Y-%m-%d %H:%M:%S')+'\r\n'
 readme=readme+"### Powered by :heart: [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
 readmeFile=open(workspace_path+"/README.md","w")
 readmeFile.write(readme)
