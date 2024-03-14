@@ -267,6 +267,7 @@ class GMEEK():
                 self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(Pinyin().get_pinyin(issue.title)))
             self.blogBase[listJsonName][postNum]["postSourceUrl"]="https://github.com/"+options.repo_name+"/issues/"+str(issue.number)
             self.blogBase[listJsonName][postNum]["commentNum"]=issue.get_comments().totalCount
+            self.blogBase[listJsonName][postNum]["wordCount"]=len(issue.body)
             if self.blogBase["i18n"]=="CN":
                 period="。"
             else:
@@ -407,10 +408,9 @@ print("GitHub Workspace Path: "+str(workspace_path))
 print("====== update readme file ======")
 readme="# "+blog.blogBase["title"]+'\r\n'
 readme=readme+"### Blog Home :link: "+blog.blogBase["homeUrl"]+'\r\n'
-readme=readme+("### Statistics :monocle_face: Article: %d Comment: %d WordCount: %d\r\n" % (len(blog.blogBase["postListJson"]),commentNumSum,wordCount)) 
+readme=readme+("### Statistics :eyeglasses: - Article: %d :page_facing_up: - Comment: %d :speech_balloon: - WordCount: %d :star: -\r\n" % (len(blog.blogBase["postListJson"]),commentNumSum,wordCount)) 
 readme=readme+"### Powered by :heart: [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
 readmeFile=open(workspace_path+"/README.md","w")
 readmeFile.write(readme)
 readmeFile.close()
-
 ######################################################################################
