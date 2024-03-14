@@ -404,18 +404,17 @@ docListFile=open(blog.root_dir+"postList.json","w")
 docListFile.write(json.dumps(blog.blogBase["postListJson"]))
 docListFile.close()
 
-workspace_path = os.environ.get('GITHUB_WORKSPACE')
-print("GitHub Workspace Path: "+str(workspace_path))
-
-print("====== update readme file ======")
-now = datetime.datetime.now()
-now = now.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=blog.blogBase["UTC"])))
-readme="# "+blog.blogBase["title"]+'\r\n'
-readme=readme+"### Blog Home :link: "+blog.blogBase["homeUrl"]+'\r\n'
-readme=readme+("### Statistics :eyeglasses: - Article: [%d](%s) :page_facing_up: - Comment: %d :speech_balloon: - WordCount: %d :star: -\r\n" % (len(blog.blogBase["postListJson"]),(blog.blogBase["homeUrl"]+"/tag.html"),commentNumSum,wordCount)) 
-readme=readme+"### Created Time :alarm_clock: "+now.strftime('%Y-%m-%d %H:%M:%S')+'\r\n'
-readme=readme+"### Powered by :heart: [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
-readmeFile=open(workspace_path+"/README.md","w")
-readmeFile.write(readme)
-readmeFile.close()
+if os.environ.get('GITHUB_EVENT_NAME')!='schedule':
+    print("====== update readme file ======")
+    workspace_path = os.environ.get('GITHUB_WORKSPACE')
+    now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=blog.blogBase["UTC"])))
+    readme="# %s :link: %s \r\n" % (blog.blogBase["title"],blog.blogBase["homeUrl"])
+    readme=readme+"### :page_facing_up: [%d](%s/tag.html) \r\n" % (len(blog.blogBase["postListJson"]),(blog.blogBase["homeUrl"]+"/tag.html"))
+    readme=readme+"### :speech_balloon: %d \r\n" % commentNumSum
+    readme=readme+"### :hibiscus: %d \r\n" % wordCount
+    readme=readme+"### :alarm_clock: %s \r\n" % now.strftime('%Y-%m-%d %H:%M:%S')
+    readme=readme+"### Powered by :heart: [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
+    readmeFile=open(workspace_path+"/README.md","w")
+    readmeFile.write(readme)
+    readmeFile.close()
 ######################################################################################
