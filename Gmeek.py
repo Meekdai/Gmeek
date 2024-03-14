@@ -408,7 +408,7 @@ print("GitHub Workspace Path: "+str(workspace_path))
 print("====== update readme file ======")
 readme="# "+blog.blogBase["title"]+'\r\n'
 readme=readme+"### Blog Home :link: "+blog.blogBase["homeUrl"]+'\r\n'
-readme=readme+("### Statistics :eyeglasses: - Article: %d :page_facing_up: - Comment: %d :speech_balloon: - WordCount: %d :star: -\r\n" % (len(blog.blogBase["postListJson"]),commentNumSum,wordCount)) 
+readme=readme+("### Statistics :eyeglasses: - Article: [%d](%s) :page_facing_up: - Comment: %d :speech_balloon: - WordCount: %d :star: -\r\n" % (len(blog.blogBase["postListJson"]),(blog.blogBase["homeUrl"]+"/tag.html"),commentNumSum,wordCount)) 
 readme=readme+"### Powered by :heart: [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
 readmeFile=open(workspace_path+"/README.md","w")
 readmeFile.write(readme)
