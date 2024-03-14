@@ -394,15 +394,15 @@ docListFile=open(blog.root_dir+"postList.json","w")
 docListFile.write(json.dumps(blog.blogBase["postListJson"]))
 docListFile.close()
 
+workspace_path = os.environ.get('GITHUB_WORKSPACE')
+print("GitHub Workspace Path: "+str(workspace_path))
+
 print("====== update readme file ======")
 readme="# "+blog.blogBase["title"]+'\r\n'
-readme=readme+"### Blog Home :link: "+blog.blogBase["homeUrl"]+'\r\n'
+readme=readme+"### Blog Home Url :link: "+blog.blogBase["homeUrl"]+'\r\n'
 readme=readme+"### Powered by :heart: [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
-readmeFile=open("README.md","w")
+readmeFile=open(workspace_path+"/README.md","w")
 readmeFile.write(readme)
 readmeFile.close()
-
-workspace_path = os.environ.get('GITHUB_WORKSPACE')
-print(f"GitHub Workspace Path: {workspace_path}")
 
 ######################################################################################
