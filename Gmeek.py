@@ -402,4 +402,7 @@ readmeFile=open("README.md","w")
 readmeFile.write(readme)
 readmeFile.close()
 
+workspace_path = os.environ.get('GITHUB_WORKSPACE')
+print(f"GitHub Workspace Path: {workspace_path}")
+
 ######################################################################################
