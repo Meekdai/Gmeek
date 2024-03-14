@@ -87,6 +87,8 @@ class GMEEK():
             self.i18n=i18nRU
         else:
             self.i18n=i18n
+        
+        self.TZ=datetime.timezone(datetime.timedelta(hours=self.blogBase["UTC"]))
 
     def get_repo(self,user:Github, repo:str):
         return user.get_repo(repo)
@@ -307,7 +309,9 @@ class GMEEK():
             else:
                 self.blogBase[listJsonName][postNum]["script"]=self.blogBase["script"]
 
+
             thisTime=datetime.datetime.fromtimestamp(self.blogBase[listJsonName][postNum]["createdAt"])
+            thisTime=thisTime.astimezone(self.TZ)
             thisYear=thisTime.year
             self.blogBase[listJsonName][postNum]["createdDate"]=thisTime.strftime("%Y-%m-%d")
             self.blogBase[listJsonName][postNum]["dateLabelColor"]=self.blogBase["yearColorList"][int(thisYear)%len(self.blogBase["yearColorList"])]
@@ -407,12 +411,11 @@ docListFile.close()
 if os.environ.get('GITHUB_EVENT_NAME')!='schedule':
     print("====== update readme file ======")
     workspace_path = os.environ.get('GITHUB_WORKSPACE')
-    now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=blog.blogBase["UTC"])))
     readme="# %s :link: %s \r\n" % (blog.blogBase["title"],blog.blogBase["homeUrl"])
-    readme=readme+"### :page_facing_up: [%d](%s/tag.html) \r\n" % (len(blog.blogBase["postListJson"]),(blog.blogBase["homeUrl"]+"/tag.html"))
+    readme=readme+"### :page_facing_up: [%d](%s/tag.html) \r\n" % (len(blog.blogBase["postListJson"]),blog.blogBase["homeUrl"])
     readme=readme+"### :speech_balloon: %d \r\n" % commentNumSum
     readme=readme+"### :hibiscus: %d \r\n" % wordCount
-    readme=readme+"### :alarm_clock: %s \r\n" % now.strftime('%Y-%m-%d %H:%M:%S')
+    readme=readme+"### :alarm_clock: %s \r\n" % datetime.datetime.now(blog.TZ).strftime('%Y-%m-%d %H:%M:%S')
     readme=readme+"### Powered by :heart: [Gmeek](https://github.com/Meekdai/Gmeek)\r\n"
     readmeFile=open(workspace_path+"/README.md","w")
     readmeFile.write(readme)
