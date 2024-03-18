@@ -17,14 +17,15 @@
 
 3. 【开始写作】打开一篇issue，开始写作，并且添加一个标签，保存issue后会自动创建博客内容，片刻后可通过https://XXX.github.io 访问
 
+4. 【手动全局生成】这个步骤只有在修改`config.json`文件或者出现奇怪问题的时候，需要执行。
+```
+通过Actions->build Gmeek->Run workflow->里面的按钮全局重新生成一次
+```
+
 ### 提交问题
 
 1. 如果有问题可参考[Gmeek快速上手](https://blog.meekdai.com/post/Gmeek-kuai-su-shang-shou.html)   
 2. 在本仓库提交[Issues](https://github.com/Meekdai/Gmeek/issues)之前，请手动全局生成一次。如果还有错误，提交`Issues`后，我会帮忙查看构建流程，定位问题出处。   
-3. 手动全局生成一次方法：
-```
-通过Actions->build Gmeek->Run workflow->里面的按钮全局重新生成一次
-```
 
 ### 特性
 
