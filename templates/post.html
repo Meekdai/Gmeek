@@ -30,14 +30,14 @@
     
     <a href="{{ blogBase['homeUrl'] }}"><button id="buttonHome" class="btn btn-invisible circle" title="{{ i18n['home'] }}">
         <svg class="octicon" width="16" height="16">
-            <path id="pathHome" fill-rule="evenodd" d="{{ IconList['home'] }}"></path>
+            <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
     </button></a>
 
     {% if blogBase['showPostSource']==1 %}
     <a href="{{ blogBase['postSourceUrl'] }}" target="_blank"><button class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
-            <path id="pathIssue" fill-rule="evenodd" d="{{ IconList['github'] }}"></path>
+            <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
     </button></a>
     {% endif %}
@@ -60,7 +60,8 @@
 
 {% block script %}
 <script>
-
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
 {% if blogBase['commentNum']>0 -%}
     cmButton=document.getElementById("cmButton");
     span=document.createElement("span");
