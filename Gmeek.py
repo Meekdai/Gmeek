@@ -17,7 +17,7 @@ from transliterate import translit
 i18n={"Search":"Search","switchTheme":"switch theme","home":"home","comments":"comments","run":"run ","days":" days","Previous":"Previous","Next":"Next"}
 i18nCN={"Search":"搜索","switchTheme":"切换主题","home":"首页","comments":"评论","run":"网站运行","days":"天","Previous":"上一页","Next":"下一页"}
 i18nRU={"Search":"Поиск","switchTheme": "Сменить тему","home":"Главная","comments":"Комментарии","run":"работает ","days":" дней","Previous":"Предыдущая","Next":"Следующая"}
-IconList={
+IconBase={
     "post":"M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25ZM3.5 6.25a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75Zm.75 2.25h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1 0-1.5Z",
     "link":"m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z",
     "about":"M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z",
@@ -63,7 +63,7 @@ class GMEEK():
         os.mkdir(self.post_dir)
 
     def defaultConfig(self):
-        dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","bottomText":"","showPostSource":1,"UTC":+8}
+        dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","bottomText":"","showPostSource":1,"iconList":{},"UTC":+8}
         config=json.loads(open('config.json', 'r', encoding='utf-8').read())
         self.blogBase={**dconfig,**config}.copy()
         self.blogBase["postListJson"]=json.loads('{}')
@@ -103,11 +103,11 @@ class GMEEK():
         except requests.RequestException as e:
             raise Exception("markdown2html error: {}".format(e))
 
-    def renderHtml(self,template,blogBase,postListJson,htmlDir):
+    def renderHtml(self,template,blogBase,postListJson,htmlDir,icon):
         file_loader = FileSystemLoader('templates')
         env = Environment(loader=file_loader)
         template = env.get_template(template)
-        output = template.render(blogBase=blogBase,postListJson=postListJson,i18n=self.i18n,IconList=IconList)
+        output = template.render(blogBase=blogBase,postListJson=postListJson,i18n=self.i18n,IconList=icon)
         f = open(htmlDir, 'w', encoding='UTF-8')
         f.write(output)
         f.close()
@@ -141,11 +141,14 @@ class GMEEK():
         if issue["label"] in self.blogBase["singlePage"]:
             postBase["bottomText"]=''
 
-        self.renderHtml('post.html',postBase,{},issue["htmlDir"])
+        postIcon=dict(zip(['sun','moon','home','github'], map(IconBase.get, keys)))
+        self.renderHtml('post.html',postBase,{},issue["htmlDir"],postIcon)
         print("create postPage title=%s file=%s " % (issue["postTitle"],issue["htmlDir"]))
 
     def createPlistHtml(self):
         self.blogBase["postListJson"]=dict(sorted(self.blogBase["postListJson"].items(),key=lambda x:(x[1]["top"],x[1]["createdAt"]),reverse=True))#使列表由时间排序
+        plistIcon={**dict(zip(['sun','moon','search','rss','upload','post'], map(IconBase.get, keys))),**self.blogBase["iconList"]}
+        tagIcon=dict(zip(['sun','moon','home','search','post'], map(IconBase.get, keys)))
 
         postNum=len(self.blogBase["postListJson"])
         pageFlag=0
@@ -167,7 +170,7 @@ class GMEEK():
                         self.blogBase["prevUrl"]="/page%d.html" % pageFlag
                     self.blogBase["nextUrl"]="disabled"
 
-                self.renderHtml('plist.html',self.blogBase,onePageList,htmlDir)
+                self.renderHtml('plist.html',self.blogBase,onePageList,htmlDir,plistIcon)
                 print("create "+htmlDir)
                 break
             else:
@@ -185,12 +188,12 @@ class GMEEK():
                         self.blogBase["prevUrl"]="/page%d.html" % pageFlag
                     self.blogBase["nextUrl"]="/page%d.html" % (pageFlag+2)
 
-                self.renderHtml('plist.html',self.blogBase,onePageList,htmlDir)
+                self.renderHtml('plist.html',self.blogBase,onePageList,htmlDir,plistIcon)
                 print("create "+htmlDir)
 
             pageFlag=pageFlag+1
 
-        self.renderHtml('tag.html',self.blogBase,onePageList,self.root_dir+"tag.html")
+        self.renderHtml('tag.html',self.blogBase,onePageList,self.root_dir+"tag.html",tagIcon)
         print("create tag.html")
 
     def createFeedXml(self):
