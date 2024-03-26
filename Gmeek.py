@@ -141,14 +141,17 @@ class GMEEK():
         if issue["label"] in self.blogBase["singlePage"]:
             postBase["bottomText"]=''
 
-        postIcon=dict(zip(['sun','moon','home','github'], map(IconBase.get, keys)))
+        keys=['sun','moon','home','github']
+        postIcon=dict(zip(keys, map(IconBase.get, keys)))
         self.renderHtml('post.html',postBase,{},issue["htmlDir"],postIcon)
         print("create postPage title=%s file=%s " % (issue["postTitle"],issue["htmlDir"]))
 
     def createPlistHtml(self):
         self.blogBase["postListJson"]=dict(sorted(self.blogBase["postListJson"].items(),key=lambda x:(x[1]["top"],x[1]["createdAt"]),reverse=True))#使列表由时间排序
-        plistIcon={**dict(zip(['sun','moon','search','rss','upload','post'], map(IconBase.get, keys))),**self.blogBase["iconList"]}
-        tagIcon=dict(zip(['sun','moon','home','search','post'], map(IconBase.get, keys)))
+        keys=['sun','moon','search','rss','upload','post']
+        plistIcon={**dict(zip(keys, map(IconBase.get, keys))),**self.blogBase["iconList"]}
+        keys=['sun','moon','home','search','post']
+        tagIcon=dict(zip(keys, map(IconBase.get, keys)))
 
         postNum=len(self.blogBase["postListJson"])
         pageFlag=0
