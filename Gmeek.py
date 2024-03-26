@@ -122,13 +122,13 @@ class GMEEK():
         if '<math-renderer' in post_body:
             post_body=re.sub(r'<math-renderer.*?>','',post_body)
             post_body=re.sub(r'</math-renderer>','',post_body)
-            postBase["script"]=postBase["script"]+'<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>'
+            issue["script"]=issue["script"]+'<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>'
 
         postBase["postTitle"]=issue["postTitle"]
         postBase["postBody"]=post_body
         postBase["commentNum"]=issue["commentNum"]
         postBase["style"]=issue["style"]
-        postBase["script"]=postBase["script"]+issue["script"]
+        postBase["script"]=issue["script"]
         postBase["top"]=issue["top"]
         postBase["postSourceUrl"]=issue["postSourceUrl"]
         postBase["repoName"]=options.repo_name
