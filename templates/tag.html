@@ -36,12 +36,12 @@
         <input type="search" class="form-control subnav-search-input float-left" aria-label="Search site" value="" style="height:32px;">
         <button class="btn float-left" type="submit" onclick="javascript:searchShow()">{{ i18n['Search'] }}</button>
         <svg class="subnav-search-icon octicon octicon-search" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-            <path id="searchSVG" fill-rule="evenodd" d=""></path>
+            <path id="searchSVG" fill-rule="evenodd"></path>
         </svg>
     </div>
     <a href="{{ blogBase['homeUrl'] }}"><button id="buttonHome" class="btn btn-invisible circle" title="{{ i18n['home'] }}">
         <svg class="octicon" width="16" height="16">
-            <path id="pathHome" fill-rule="evenodd" d="{{ IconList['home'] }}"></path>
+            <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
     </button></a>
     <button class="btn btn-invisible circle" onclick="modeSwitch()" title="{{ i18n['switchTheme'] }}">
@@ -60,6 +60,7 @@
 
 {% block script %}
 <script>
+document.getElementById("pathHome").setAttribute("d",IconList["pathHome"]);
 document.getElementById("searchSVG").setAttribute("d",IconList["search"]);
 
 tagList=[];
