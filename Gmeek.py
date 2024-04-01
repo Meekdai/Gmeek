@@ -53,9 +53,9 @@ class GMEEK():
 
     def cleanFile(self):
         folder_sha = self.repo.get_contents(self.root_dir).sha
-        self.repo.delete_file(self.root_dir, "Delete docs folder",folder_sha)
+        self.repo.delete_file(self.root_dir, "Delete docs folder",folder_sha,branch="main")
         folder_sha = self.repo.get_contents(self.backup_dir).sha
-        self.repo.delete_file(self.backup_dir, "Delete backup folder",folder_sha)
+        self.repo.delete_file(self.backup_dir, "Delete backup folder",folder_sha,branch="main")
         if os.path.exists(self.backup_dir):
             shutil.rmtree(self.backup_dir)
             
