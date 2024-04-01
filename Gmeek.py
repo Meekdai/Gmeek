@@ -122,7 +122,7 @@ class GMEEK():
         if '<math-renderer' in post_body:
             post_body=re.sub(r'<math-renderer.*?>','',post_body)
             post_body=re.sub(r'</math-renderer>','',post_body)
-            issue["script"]=issue["script"]+'<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>'
+            issue["script"]=issue["script"]+'<script>MathJax = {tex: {inlineMath: [["$", "$"], ["\\(", "\\)"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>'
 
         postBase["postTitle"]=issue["postTitle"]
         postBase["postBody"]=post_body
