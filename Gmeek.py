@@ -52,13 +52,12 @@ class GMEEK():
         self.defaultConfig()
 
     def cleanFile(self):
-        workspace=os.environ.get('github.workspace')
-        print(workspace)
-        if os.path.exists(workspace+self.backup_dir):
-            shutil.rmtree(workspace+self.backup_dir)
+        workspace_path = os.environ.get('GITHUB_WORKSPACE')
+        if os.path.exists(workspace_path+"/"+self.backup_dir):
+            shutil.rmtree(workspace_path+"/"+self.backup_dir)
 
-        if os.path.exists(workspace+self.root_dir):
-            shutil.rmtree(workspace+self.root_dir)
+        if os.path.exists(workspace_path+"/"+self.root_dir):
+            shutil.rmtree(workspace_path+"/"+self.root_dir)
 
         if os.path.exists(self.backup_dir):
             shutil.rmtree(self.backup_dir)
