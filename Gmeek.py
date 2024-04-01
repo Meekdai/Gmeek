@@ -70,7 +70,7 @@ class GMEEK():
         os.mkdir(self.post_dir)
 
     def defaultConfig(self):
-        dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","bottomText":"","showPostSource":1,"iconList":{},"UTC":+8}
+        dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","bottomText":"","showPostSource":1,"iconList":{},"UTC":+8,"rssMode":"sentence"}
         config=json.loads(open('config.json', 'r', encoding='utf-8').read())
         self.blogBase={**dconfig,**config}.copy()
         self.blogBase["postListJson"]=json.loads('{}')
@@ -283,15 +283,20 @@ class GMEEK():
             self.blogBase[listJsonName][postNum]["postSourceUrl"]="https://github.com/"+options.repo_name+"/issues/"+str(issue.number)
             self.blogBase[listJsonName][postNum]["commentNum"]=issue.get_comments().totalCount
             self.blogBase[listJsonName][postNum]["wordCount"]=len(issue.body)
-            if self.blogBase["i18n"]=="CN":
-                period="。"
-            else:
-                period="."
 
             if issue.body==None:
                 self.blogBase[listJsonName][postNum]["description"]=''
             else:
-                self.blogBase[listJsonName][postNum]["description"]=issue.body.split(period)[0]+period
+                if self.blogBase["rssMode"]=="sentence":
+                    if self.blogBase["i18n"]=="CN":
+                        period="。"
+                    else:
+                        period="."
+                    self.blogBase[listJsonName][postNum]["description"]=issue.body.split(period)[0]+period
+                elif self.blogBase["rssMode"]=="all":
+                    self.blogBase[listJsonName][postNum]["description"]=issue.body
+                else:
+                    self.blogBase[listJsonName][postNum]["description"]=''
                 
             self.blogBase[listJsonName][postNum]["top"]=0
             for event in issue.get_events():
