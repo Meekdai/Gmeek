@@ -53,6 +53,7 @@ function changeLight(){
 function changeAuto(){
     document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="auto";
     document.getElementById("themeSwitch").setAttribute("d",value=IconList["sync"]);
+    document.getElementById("themeSwitch").parentNode.style.color="var(--fgColor-muted, var(--color-fg-muted));";
     if(utterancesLoad==1){utterancesTheme("preferred-color-scheme");}
 }
 function modeSwitch(){
