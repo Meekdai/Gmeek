@@ -42,7 +42,7 @@
     </button></a>
     {% endif %}
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="{{ i18n['switchTheme'] }}" {%- if blogBase['themeMode']!='manual' -%}style="display:none;"{%- endif -%}>
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="{{ i18n['switchTheme'] }}" {%- if blogBase['themeMode']=='fix' -%}style="display:none;"{%- endif -%}>
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
@@ -84,11 +84,10 @@ function openComments(){
     script.setAttribute("issue-term","title");
     {%- if blogBase['themeMode']=='manual' -%}
     if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
-    else{script.setAttribute("theme","github-light");}
-    {%- elif blogBase['themeMode']=='fix' -%}
-    script.setAttribute("theme","{{ blogBase['nightTheme'] }}");
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
     {%- else -%}
-    script.setAttribute("theme","preferred-color-scheme");
+    script.setAttribute("theme","{{ blogBase['nightTheme'] }}");
     {%- endif -%}
     script.setAttribute("crossorigin","anonymous");
     script.setAttribute("async","");

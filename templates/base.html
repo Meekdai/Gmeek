@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html {% if blogBase['themeMode']=='auto' %} data-color-mode="auto"{% else %} data-color-mode="light"{% endif %} data-dark-theme="{{ blogBase['nightTheme'] }}" data-light-theme="{{ blogBase['dayTheme'] }}" lang={% if blogBase['i18n']=='CN' %}"zh-CN"{% elif blogBase['i18n']=='RU' %}"ru"{% else -%}"en"{%- endif -%}>
+<html data-color-mode="light" data-dark-theme="{{ blogBase['nightTheme'] }}" data-light-theme="{{ blogBase['dayTheme'] }}" lang={% if blogBase['i18n']=='CN' %}"zh-CN"{% elif blogBase['i18n']=='RU' %}"ru"{% else -%}"en"{%- endif -%}>
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="content-type" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -11,6 +11,7 @@
         if(localStorage.getItem("meek_theme")==null){}
         else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
         else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
+        else {document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="auto";}
     </script>
     {%- endif -%}
     {% block head %}{% endblock %}
@@ -35,6 +36,7 @@ var utterancesLoad=0;
 if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light");changeLight();}
 else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
 else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+else if(localStorage.getItem("meek_theme")=="auto"){changeAuto();}
 
 function changeDark(){
     document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
@@ -48,8 +50,14 @@ function changeLight(){
     document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
     if(utterancesLoad==1){utterancesTheme("github-light");}
 }
+function changeAuto(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="auto";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["sync"]);
+    if(utterancesLoad==1){utterancesTheme("preferred-color-scheme");}
+}
 function modeSwitch(){
     if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
+    else if(document.getElementsByTagName("html")[0].attributes[0].value=="dark"){changeAuto();localStorage.setItem("meek_theme","auto");}
     else{changeLight();localStorage.setItem("meek_theme","light");}
 }
 
