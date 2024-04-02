@@ -8,8 +8,8 @@
     <link rel="icon" href="{{ blogBase['faviconUrl'] }}">
     {%- if blogBase['themeMode']=='manual' -%}
     <script>
-        let theme = localStorage.getItem("meek_theme");
-        if(theme !== null) {document.documentElement.setAttribute("data-color-mode", theme);}
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
     </script>
     {%- endif -%}
     {% block head %}{% endblock %}
@@ -55,9 +55,6 @@ function utterancesTheme(theme){
     const iframe=document.getElementsByClassName('utterances-frame')[0];
     iframe.contentWindow.postMessage(message,'https://utteranc.es');
 }
-
-let theme=localStorage.getItem("meek_theme") || "light";
-localStorage.setItem("meek_theme", theme);
 if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
 {%- endif %}
 console.log("\n %c Gmeek {{ blogBase['GMEEK_VERSION'] }} https://github.com/Meekdai/Gmeek \n\n","padding:5px 0;background:#02d81d;color:#fff");
