@@ -104,7 +104,7 @@ function showList(){
     for(i in jsonData){
         if(i!='labelColorDict'){
             let div=document.createElement("div");
-            div.setAttribute("class","lists "+jsonData[i]['label']);
+            div.setAttribute("class","lists "+jsonData[i]['labels'].join(" "));
             let item=document.createElement("a");
             item.setAttribute("class","SideNav-item d-flex flex-items-center flex-justify-between");
             item.setAttribute("href",jsonData[i]['postUrl']);
