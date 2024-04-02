@@ -120,7 +120,8 @@ class GMEEK():
         f.close()
 
     def createPostHtml(self,issue):
-        f = open("backup/"+issue["postTitle"]+".md", 'r', encoding='UTF-8')
+        mdFileName=re.sub(r'[<>:/\\|?*\"]|[\0-\31]', '-', issue["postTitle"])
+        f = open(self.backup_dir+mdFileName+".md", 'r', encoding='UTF-8')
         post_body=self.markdown2html(f.read())
         f.close()
 
@@ -258,15 +259,13 @@ class GMEEK():
         if len(issue.labels)==1:
             if issue.labels[0].name in self.blogBase["singlePage"]:
                 listJsonName='singeListJson'
-                gen_Html = self.root_dir+'{}.html'.format(issue.labels[0].name)
+                htmlFile='{}.html'.format(self.createFileName(issue,useLabel=True))
+                gen_Html = self.root_dir+htmlFile
+                
             else:
                 listJsonName='postListJson'
-                if self.blogBase["urlMode"]=="issue":
-                    gen_Html = self.post_dir+'{}.html'.format(str(issue.number))
-                elif self.blogBase["urlMode"]=="ru_translit": 
-                    gen_Html = self.post_dir+'{}.html'.format(str(translit(issue.title, language_code='ru', reversed=True)).replace(' ', '-'))
-                else:
-                    gen_Html = self.post_dir+'{}.html'.format(Pinyin().get_pinyin(issue.title))
+                htmlFile='{}.html'.format(self.createFileName(issue))
+                gen_Html = self.post_dir+htmlFile
 
             postNum="P"+str(issue.number)
             self.blogBase[listJsonName][postNum]=json.loads('{}')
@@ -274,12 +273,8 @@ class GMEEK():
             self.blogBase[listJsonName][postNum]["label"]=issue.labels[0].name
             self.blogBase[listJsonName][postNum]["labelColor"]=self.labelColorDict[issue.labels[0].name]
             self.blogBase[listJsonName][postNum]["postTitle"]=issue.title
-            if self.blogBase["urlMode"]=="issue":
-                self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(str(issue.number)))
-            elif self.blogBase["urlMode"]=="ru_translit": 
-                self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(str(translit(issue.title, language_code='ru', reversed=True)).replace(' ', '-')))
-            else:
-                self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(self.post_folder+'{}.html'.format(Pinyin().get_pinyin(issue.title)))
+            self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(gen_Html[len(self.root_dir):])
+
             self.blogBase[listJsonName][postNum]["postSourceUrl"]="https://github.com/"+options.repo_name+"/issues/"+str(issue.number)
             self.blogBase[listJsonName][postNum]["commentNum"]=issue.get_comments().totalCount
             self.blogBase[listJsonName][postNum]["wordCount"]=len(issue.body)
@@ -334,7 +329,8 @@ class GMEEK():
             self.blogBase[listJsonName][postNum]["createdDate"]=thisTime.strftime("%Y-%m-%d")
             self.blogBase[listJsonName][postNum]["dateLabelColor"]=self.blogBase["yearColorList"][int(thisYear)%len(self.blogBase["yearColorList"])]
 
-            f = open("backup/"+issue.title+".md", 'w', encoding='UTF-8')
+            mdFileName=re.sub(r'[<>:/\\|?*\"]|[\0-\31]', '-', issue.title)
+            f = open(self.backup_dir+mdFileName+".md", 'w', encoding='UTF-8')
             
             if issue.body==None:
                 f.write('')
@@ -369,6 +365,20 @@ class GMEEK():
         self.createPlistHtml()
         self.createFeedXml()
         print("====== create static html end ======")
+
+    def createFileName(self,issue,useLabel=False):
+        if useLabel==True:
+            fileName=issue.labels[0].name
+        else:
+            if self.blogBase["urlMode"]=="issue":
+                fileName=str(issue.number)
+            elif self.blogBase["urlMode"]=="ru_translit": 
+                fileName=str(translit(issue.title, language_code='ru', reversed=True)).replace(' ', '-')
+            else:
+                fileName=Pinyin().get_pinyin(issue.title)
+        
+        fileName=re.sub(r'[<>:/\\|?*\"]|[\0-\31]', '-', fileName)
+        return fileName
 
 ######################################################################################
 parser = argparse.ArgumentParser()
