@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html {%- if blogBase['themeMode']=='auto' -%} data-color-mode="auto"{%- else -%} data-color-mode="light"{%- endif -%} data-dark-theme="{{ blogBase['nightTheme'] }}" data-light-theme="{{ blogBase['dayTheme'] }}" lang={% if blogBase['i18n']=='CN' %}"zh-CN"{% elif blogBase['i18n']=='RU' %}"ru"{% else -%}"en"{%- endif -%}>
+<html {% if blogBase['themeMode']=='auto' %} data-color-mode="auto"{% else %} data-color-mode="light"{% endif %} data-dark-theme="{{ blogBase['nightTheme'] }}" data-light-theme="{{ blogBase['dayTheme'] }}" lang={% if blogBase['i18n']=='CN' %}"zh-CN"{% elif blogBase['i18n']=='RU' %}"ru"{% else -%}"en"{%- endif -%}>
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="content-type" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
