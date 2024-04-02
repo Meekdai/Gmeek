@@ -42,7 +42,7 @@
     </button></a>
     {% endif %}
 
-    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="{{ i18n['switchTheme'] }}">
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="{{ i18n['switchTheme'] }}" {%- if blogBase['themeMode']!='manual' -%}style="display:none;"{%- endif -%}>
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
@@ -82,8 +82,14 @@ function openComments(){
     script.setAttribute("src","https://utteranc.es/client.js");
     script.setAttribute("repo","{{ blogBase['repoName'] }}");
     script.setAttribute("issue-term","title");
+    {%- if blogBase['themeMode']=='manual' -%}
     if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
     else{script.setAttribute("theme","github-light");}
+    {%- elif blogBase['themeMode']=='fix' -%}
+    script.setAttribute("theme","{{ blogBase['nightTheme'] }}");
+    {%- else -%}
+    script.setAttribute("theme","preferred-color-scheme");
+    {%- endif -%}
     script.setAttribute("crossorigin","anonymous");
     script.setAttribute("async","");
     cm.appendChild(script);
@@ -102,7 +108,6 @@ function iFrameLoading(){
         }
     }
 }
-
 </script>
 
 {% endblock %}

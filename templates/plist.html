@@ -58,7 +58,7 @@
             <path id="pathRSS" fill-rule="evenodd"></path>
         </svg>
     </button></a>
-    <button class="btn btn-invisible circle" onclick="modeSwitch()" title="{{ i18n['switchTheme'] }}">
+    <button class="btn btn-invisible circle" onclick="modeSwitch()" title="{{ i18n['switchTheme'] }}" {%- if blogBase['themeMode']!='manual' -%}style="display:none;"{%- endif -%}>
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>

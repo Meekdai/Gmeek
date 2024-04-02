@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html data-color-mode="light" data-dark-theme="{{ blogBase['nightTheme'] }}" data-light-theme="{{ blogBase['dayTheme'] }}" lang={% if blogBase['i18n']=='CN' %}"zh-CN"{% elif blogBase['i18n']=='RU' %}"ru"{% else -%}"en"{%- endif -%}>
+<html {%- if blogBase['themeMode']=='auto' -%}data-color-mode="auto"{%- else -%}data-color-mode="light"{%- endif -%} data-dark-theme="{{ blogBase['nightTheme'] }}" data-light-theme="{{ blogBase['dayTheme'] }}" lang={% if blogBase['i18n']=='CN' %}"zh-CN"{% elif blogBase['i18n']=='RU' %}"ru"{% else -%}"en"{%- endif -%}>
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="content-type" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="//cdn.staticfile.net/Primer/21.0.7/primer.css" rel="stylesheet" />
     <link rel="icon" href="{{ blogBase['faviconUrl'] }}">
+    {%- if blogBase['themeMode']=='manual' -%}
     <script>
         if(localStorage.getItem("meek_theme")==null){}
         else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
         else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
     </script>
+    {%- endif -%}
     {% block head %}{% endblock %}
 </head>
 <style>
@@ -29,6 +31,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <script>
 var IconList={{ IconList }};
 var utterancesLoad=0;
+{%- if blogBase['themeMode']=='manual' -%}
 if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light");changeLight();}
 else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
 else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
@@ -49,11 +52,13 @@ function modeSwitch(){
     if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
     else{changeLight();localStorage.setItem("meek_theme","light");}
 }
+
 function utterancesTheme(theme){
     const message = {type: 'set-theme',theme: theme};
     const iframe = document.getElementsByClassName('utterances-frame')[0];
     iframe.contentWindow.postMessage(message, 'https://utteranc.es');
 }
+{%- endif -%}
 
 console.log("\n %c Gmeek {{ blogBase['GMEEK_VERSION'] }} %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
 </script>
