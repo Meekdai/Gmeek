@@ -81,13 +81,13 @@ function openComments(){
     script.setAttribute("src","https://utteranc.es/client.js");
     script.setAttribute("repo","{{ blogBase['repoName'] }}");
     script.setAttribute("issue-term","title");
-    {%- if blogBase['themeMode']=='manual' -%}
+    {% if blogBase['themeMode']=='manual' %}
     if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
     else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
     else{script.setAttribute("theme","preferred-color-scheme");}
-    {%- else -%}
+    {% else %}
     script.setAttribute("theme","{{ blogBase['nightTheme'] }}");
-    {%- endif -%}
+    {% endif %}
     script.setAttribute("crossorigin","anonymous");
     script.setAttribute("async","");
     cm.appendChild(script);
