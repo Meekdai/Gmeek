@@ -91,7 +91,16 @@ function showList(){
         tagLable.appendChild(showLabels);
     }
 
-    for(label in jsonData['labelColorDict']){
+    let labelsSet = new Set();
+    for(let key in jsonData) {
+        if (key !== 'labelColorDict' && Array.isArray(jsonData[key]['labels'])) {
+            for (let label of jsonData[key]['labels']) {
+                labelsSet.add(label);
+            }
+        }
+    }
+    let labelsList = Array.from(labelsSet);
+    for(label in labelsList){
         tagList.push(label);
         let showLabels=document.createElement("button");
         showLabels.setAttribute("class","Label");
