@@ -100,7 +100,7 @@ function showList(){
         }
     }
     let labelsList = Array.from(labelsSet);
-    for(label in labelsList){
+    for(label of labelsList){
         tagList.push(label);
         let showLabels=document.createElement("button");
         showLabels.setAttribute("class","Label");
