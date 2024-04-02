@@ -13,6 +13,7 @@ from xpinyin import Pinyin
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
 from transliterate import translit
+from collections import OrderedDict
 ######################################################################################
 i18n={"Search":"Search","switchTheme":"switch theme","home":"home","comments":"comments","run":"run ","days":" days","Previous":"Previous","Next":"Next"}
 i18nCN={"Search":"搜索","switchTheme":"切换主题","home":"首页","comments":"评论","run":"网站运行","days":"天","Previous":"上一页","Next":"下一页"}
@@ -156,7 +157,7 @@ class GMEEK():
 
     def createPlistHtml(self):
         self.blogBase["postListJson"]=dict(sorted(self.blogBase["postListJson"].items(),key=lambda x:(x[1]["top"],x[1]["createdAt"]),reverse=True))#使列表由时间排序
-        keys=list(set(['sun','moon','search','rss','upload','post']+self.blogBase["singlePage"]))
+        keys=list(OrderedDict.fromkeys(['sun', 'moon', 'search', 'rss', 'upload', 'post'] + self.blogBase["singlePage"]))
         plistIcon={**dict(zip(keys, map(IconBase.get, keys))),**self.blogBase["iconList"]}
         keys=['sun','moon','home','search','post']
         tagIcon=dict(zip(keys, map(IconBase.get, keys)))
