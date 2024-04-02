@@ -77,6 +77,7 @@ class GMEEK():
         self.blogBase={**dconfig,**config}.copy()
         self.blogBase["postListJson"]=json.loads('{}')
         self.blogBase["singeListJson"]=json.loads('{}')
+        self.blogBase["labelColorDict"]=self.labelColorDict
         if "displayTitle" not in self.blogBase:
             self.blogBase["displayTitle"]=self.blogBase["title"]
 
@@ -148,7 +149,7 @@ class GMEEK():
         else:
             postBase["highlight"]=0
         
-        if issue["label"] in self.blogBase["singlePage"]:
+        if issue["labels"][0] in self.blogBase["singlePage"]:
             postBase["bottomText"]=''
 
         keys=['sun','moon','sync','home','github']
@@ -223,10 +224,10 @@ class GMEEK():
 
         for num in self.blogBase["singeListJson"]:
             item=feed.add_item()
-            item.guid(self.blogBase["homeUrl"]+"/"+self.blogBase["singeListJson"][num]["label"]+".html",permalink=True)
+            item.guid(self.blogBase["homeUrl"]+"/"+self.blogBase["singeListJson"][num]["postUrl"],permalink=True)
             item.title(self.blogBase["singeListJson"][num]["postTitle"])
             item.description(self.blogBase["singeListJson"][num]["description"])
-            item.link(href=self.blogBase["homeUrl"]+"/"+self.blogBase["singeListJson"][num]["label"]+".html")
+            item.link(href=self.blogBase["homeUrl"]+"/"+self.blogBase["singeListJson"][num]["postUrl"])
             item.pubDate(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime(self.blogBase["singeListJson"][num]["createdAt"])))
 
         for num in self.blogBase["postListJson"]:
@@ -258,7 +259,7 @@ class GMEEK():
         feed.rss_file(self.root_dir+'rss.xml')
 
     def addOnePostJson(self,issue):
-        if len(issue.labels)==1:
+        if len(issue.labels)>=1:
             if issue.labels[0].name in self.blogBase["singlePage"]:
                 listJsonName='singeListJson'
                 htmlFile='{}.html'.format(self.createFileName(issue,useLabel=True))
@@ -271,8 +272,8 @@ class GMEEK():
             postNum="P"+str(issue.number)
             self.blogBase[listJsonName][postNum]=json.loads('{}')
             self.blogBase[listJsonName][postNum]["htmlDir"]=gen_Html
-            self.blogBase[listJsonName][postNum]["label"]=issue.labels[0].name
-            self.blogBase[listJsonName][postNum]["labelColor"]=self.labelColorDict[issue.labels[0].name]
+            self.blogBase[listJsonName][postNum]["labels"]=[label.name for label in issue.labels]
+            # self.blogBase[listJsonName][postNum]["labelColor"]=self.labelColorDict[issue.labels[0].name]
             self.blogBase[listJsonName][postNum]["postTitle"]=issue.title
             self.blogBase[listJsonName][postNum]["postUrl"]=urllib.parse.quote(gen_Html[len(self.root_dir):])
 
@@ -430,6 +431,8 @@ for i in blog.blogBase["postListJson"]:
     if 'wordCount' in blog.blogBase["postListJson"][i]:
         wordCount=wordCount+blog.blogBase["postListJson"][i]["wordCount"]
         del blog.blogBase["postListJson"][i]["wordCount"]
+
+blog.blogBase["postListJson"]["labelColorDict"]=blog.labelColorDict
 
 docListFile=open(blog.root_dir+"postList.json","w")
 docListFile.write(json.dumps(blog.blogBase["postListJson"]))

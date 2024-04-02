@@ -91,14 +91,16 @@ function showList(){
         tagLable.appendChild(showLabels);
     }
     for(i in jsonData){
-        if(!(tagList.includes(jsonData[i]['label']))){
-            tagList.push(jsonData[i]['label']);
-            let showLabels=document.createElement("button");
-            showLabels.setAttribute("class","Label");
-            showLabels.setAttribute("style","background-color:"+jsonData[i]['labelColor']);
-            showLabels.innerHTML=jsonData[i]['label'];
-            showLabels.setAttribute("onclick","javascript:updateShowTag('"+jsonData[i]['label']+"');");
-            tagLable.appendChild(showLabels);
+        for(label in jsonData[i]['labels']){
+            if(!(tagList.includes(label))){
+                tagList.push(label);
+                let showLabels=document.createElement("button");
+                showLabels.setAttribute("class","Label");
+                showLabels.setAttribute("style","background-color:"+jsonData['labelColorDict'][label]);
+                showLabels.innerHTML=label;
+                showLabels.setAttribute("onclick","javascript:updateShowTag('"+label+"');");
+                tagLable.appendChild(showLabels);
+            }
         }
 
         let div=document.createElement("div");
@@ -126,11 +128,14 @@ function showList(){
 
         let listLabels=document.createElement("div");
         listLabels.setAttribute("class","listLabels");
-        let LabelName=document.createElement("span");
-        LabelName.setAttribute("class","Label LabelName");
-        LabelName.setAttribute("style","background-color:"+jsonData[i]['labelColor']);
-        LabelName.innerHTML=jsonData[i]['label'];
-        listLabels.appendChild(LabelName);
+        
+        for(label in jsonData[i]['labels']){
+            let LabelName=document.createElement("span");
+            LabelName.setAttribute("class","Label LabelName");
+            LabelName.setAttribute("style","background-color:"+jsonData['labelColorDict'][label]);
+            LabelName.innerHTML=label;
+            listLabels.appendChild(LabelName);
+        }
         let LabelTime=document.createElement("span");
         LabelTime.setAttribute("class","Label LabelTime");
         LabelTime.setAttribute("style","background-color:"+jsonData[i]['dateLabelColor']);
