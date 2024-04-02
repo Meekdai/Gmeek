@@ -263,7 +263,6 @@ class GMEEK():
                 listJsonName='singeListJson'
                 htmlFile='{}.html'.format(self.createFileName(issue,useLabel=True))
                 gen_Html = self.root_dir+htmlFile
-                
             else:
                 listJsonName='postListJson'
                 htmlFile='{}.html'.format(self.createFileName(issue))
