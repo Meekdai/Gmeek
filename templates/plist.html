@@ -46,6 +46,13 @@
             <path id="pathSearch" fill-rule="evenodd"></path>
         </svg>
     </a>
+    {% for key, value in blogBase['exlink'].items() -%}
+    <a href="{{ value }}" class="btn btn-invisible circle" title="{{ key }}">
+        <svg class="octicon" width="16" height="16" >
+            <path id="{{ key }}" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    {%- endfor %}
     {% for num in blogBase['singeListJson'] -%}
     <a href="{{ blogBase['homeUrl'] }}/{{ blogBase['singeListJson'][num]['labels'][0] }}.html" class="btn btn-invisible circle" title="{{ blogBase['singeListJson'][num]['postTitle'] }}">
         <svg class="octicon" width="16" height="16" >
@@ -119,6 +126,10 @@ for(var i=0;i<iconTOP.length;i++){
 for(var i=0;i<iconPost.length;i++){
     iconPost[i].setAttribute("d",IconList["post"]);
 }
+
+{% for key, value in blogBase['exlink'].items() %}
+document.getElementById("{{ key }}").setAttribute("d",value=IconList["{{ key }}"]);
+{%- endfor %}
 
 {% for num in blogBase['singeListJson'] -%}
 document.getElementById("{{ blogBase['singeListJson'][num]['postTitle'] }}").setAttribute("d",value=IconList["{{ blogBase['singeListJson'][num]['labels'][0] }}"]);
