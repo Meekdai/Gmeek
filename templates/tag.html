@@ -53,7 +53,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="tagLable" style="margin-bottom: 16px;"></div>
+<div id="taglabel" style="margin-bottom: 16px;"></div>
 <nav class="SideNav"></nav>
 <div class="notFind" style="display:none;font-size:24px;margin:8px;">Not Find</div>
 {% endblock %}
@@ -64,6 +64,7 @@ document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("searchSVG").setAttribute("d",IconList["search"]);
 
 tagList=[];
+labelsCount={};
 jsonData='';
 let requestJson="postList.json"
 let request=new XMLHttpRequest();
@@ -73,41 +74,41 @@ request.send();
 request.onload=function(){
     jsonData=JSON.parse(request.response);
     console.log(jsonData);
-    showList();
+    showList(labelsCount);
     setClassDisplay(decodeURI(window.location.hash.slice(1)));
 }
 
-function showList(){
+function showList(labelsCount){
     let SideNav=document.getElementsByClassName("SideNav")[0];
-    SideNav.setAttribute("class","SideNav border");
-    let tagLable=document.getElementById("tagLable");
+    SideNav.classList.add("border");
+    let taglabel=document.getElementById("taglabel");
 
-    if(tagList.length==0){
-        let showLabels=document.createElement("button");
-        showLabels.setAttribute("class","Label");
-        showLabels.setAttribute("style","background-color:#000");
-        showLabels.innerHTML="All";
-        showLabels.setAttribute("onclick","javascript:updateShowTag('All');");
-        tagLable.appendChild(showLabels);
-    }
-
-    let labelsSet = new Set();
-    for(let key in jsonData) {
+    jsonData['labelColorDict']["All"]="#000";
+    labelsCount["All"]=0;
+    for (let key in jsonData) {
         if (key !== 'labelColorDict' && Array.isArray(jsonData[key]['labels'])) {
+            labelsCount["All"]++;
             for (let label of jsonData[key]['labels']) {
-                labelsSet.add(label);
+                labelsCount[label] = (labelsCount[label] || 0) + 1;
             }
         }
     }
-    let labelsList = Array.from(labelsSet);
-    for(label of labelsList){
+
+    let sortedLabelsList = Object.keys(labelsCount).sort((a, b) => labelsCount[b] - labelsCount[a]);
+    for (let label of sortedLabelsList) {
         tagList.push(label);
-        let showLabels=document.createElement("button");
-        showLabels.setAttribute("class","Label");
-        showLabels.setAttribute("style","background-color:"+jsonData['labelColorDict'][label]);
-        showLabels.innerHTML=label;
-        showLabels.setAttribute("onclick","javascript:updateShowTag('"+label+"');");
-        tagLable.appendChild(showLabels);
+        let showLabels = document.createElement("button");
+        showLabels.setAttribute("class", "Label");
+        showLabels.setAttribute("style", "background-color:" + jsonData['labelColorDict'][label]+";padding:4px;");
+        showLabels.innerHTML="&nbsp;&nbsp;"+label+" ";
+        showLabels.setAttribute("onclick", "javascript:updateShowTag('" + label + "');");
+
+        let LabelNum=document.createElement("span");
+        LabelNum.setAttribute("class","Counter");
+        LabelNum.setAttribute("style","color:#fff;background-color:rgba(234, 238, 242, 0.5)");
+        LabelNum.innerHTML=labelsCount[label];
+        showLabels.appendChild(LabelNum);
+        taglabel.appendChild(showLabels);
     }
 
     for(i in jsonData){
@@ -166,29 +167,29 @@ function updateShowTag(label){
     }
 }
 
-function setClassDisplay(lable){
+function setClassDisplay(label){
     let lists = document.getElementsByClassName("lists");
     let tagTitle = document.getElementsByClassName("tagTitle")[0];
-    tagTitle.innerHTML="Tag #"+lable;
-    document.title=lable+" - {{ blogBase['title'] }}";
+    tagTitle.innerHTML="Tag #"+label;
+    document.title=label+" - {{ blogBase['title'] }}";
     document.getElementsByClassName("subnav-search-input")[0].value='';
-    if(lable=="All"){
+    if(label=="All"){
         for(let i = 0; i < lists.length; i++){lists[i].style.display='block';}
         document.getElementsByClassName("notFind")[0].style.display='none';
     }
-    else if(tagList.indexOf(lable)!=-1){
+    else if(tagList.indexOf(label)!=-1){
         for(let i = 0; i < lists.length; i++){
             lists[i].style.display='none';
         }
 
-        let lables = document.getElementsByClassName(lable);
-        for(let i = 0; i < lables.length; i++){
-            lables[i].style.display='block';
+        let labels = document.getElementsByClassName(label);
+        for(let i = 0; i < labels.length; i++){
+            labels[i].style.display='block';
         }
         document.getElementsByClassName("notFind")[0].style.display='none';
     }
     else{
-        document.getElementsByClassName("subnav-search-input")[0].value=lable;
+        document.getElementsByClassName("subnav-search-input")[0].value=label;
         searchShow();
     }
 }
