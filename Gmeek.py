@@ -403,7 +403,10 @@ else:
     else:
         f=open("blogBase.json","r")
         print("blogBase is exists and issue_number!=0, runOne")
-        blog.blogBase=json.loads(f.read())
+        oldBlogBase=json.loads(f.read())
+        for key, value in oldBlogBase.items():
+            blog.blogBase[key] = value
+
         f.close()
         blog.runOne(options.issue_number)
 
