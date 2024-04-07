@@ -15,7 +15,7 @@
 .subnav-search button{padding:5px 8px;border-top-left-radius:0px;border-bottom-left-radius:0px;}
 
 .SideNav-icon{margin-right:16px}
-.Label{color: #fff;margin-left:8px;}
+.Label{color: #fff;margin-left:4px;}
 #taglabel .Label {margin-bottom:8px;}
 .Counter{color:#fff;background-color:rgba(234, 238, 242, 0.5)}
 
@@ -42,16 +42,16 @@
             <path id="searchSVG" fill-rule="evenodd"></path>
         </svg>
     </div>
-    <a href="{{ blogBase['homeUrl'] }}"><button id="buttonHome" class="btn btn-invisible circle" title="{{ i18n['home'] }}">
+    <a href="{{ blogBase['homeUrl'] }}" id="buttonHome" class="btn btn-invisible circle" title="{{ i18n['home'] }}">
         <svg class="octicon" width="16" height="16">
             <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
-    </button></a>
-    <button class="btn btn-invisible circle" onclick="modeSwitch()" title="{{ i18n['switchTheme'] }}" {%- if blogBase['themeMode']=='fix' -%}style="display:none;"{%- endif -%}>
+    </a>
+    <a class="btn btn-invisible circle" onclick="modeSwitch()" title="{{ i18n['switchTheme'] }}" {%- if blogBase['themeMode']=='fix' -%}style="display:none;"{%- endif -%}>
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
-    </button>
+    </a>
 </div>
 {% endblock %}
 
