@@ -138,9 +138,7 @@ class GMEEK():
         postBase["postTitle"]=issue["postTitle"]
         postBase["postUrl"]=self.blogBase["homeUrl"]+"/"+issue["postUrl"]
         postBase["description"]=issue["description"]
-        postBase["createdDate"]=issue["createdDate"]
-        postBase["author"]=self.blogBase["title"]
-        postBase["image"]="https://github.com/Meekdai/meekdai.github.io/assets/11755104/b25f48ac-ca50-477c-83ca-c3bdb0b388ab"
+        postBase["ogImage"]=issue["ogImage"]
         postBase["postBody"]=post_body
         postBase["commentNum"]=issue["commentNum"]
         postBase["style"]=issue["style"]
@@ -327,6 +325,10 @@ class GMEEK():
             else:
                 self.blogBase[listJsonName][postNum]["script"]=self.blogBase["script"]
 
+            if "ogImage" in postConfig:
+                self.blogBase[listJsonName][postNum]["ogImage"]=postConfig["ogImage"]
+            else:
+                self.blogBase[listJsonName][postNum]["ogImage"]=self.blogBase["avatarUrl"]
 
             thisTime=datetime.datetime.fromtimestamp(self.blogBase[listJsonName][postNum]["createdAt"])
             thisTime=thisTime.astimezone(self.TZ)

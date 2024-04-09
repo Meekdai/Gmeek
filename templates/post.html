@@ -6,9 +6,7 @@
 <meta property="og:description" content="{{ blogBase['description'] }}">
 <meta property="og:type" content="article">
 <meta property="og:url" content="{{ blogBase['postUrl'] }}">
-<meta property="og:image" content="{{ blogBase['image'] }}" />
-<meta property="article:published_time" content="{{ blogBase['createdDate'] }}">
-<meta property="article:author" content="{{ blogBase['author'] }}">
+<meta property="og:image" content="{{ blogBase['ogImage'] }}">
 <title>{{ blogBase['postTitle'] }}</title>
 {% if blogBase['highlight']==1 %}<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />{% endif %}
 {% endblock %}
