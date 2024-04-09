@@ -140,7 +140,7 @@ class GMEEK():
         postBase["description"]=issue["description"]
         postBase["createdDate"]=issue["createdDate"]
         postBase["author"]=self.blogBase["title"]
-        postBase["avatarUrl"]=self.blogBase["avatarUrl"]
+        postBase["avatarUrl"]=self.blogBase["faviconUrl"]
         postBase["postBody"]=post_body
         postBase["commentNum"]=issue["commentNum"]
         postBase["style"]=issue["style"]
