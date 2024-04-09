@@ -84,6 +84,9 @@ class GMEEK():
         if "faviconUrl" not in self.blogBase:
             self.blogBase["faviconUrl"]=self.blogBase["avatarUrl"]
 
+        if "ogImage" not in self.blogBase:
+            self.blogBase["ogImage"]=self.blogBase["avatarUrl"]
+
         if "homeUrl" not in self.blogBase:
             if str(self.repo.name) == (str(self.repo.owner.login)+".github.io"):
                 self.blogBase["homeUrl"] = f"https://{self.repo.name}"
@@ -328,7 +331,7 @@ class GMEEK():
             if "ogImage" in postConfig:
                 self.blogBase[listJsonName][postNum]["ogImage"]=postConfig["ogImage"]
             else:
-                self.blogBase[listJsonName][postNum]["ogImage"]=self.blogBase["avatarUrl"]
+                self.blogBase[listJsonName][postNum]["ogImage"]=self.blogBase["ogImage"]
 
             thisTime=datetime.datetime.fromtimestamp(self.blogBase[listJsonName][postNum]["createdAt"])
             thisTime=thisTime.astimezone(self.TZ)
@@ -433,6 +436,7 @@ for i in blog.blogBase["postListJson"]:
     del blog.blogBase["postListJson"][i]["script"]
     del blog.blogBase["postListJson"][i]["style"]
     del blog.blogBase["postListJson"][i]["top"]
+    del blog.blogBase["postListJson"][i]["ogImage"]
 
     if 'commentNum' in blog.blogBase["postListJson"][i]:
         commentNumSum=commentNumSum+blog.blogBase["postListJson"][i]["commentNum"]
