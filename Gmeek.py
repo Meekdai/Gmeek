@@ -136,6 +136,11 @@ class GMEEK():
             issue["script"]=issue["script"]+'<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>'
 
         postBase["postTitle"]=issue["postTitle"]
+        postBase["postUrl"]=self.blogBase["homeUrl"]+"/"+issue["postUrl"]
+        postBase["description"]=issue["description"]
+        postBase["createdDate"]=issue["createdDate"]
+        postBase["author"]=self.blogBase["title"]
+        postBase["avatarUrl"]=self.blogBase["avatarUrl"]
         postBase["postBody"]=post_body
         postBase["commentNum"]=issue["commentNum"]
         postBase["style"]=issue["style"]
