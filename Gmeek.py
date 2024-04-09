@@ -140,7 +140,7 @@ class GMEEK():
         postBase["description"]=issue["description"]
         postBase["createdDate"]=issue["createdDate"]
         postBase["author"]=self.blogBase["title"]
-        postBase["avatarUrl"]=self.blogBase["faviconUrl"]
+        postBase["image"]="https://github.com/Meekdai/meekdai.github.io/assets/11755104/b25f48ac-ca50-477c-83ca-c3bdb0b388ab"
         postBase["postBody"]=post_body
         postBase["commentNum"]=issue["commentNum"]
         postBase["style"]=issue["style"]
