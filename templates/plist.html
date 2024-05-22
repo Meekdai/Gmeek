@@ -34,6 +34,7 @@
     .LabelTime{display:none;}
 }
 </style>
+{{ blogBase['indexStyle'] }}
 {% endblock %}
 
 {% block header %}
@@ -140,4 +141,5 @@ document.getElementById("{{ key }}").setAttribute("d",value=IconList["{{ key }}"
 document.getElementById("{{ blogBase['singeListJson'][num]['postTitle'] }}").setAttribute("d",value=IconList["{{ blogBase['singeListJson'][num]['labels'][0] }}"]);
 {%- endfor %}
 </script>
+{{ blogBase['indexScript'] }}
 {% endblock %}
