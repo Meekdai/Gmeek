@@ -137,6 +137,26 @@ class GMEEK():
             post_body=re.sub(r'<math-renderer.*?>','',post_body)
             post_body=re.sub(r'</math-renderer>','',post_body)
             issue["script"]=issue["script"]+'<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>'
+        
+        if '<p class="markdown-alert-title">' in post_body:
+            issue["style"]=issue["style"]+'.markdown-alert{padding:0.5rem 1rem;margin-bottom:1rem;border-left:.25em solid var(--borderColor-default,var(--color-border-default));}.markdown-alert .markdown-alert-title {display:flex;font-weight:var(--base-text-weight-medium,500);align-items:center;line-height:1;}.markdown-alert>:first-child {margin-top:0;}.markdown-alert>:last-child {margin-bottom:0;}'
+            alerts = {
+                'note': 'accent',
+                'tip': 'success',
+                'important': 'done',
+                'warning': 'attention',
+                'caution': 'danger'
+            }
+
+            for alert, style in alerts.items():
+                if f'markdown-alert-{alert}' in post_body:
+                    issue["style"] += (
+                        f'.markdown-alert.markdown-alert-{alert} {{'
+                        f'border-left-color:var(--borderColor-{style}-emphasis, var(--color-{style}-emphasis));'
+                        f'background-color:var(--color-{style}-subtle);}}'
+                        f'.markdown-alert.markdown-alert-{alert} .markdown-alert-title {{'
+                        f'color: var(--fgColor-{style},var(--color-{style}-fg));}}'
+                    )
 
         postBase["postTitle"]=issue["postTitle"]
         postBase["postUrl"]=self.blogBase["homeUrl"]+"/"+issue["postUrl"]
