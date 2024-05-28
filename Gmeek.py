@@ -8,7 +8,6 @@ import shutil
 import urllib
 import requests
 import argparse
-import html
 from github import Github
 from xpinyin import Pinyin
 from feedgen.feed import FeedGenerator
@@ -159,8 +158,11 @@ class GMEEK():
                         f'color: var(--fgColor-{style},var(--color-{style}-fg));}}</style>'
                     )
 
-        if '##{"html":' in post_body:
-            post_body=re.sub(r'##\{"html":"(.*?)"\}##',lambda x: html.unescape(x.group(1)),post_body,flags=re.DOTALL)
+        if '<code class="notranslate">Gmeek-html' in post_body:
+            pattern = r'<code class="notranslate">Gmeek-html>(.*?)</code>'
+            post_body=re.sub(pattern, r'\1', post_body)
+
+<code class="notranslate">Gmeek-html<img src='https://picsum.photos/200'></code>
 
         postBase["postTitle"]=issue["postTitle"]
         postBase["postUrl"]=self.blogBase["homeUrl"]+"/"+issue["postUrl"]
