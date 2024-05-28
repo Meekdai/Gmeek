@@ -8,6 +8,7 @@ import shutil
 import urllib
 import requests
 import argparse
+import html
 from github import Github
 from xpinyin import Pinyin
 from feedgen.feed import FeedGenerator
@@ -157,6 +158,9 @@ class GMEEK():
                         f'.markdown-alert.markdown-alert-{alert} .markdown-alert-title {{'
                         f'color: var(--fgColor-{style},var(--color-{style}-fg));}}</style>'
                     )
+
+        if '##{"html":' in post_body:
+            post_body=re.sub(r'##\{"html":"(.*?)"\}##',lambda x: html.unescape(x.group(1)),post_body,flags=re.DOTALL)
 
         postBase["postTitle"]=issue["postTitle"]
         postBase["postUrl"]=self.blogBase["homeUrl"]+"/"+issue["postUrl"]
