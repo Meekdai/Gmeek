@@ -139,7 +139,7 @@ class GMEEK():
             issue["script"]=issue["script"]+'<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>'
         
         if '<p class="markdown-alert-title">' in post_body:
-            issue["style"]=issue["style"]+'.markdown-alert{padding:0.5rem 1rem;margin-bottom:1rem;border-left:.25em solid var(--borderColor-default,var(--color-border-default));}.markdown-alert .markdown-alert-title {display:flex;font-weight:var(--base-text-weight-medium,500);align-items:center;line-height:1;}.markdown-alert>:first-child {margin-top:0;}.markdown-alert>:last-child {margin-bottom:0;}'
+            issue["style"]=issue["style"]+'<style>.markdown-alert{padding:0.5rem 1rem;margin-bottom:1rem;border-left:.25em solid var(--borderColor-default,var(--color-border-default));}.markdown-alert .markdown-alert-title {display:flex;font-weight:var(--base-text-weight-medium,500);align-items:center;line-height:1;}.markdown-alert>:first-child {margin-top:0;}.markdown-alert>:last-child {margin-bottom:0;}</style>'
             alerts = {
                 'note': 'accent',
                 'tip': 'success',
@@ -151,11 +151,11 @@ class GMEEK():
             for alert, style in alerts.items():
                 if f'markdown-alert-{alert}' in post_body:
                     issue["style"] += (
-                        f'.markdown-alert.markdown-alert-{alert} {{'
+                        f'<style>.markdown-alert.markdown-alert-{alert} {{'
                         f'border-left-color:var(--borderColor-{style}-emphasis, var(--color-{style}-emphasis));'
                         f'background-color:var(--color-{style}-subtle);}}'
                         f'.markdown-alert.markdown-alert-{alert} .markdown-alert-title {{'
-                        f'color: var(--fgColor-{style},var(--color-{style}-fg));}}'
+                        f'color: var(--fgColor-{style},var(--color-{style}-fg));}}</style>'
                     )
 
         postBase["postTitle"]=issue["postTitle"]
