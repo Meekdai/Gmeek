@@ -162,8 +162,6 @@ class GMEEK():
             pattern = r'<code class="notranslate">Gmeek-html>(.*?)</code>'
             post_body=re.sub(pattern, r'\1', post_body)
 
-<code class="notranslate">Gmeek-html<img src='https://picsum.photos/200'></code>
-
         postBase["postTitle"]=issue["postTitle"]
         postBase["postUrl"]=self.blogBase["homeUrl"]+"/"+issue["postUrl"]
         postBase["description"]=issue["description"]
