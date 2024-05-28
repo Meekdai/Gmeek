@@ -165,7 +165,7 @@ class GMEEK():
             for code_tag in code_tags:
                 if code_tag.text.startswith("Gmeek-html"):
                     code_tag.replace_with(code_tag.text.replace("Gmeek-html", "").strip())
-            post_body=str(soup)
+            post_body=soup
 
         postBase["postTitle"]=issue["postTitle"]
         postBase["postUrl"]=self.blogBase["homeUrl"]+"/"+issue["postUrl"]
