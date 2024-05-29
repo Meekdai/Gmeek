@@ -8,7 +8,7 @@ import shutil
 import urllib
 import requests
 import argparse
-from bs4 import BeautifulSoup
+import html
 from github import Github
 from xpinyin import Pinyin
 from feedgen.feed import FeedGenerator
@@ -160,12 +160,7 @@ class GMEEK():
                     )
 
         if '<code class="notranslate">Gmeek-html' in post_body:
-            soup = BeautifulSoup(post_body, "html.parser")
-            code_tags = soup.find_all("code", class_="notranslate")
-            for code_tag in code_tags:
-                if code_tag.text.startswith("Gmeek-html"):
-                    code_tag.replace_with(code_tag.text.replace("Gmeek-html", "").strip())
-            post_body=soup
+            post_body = html.unescape(re.sub(r'<code class="notranslate">Gmeek-html(.*?)</code>',r'\1',post_body,flags=re.DOTALL))
 
         postBase["postTitle"]=issue["postTitle"]
         postBase["postUrl"]=self.blogBase["homeUrl"]+"/"+issue["postUrl"]
