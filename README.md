@@ -38,7 +38,7 @@
 
 如果本项目对你有帮助，可以用微信赞赏一下作者，让项目有继续更新维护下去的动力，谢谢！
 
-![light](img/赞赏码.jpg)
+![赞赏码](img/赞赏码.jpg)
 
 ### 鸣谢
 - [jinja2](https://jinja.palletsprojects.com/)
