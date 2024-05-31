@@ -160,6 +160,9 @@ class GMEEK():
                     )
 
         if '<code class="notranslate">Gmeek-html' in post_body:
+            print("==========")
+            print(post_body)
+            print("==========")
             post_body = html.unescape(re.sub(r'<code class="notranslate">Gmeek-html(.*?)</code>',r'\1',post_body,flags=re.DOTALL))
 
         postBase["postTitle"]=issue["postTitle"]
