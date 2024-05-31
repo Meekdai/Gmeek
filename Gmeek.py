@@ -160,10 +160,7 @@ class GMEEK():
                     )
 
         if '<code class="notranslate">Gmeek-html' in post_body:
-            print("==========")
-            print(post_body)
-            print("==========")
-            post_body = html.unescape(re.sub(r'<code class="notranslate">Gmeek-html(.*?)</code>',r'\1',post_body,flags=re.DOTALL))
+            post_body = re.sub(r'<code class="notranslate">Gmeek-html(.*?)</code>', lambda match: html.unescape(match.group(1)), post_body, flags=re.DOTALL)
 
         postBase["postTitle"]=issue["postTitle"]
         postBase["postUrl"]=self.blogBase["homeUrl"]+"/"+issue["postUrl"]
