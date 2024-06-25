@@ -1,64 +1,87 @@
 <!DOCTYPE html>
-<html data-color-mode="light" data-dark-theme="{{ blogBase['nightTheme'] }}" data-light-theme="{{ blogBase['dayTheme'] }}" lang={% if blogBase['i18n']=='CN' %}"zh-CN"{% elif blogBase['i18n']=='RU' %}"ru"{% else -%}"en"{%- endif -%}>
+<html lang="{{ blogBase['i18n'] == 'CN' ? 'zh-CN' : (blogBase['i18n'] == 'RU' ? 'ru' : 'en') }}" data-color-mode="{{ blogBase['themeMode'] == 'manual' ? localStorage.getItem('meek_theme') || 'light' : 'auto' }}" data-dark-theme="{{ blogBase['nightTheme'] }}" data-light-theme="{{ blogBase['dayTheme'] }}">
 <head>
-    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href="//cdn.staticfile.net/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <title>{{ blogBase['title'] }}</title>
+    <link href="//cdn.staticfile.net/Primer/21.0.7/primer.css" rel="stylesheet">
     <link rel="icon" href="{{ blogBase['faviconUrl'] }}">
-    {%- if blogBase['themeMode']=='manual' -%}
-    <script>
-        let theme = localStorage.getItem("meek_theme") || "light";
-        document.documentElement.setAttribute("data-color-mode", theme);
-    </script>
-    {%- endif -%}
+    <style>
+        body {
+            box-sizing: border-box;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 45px;
+            font-size: 16px;
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+        }
+        #header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));
+            margin-bottom: 16px;
+        }
+        #footer {
+            margin-top: 64px;
+            text-align: center;
+            font-size: 0.875em;
+            color: #6a737d;
+        }
+        /* 添加悬停放大效果 */
+        .hover-zoom {
+            transition: transform 0.3s ease-in-out;
+        }
+        .hover-zoom:hover {
+            transform: scale(1.1);
+        }
+    </style>
     {% block head %}{% endblock %}
 </head>
-<style>
-body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
-#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
-#footer {margin-top:64px; text-align: center;font-size: small;}
-
-</style>
-{% block style %}{% endblock %}
-
 <body>
     <div id="header">{% block header %}{% endblock %}</div>
     <div id="content">{% block content %}{% endblock %}</div>
     <div id="footer">{% include 'footer.html' %}</div>
+    <script>
+        var IconList={{ IconList }};
+        var utterancesLoad=0;
+        let themeSettings={
+            "dark": ["dark","moon","#00f0ff","dark-blue"],
+            "light": ["light","sun","#ff5000","github-light"],
+            "auto": ["auto","sync","","preferred-color-scheme"]
+        };
+        function changeTheme(mode, icon, color, utheme){
+            document.documentElement.setAttribute("data-color-mode",mode);
+            document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+            document.getElementById("themeSwitch").parentNode.style.color=color;
+            if(utterancesLoad==1){utterancesTheme(utheme);}
+        }
+        function modeSwitch(){
+            let currentMode=document.documentElement.getAttribute('data-color-mode');
+            let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+            localStorage.setItem("meek_theme", newMode);
+            if(themeSettings[newMode]){
+                changeTheme(...themeSettings[newMode]);
+            }
+        }
+        function utterancesTheme(theme){
+            const message={type:'set-theme',theme: theme};
+            const iframe=document.getElementsByClassName('utterances-frame')[0];
+            iframe.contentWindow.postMessage(message,'https://utteranc.es');
+        }
+        if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+        console.log("\n %c Gmeek {{ blogBase['GMEEK_VERSION'] }} https://github.com/Meekdai/Gmeek \n\n","padding:5px 0;background:#02d81d;color:#fff");
+    </script>
+    {% block script %}{% endblock %}
 </body>
-<script>
-var IconList={{ IconList }};
-var utterancesLoad=0;
-{% if blogBase['themeMode']=='manual' %}
-let themeSettings={
-    "dark": ["dark","moon","#00f0ff","dark-blue"],
-    "light": ["light","sun","#ff5000","github-light"],
-    "auto": ["auto","sync","","preferred-color-scheme"]
-};
-function changeTheme(mode, icon, color, utheme){
-    document.documentElement.setAttribute("data-color-mode",mode);
-    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
-    document.getElementById("themeSwitch").parentNode.style.color=color;
-    if(utterancesLoad==1){utterancesTheme(utheme);}
-}
-function modeSwitch(){
-    let currentMode=document.documentElement.getAttribute('data-color-mode');
-    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
-    localStorage.setItem("meek_theme", newMode);
-    if(themeSettings[newMode]){
-        changeTheme(...themeSettings[newMode]);
-    }
-}
-function utterancesTheme(theme){
-    const message={type:'set-theme',theme: theme};
-    const iframe=document.getElementsByClassName('utterances-frame')[0];
-    iframe.contentWindow.postMessage(message,'https://utteranc.es');
-}
-if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
-{%- endif %}
-console.log("\n %c Gmeek {{ blogBase['GMEEK_VERSION'] }} https://github.com/Meekdai/Gmeek \n\n","padding:5px 0;background:#02d81d;color:#fff");
-</script>
-{% block script %}{% endblock %}
 </html>
-
