@@ -74,12 +74,6 @@ class GMEEK():
         os.mkdir(self.post_dir)
 
         if os.path.exists(self.static_dir):
-            shutil.copytree(self.static_dir, os.path.join(self.root_dir, 'static'))
-            print("Copy static to docs")
-        else:
-            print("static not exist")
-
-        if os.path.exists(self.static_dir):
             for item in os.listdir(self.static_dir):
                 src = os.path.join(self.static_dir, item)
                 dst = os.path.join(self.root_dir, item)
