@@ -74,8 +74,16 @@ class GMEEK():
         os.mkdir(self.post_dir)
 
         if os.path.exists(self.static_dir):
-            shutil.copytree(self.static_dir, self.root_dir)
+            for item in os.listdir(self.static_dir):
+                source = os.path.join(self.static_dir, item)
+                destination = os.path.join(self.root_dir, item)
+                if os.path.isdir(source):
+                    shutil.copytree(source, destination)
+                else:
+                    shutil.copy2(source, destination)
             print("Copy static to docs")
+        else:
+            print("static not exist")
 
     def defaultConfig(self):
         dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","themeMode":"manual","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","indexScript":"","indexStyle":"","bottomText":"","showPostSource":1,"iconList":{},"UTC":+8,"rssSplit":"sentence","exlink":{}}
