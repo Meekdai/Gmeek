@@ -38,6 +38,7 @@ class GMEEK():
         self.options=options
         
         self.root_dir='docs/'
+        self.static_dir='static/'
         self.post_folder='post/'
         self.backup_dir='backup/'
         self.post_dir=self.root_dir+self.post_folder
@@ -71,6 +72,10 @@ class GMEEK():
         os.mkdir(self.backup_dir)
         os.mkdir(self.root_dir)
         os.mkdir(self.post_dir)
+
+        if os.path.exists(self.static_dir):
+            shutil.copytree(self.static_dir, self.root_dir)
+            print("Copy static to docs")
 
     def defaultConfig(self):
         dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","themeMode":"manual","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","indexScript":"","indexStyle":"","bottomText":"","showPostSource":1,"iconList":{},"UTC":+8,"rssSplit":"sentence","exlink":{}}
