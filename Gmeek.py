@@ -88,9 +88,6 @@ class GMEEK():
         if "ogImage" not in self.blogBase:
             self.blogBase["ogImage"]=self.blogBase["avatarUrl"]
 
-        if "primerCSS" not in self.blogBase:
-            self.blogBase["primerCSS"]="<link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />"
-
         if "homeUrl" not in self.blogBase:
             if str(self.repo.name).lower() == (str(self.repo.owner.login) + ".github.io").lower():
                 self.blogBase["homeUrl"] = f"https://{self.repo.name}"
@@ -104,7 +101,10 @@ class GMEEK():
             self.i18n=i18nRU
         else:
             self.i18n=i18n
-        
+
+        if self.blogBase["primerCSS"]=="":
+            self.blogBase["primerCSS"]="<link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />"
+
         self.TZ=datetime.timezone(datetime.timedelta(hours=self.blogBase["UTC"]))
 
     def get_repo(self,user:Github, repo:str):
