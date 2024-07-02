@@ -29,7 +29,7 @@ function createTOC() {
 
 document.addEventListener("DOMContentLoaded", function() {
     createTOC();
-    var css = '.toc {position: fixed;top: 100px;left: 50%;transform: translateX(50%) translateX(300px);width: 300px;padding: 30px;}@media (max-width: 1300px) {.toc{position:static;top:auto;left:auto;transform:none;padding:10px;margin-bottom:20px;background-color:#eee;}}';
+    var css = '.toc {position: fixed;top: 100px;left: 50%;transform: translateX(50%) translateX(300px);width: 300px;padding: 30px;}@media (max-width: 1500px) {.toc{position:static;top:auto;left:auto;transform:none;padding:10px;margin-bottom:20px;background-color:#eee;}}';
     loadResource('style', {css: css});
 
     loadResource('script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.27.4/tocbot.min.js' }, function() {
