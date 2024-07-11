@@ -327,11 +327,12 @@ class GMEEK():
 
             self.blogBase[listJsonName][postNum]["postSourceUrl"]="https://github.com/"+options.repo_name+"/issues/"+str(issue.number)
             self.blogBase[listJsonName][postNum]["commentNum"]=issue.get_comments().totalCount
-            self.blogBase[listJsonName][postNum]["wordCount"]=len(issue.body)
 
             if issue.body==None:
                 self.blogBase[listJsonName][postNum]["description"]=''
+                self.blogBase[listJsonName][postNum]["wordCount"]=0
             else:
+                self.blogBase[listJsonName][postNum]["wordCount"]=len(issue.body)
                 if self.blogBase["rssSplit"]=="sentence":
                     if self.blogBase["i18n"]=="CN":
                         period="。"
