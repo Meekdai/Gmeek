@@ -1,20 +1,19 @@
-Copyright © <span id="year"></span> <a href="{{ blogBase['homeUrl'] }}">{{ blogBase['title'] }}</a>
-<p>
-{%- if blogBase['filingNum']!='' -%}
-<a href="https://beian.miit.gov.cn/" target="_blank">{{ blogBase['filingNum'] }}</a>
-{%- endif %}
-<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
-</p>
+<div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="{{ blogBase['homeUrl'] }}">{{ blogBase['title'] }}</a></div>
+<div id="footer2">
+    {%- if blogBase['filingNum']!='' -%}
+    <span id="filingNum"><a href="https://beian.miit.gov.cn/" target="_blank">{{ blogBase['filingNum'] }} • </a></span>
+    {%- endif %}
+    <span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</div>
 
 <script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
 if("{{ blogBase['startSite'] }}"!=""){
-    var now=new Date();
     var startSite=new Date("{{ blogBase['startSite'] }}");
     var diff=now.getTime()-startSite.getTime();
     var diffDay=Math.floor(diff/(1000*60*60*24));
-    document.getElementById("year").innerHTML=now.getFullYear();
-    if("{{ blogBase['filingNum'] }}"!=""){document.getElementById("runday").innerHTML=" • "+"{{ i18n['run'] }}"+diffDay+"{{ i18n['days'] }}"+" • ";}
-    else{document.getElementById("runday").innerHTML="{{ i18n['run'] }}"+diffDay+"{{ i18n['days'] }}"+" • ";}
+    document.getElementById("runday").innerHTML="{{ i18n['run'] }}"+diffDay+"{{ i18n['days'] }}"+" • ";
 }
 </script>
-
