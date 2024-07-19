@@ -484,9 +484,11 @@ for i in blog.blogBase["postListJson"]:
     del blog.blogBase["postListJson"][i]["createdAt"]
     del blog.blogBase["postListJson"][i]["script"]
     del blog.blogBase["postListJson"][i]["style"]
-    del blog.blogBase["postListJson"][i]["head"]
     del blog.blogBase["postListJson"][i]["top"]
     del blog.blogBase["postListJson"][i]["ogImage"]
+
+    if 'head' in blog.blogBase["postListJson"][i]:
+        del blog.blogBase["postListJson"][i]["head"]
 
     if 'commentNum' in blog.blogBase["postListJson"][i]:
         commentNumSum=commentNumSum+blog.blogBase["postListJson"][i]["commentNum"]
