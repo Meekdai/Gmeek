@@ -88,7 +88,7 @@ class GMEEK():
 
 
     def defaultConfig(self):
-        dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","themeMode":"manual","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","indexScript":"","indexStyle":"","bottomText":"","showPostSource":1,"iconList":{},"UTC":+8,"rssSplit":"sentence","exlink":{},"needComment":1,"allHead":""}
+        dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","themeMode":"manual","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","head":"","indexScript":"","indexStyle":"","bottomText":"","showPostSource":1,"iconList":{},"UTC":+8,"rssSplit":"sentence","exlink":{},"needComment":1,"allHead":""}
         config=json.loads(open('config.json', 'r', encoding='utf-8').read())
         self.blogBase={**dconfig,**config}.copy()
         self.blogBase["postListJson"]=json.loads('{}')
@@ -188,6 +188,7 @@ class GMEEK():
         postBase["commentNum"]=issue["commentNum"]
         postBase["style"]=issue["style"]
         postBase["script"]=issue["script"]
+        postBase["head"]=issue["head"]
         postBase["top"]=issue["top"]
         postBase["postSourceUrl"]=issue["postSourceUrl"]
         postBase["repoName"]=options.repo_name
@@ -371,6 +372,11 @@ class GMEEK():
             else:
                 self.blogBase[listJsonName][postNum]["script"]=self.blogBase["script"]
 
+            if "head" in postConfig:
+                self.blogBase[listJsonName][postNum]["head"]=self.blogBase["head"]+str(postConfig["head"])
+            else:
+                self.blogBase[listJsonName][postNum]["head"]=self.blogBase["head"]
+
             if "ogImage" in postConfig:
                 self.blogBase[listJsonName][postNum]["ogImage"]=postConfig["ogImage"]
             else:
@@ -478,6 +484,7 @@ for i in blog.blogBase["postListJson"]:
     del blog.blogBase["postListJson"][i]["createdAt"]
     del blog.blogBase["postListJson"][i]["script"]
     del blog.blogBase["postListJson"][i]["style"]
+    del blog.blogBase["postListJson"][i]["head"]
     del blog.blogBase["postListJson"][i]["top"]
     del blog.blogBase["postListJson"][i]["ogImage"]
 
