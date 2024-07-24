@@ -43,4 +43,3 @@ jobs:
         with:
           # Path within the artifact to deploy
           path: 'plugins'
-          name: 'plugins'
