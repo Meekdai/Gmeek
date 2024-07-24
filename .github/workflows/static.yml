@@ -42,4 +42,4 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           # Path within the artifact to deploy
-          path: 'plugins'
+          path: '.'
