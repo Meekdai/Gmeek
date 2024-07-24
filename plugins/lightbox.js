@@ -17,6 +17,7 @@
       this.zoomLevel = 1;
       this.touchStartX = 0;
       this.touchEndX = 0;
+      this.wheelTimer = null;
 
       this.init();
     }
@@ -68,7 +69,7 @@
           object-fit: contain;
           border-radius: 8px;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-          transition: transform ${this.options.animationDuration}ms cubic-bezier(0.25, 0.1, 0.25, 1);
+          transition: transform ${this.options.animationDuration}ms cubic-bezier(0.25, 0.1, 0.25, 1), opacity ${this.options.animationDuration}ms ease;
         }
         .lb-lightbox-nav {
           position: absolute;
@@ -203,7 +204,7 @@
       this.nextButton.addEventListener('click', this.showNextImage.bind(this));
       this.closeButton.addEventListener('click', this.close.bind(this));
       document.addEventListener('keydown', this.handleKeyDown.bind(this));
-      this.image.addEventListener('wheel', this.handleWheel.bind(this));
+      this.overlay.addEventListener('wheel', this.handleWheel.bind(this));
       this.overlay.addEventListener('touchstart', this.handleTouchStart.bind(this));
       this.overlay.addEventListener('touchmove', this.handleTouchMove.bind(this));
       this.overlay.addEventListener('touchend', this.handleTouchEnd.bind(this));
@@ -212,8 +213,8 @@
     handleImageClick(event) {
       const clickedImage = event.target.closest('img');
       if (clickedImage && !this.isOpen) {
-        event.preventDefault(); // 阻止默认行为
-        event.stopPropagation(); // 阻止事件冒泡
+        event.preventDefault();
+        event.stopPropagation();
         this.images = Array.from(document.querySelectorAll('.markdown-body img'));
         this.currentIndex = this.images.indexOf(clickedImage);
         this.open();
@@ -249,8 +250,16 @@
 
     handleWheel(event) {
       event.preventDefault();
-      const delta = Math.sign(event.deltaY);
-      this.zoom(delta > 0 ? -0.1 : 0.1);
+      clearTimeout(this.wheelTimer);
+
+      this.wheelTimer = setTimeout(() => {
+        const delta = Math.sign(event.deltaY);
+        if (delta > 0) {
+          this.showNextImage();
+        } else {
+          this.showPreviousImage();
+        }
+      }, 50);
     }
 
     handleTouchStart(event) {
@@ -317,10 +326,13 @@
     showImage() {
       const imgSrc = this.images[this.currentIndex].src;
       this.image.style.opacity = '0';
-      setTimeout(() => {
+      
+      const newImage = new Image();
+      newImage.src = imgSrc;
+      newImage.onload = () => {
         this.image.src = imgSrc;
         this.image.style.opacity = '1';
-      }, this.options.animationDuration / 2);
+      };
 
       this.prevButton.style.display = this.currentIndex > 0 ? '' : 'none';
       this.nextButton.style.display = this.currentIndex < this.images.length - 1 ? '' : 'none';
@@ -328,6 +340,8 @@
       if (typeof this.options.onNavigate === 'function') {
         this.options.onNavigate(this.currentIndex);
       }
+
+      this.preloadImages();
     }
 
     zoom(factor) {
