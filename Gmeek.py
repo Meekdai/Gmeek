@@ -52,9 +52,8 @@ class GMEEK():
         for label in self.repo.get_labels():
             self.labelColorDict[label.name]='#'+label.color
         print(self.labelColorDict)
-
         self.defaultConfig()
-
+        
     def cleanFile(self):
         workspace_path = os.environ.get('GITHUB_WORKSPACE')
         if os.path.exists(workspace_path+"/"+self.backup_dir):
@@ -85,7 +84,6 @@ class GMEEK():
                     print(f"Copied directory {item} to docs")
         else:
             print("static does not exist")
-
 
     def defaultConfig(self):
         dconfig={"singlePage":[],"startSite":"","filingNum":"","onePageListNum":15,"commentLabelColor":"#006b75","yearColorList":["#bc4c00", "#0969da", "#1f883d", "#A333D0"],"i18n":"CN","themeMode":"manual","dayTheme":"light","nightTheme":"dark","urlMode":"pinyin","script":"","style":"","head":"","indexScript":"","indexStyle":"","bottomText":"","showPostSource":1,"iconList":{},"UTC":+8,"rssSplit":"sentence","exlink":{},"needComment":1,"allHead":""}
@@ -465,8 +463,8 @@ else:
         oldBlogBase=json.loads(f.read())
         for key, value in oldBlogBase.items():
             blog.blogBase[key] = value
-
         f.close()
+        blog.blogBase["labelColorDict"]=blog.labelColorDict
         blog.runOne(options.issue_number)
 
 listFile=open("blogBase.json","w")
