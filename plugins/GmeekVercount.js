@@ -1,4 +1,4 @@
-function createBSZ() {
+function createVercount() {
     var postBody = document.getElementById('postBody');
     if (postBody){
         postBody.insertAdjacentHTML('afterend','<div id="busuanzi_container_page_pv" style="display:none;float:left;margin-top:8px;font-size:small;">本文浏览量<span id="busuanzi_value_page_pv"></span>次</div>');
@@ -8,9 +8,9 @@ function createBSZ() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    createBSZ();
+    createVercount();
     var element = document.createElement('script');
     element.src = 'https://vercount.one/js';
     document.head.appendChild(element);
-    console.log("\n %c GmeekBSZ Plugins https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#bc4c00;color:#fff");
+    console.log("\n %c GmeekVercount Plugins https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#bc4c00;color:#fff");
 });
