@@ -142,11 +142,34 @@ class GMEEK():
         f.write(output)
         f.close()
 
+    @staticmethod
+    def replace_canonical_attributes(match):
+        a_tag = match.group(1)
+        img_tag = match.group(2)
+        # 提取data-canonical-src的值
+        data_canonical_src = re.search(r'data-canonical-src="([^"]*)"', img_tag)
+        if data_canonical_src:
+            canonical_src = data_canonical_src.group(1)
+            # 替换a标签的href属性
+            a_tag = re.sub(r'href="[^"]*"', f'href="{canonical_src}"', a_tag)
+            # 替换img标签的src属性
+            img_tag = re.sub(r'src="[^"]*"', f'src="{canonical_src}"', img_tag)
+            # 删除data-canonical-src属性
+            img_tag = re.sub(r'\s*data-canonical-src="[^"]*"', '', img_tag)
+        return a_tag + img_tag
+
+    def process_html_img_src(self, origin_html):
+        # 使用正则表达式查找并替换符合条件的标签
+        pattern = r'(<a[^>]*>)(<img[^>]*data-canonical-src[^>]*>)'
+        processed_html = re.sub(pattern, self.replace_canonical_attributes, origin_html)
+        return processed_html
+
     def createPostHtml(self,issue):
         mdFileName=re.sub(r'[<>:/\\|?*\"]|[\0-\31]', '-', issue["postTitle"])
         f = open(self.backup_dir+mdFileName+".md", 'r', encoding='UTF-8')
-        post_body=self.markdown2html(f.read())
+        origin_post_body = self.markdown2html(f.read())
         f.close()
+        post_body = self.process_html_img_src(origin_post_body)
 
         postBase=self.blogBase.copy()
 
