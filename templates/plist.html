@@ -18,9 +18,9 @@
 .title-right button{margin-right:8px;padding:16px;}
 .title-right .circle{padding: 14px 16px;}
 
-.SideNav{min-width: 360px;}
+.SideNav{min-width: 360px;background-color: unset;}
 .SideNav-icon{margin-right: 16px}
-.SideNav-item .Label{color: #fff;margin-left:4px;}
+.SideNav-item .Label{color: #fff;margin-left:4px;border-radius: unset;}
 .d-flex{min-width:0;}
 .listTitle{overflow:hidden;white-space:nowrap;text-overflow: ellipsis;max-width: 100%;}
 .listLabels{white-space:nowrap;display:flex;}
@@ -92,9 +92,9 @@
     <div class="listLabels">
         {% if postListJson[num]['commentNum']>0 %}<span class="Label" style="background-color:{{ blogBase['commentLabelColor'] }}">{{ postListJson[num]['commentNum'] }}</span>{% endif %}
         {% for label in postListJson[num]['labels'] -%}
-        <span class="Label LabelName" style="background-color:{{ blogBase['labelColorDict'][label] }}"><object><a style="color:#fff" href="tag.html#{{ label }}">{{ label }}</a></object></span>
+        <span class="Label LabelName" {#style="background-color:{{ blogBase['labelColorDict'][label] }}"#}><object><a style="color:#fff" href="tag.html#{{ label }}">{{ label }}</a></object></span>
         {%- endfor %}
-        <span class="Label LabelTime" style="background-color:{{ postListJson[num]['dateLabelColor'] }}">{{ postListJson[num]['createdDate'] }}</span>
+        <span class="Label LabelTime" {#style="background-color:{{ postListJson[num]['dateLabelColor'] }}"#}>{{ postListJson[num]['createdDate'] }}</span>
     </div>
 </a>
 {%- endfor %}
