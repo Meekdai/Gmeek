@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
     .toc-end{
         font-weight: bold;
         text-align: center;
+        cursor: pointer;
         visibility: hidden;
     }  
     .toc a {
