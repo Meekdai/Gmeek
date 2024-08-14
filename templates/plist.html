@@ -40,8 +40,8 @@
 {% block header %}
 <h1>
     <img src="{{ blogBase['avatarUrl'] }}" class="avatar circle" id="avatarImg" alt="avatar">
-    {%- if blogBase['displayTitle']=='eekdai' -%}
-    <a class="blogTitle" href="https://meekdai.com">{{ blogBase['displayTitle'] }}</a>
+    {%- if blogBase['displayTitle']=='Meekdai' -%}
+    <a class="blogTitle" href="https://meekdai.com"><span style="font-size:0;">M</span>eekdai</a>
     {% else -%}
     <a class="blogTitle">{{ blogBase['displayTitle'] }}</a>
     {%- endif -%}
