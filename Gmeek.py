@@ -422,11 +422,14 @@ class GMEEK():
     def runOne(self,number_str):
         print("====== start create static html ======")
         issue=self.repo.get_issue(int(number_str))
-        listJsonName=self.addOnePostJson(issue)
-        self.createPostHtml(self.blogBase[listJsonName]["P"+number_str])
-        self.createPlistHtml()
-        self.createFeedXml()
-        print("====== create static html end ======")
+        if issue.state == "open":
+            listJsonName=self.addOnePostJson(issue)
+            self.createPostHtml(self.blogBase[listJsonName]["P"+number_str])
+            self.createPlistHtml()
+            self.createFeedXml()
+            print("====== create static html end ======")
+        else:
+            print("====== issue is closed ======")
 
     def createFileName(self,issue,useLabel=False):
         if useLabel==True:
