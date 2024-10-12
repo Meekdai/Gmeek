@@ -435,13 +435,22 @@ class GMEEK():
         if useLabel==True:
             fileName=issue.labels[0].name
         else:
-            if self.blogBase["urlMode"]=="issue":
+            try:
+                postConfig=json.loads(issue.body.split("\r\n")[-1:][0].split("##")[1])
+                print("Has Custom JSON parameters")
+                print(postConfig)
+            except:
+                postConfig={}
+    
+            if self.blogBase["urlMode"]=="custom_url" and "custom_url" in postConfig:
+                fileName=postConfig["custom_url"]
+            elif self.blogBase["urlMode"]=="issue":
                 fileName=str(issue.number)
-            elif self.blogBase["urlMode"]=="ru_translit": 
+            elif self.blogBase["urlMode"]=="ru_translit":
                 fileName=str(translit(issue.title, language_code='ru', reversed=True)).replace(' ', '-')
             else:
                 fileName=Pinyin().get_pinyin(issue.title)
-        
+
         fileName=re.sub(r'[<>:/\\|?*\"]|[\0-\31]', '-', fileName)
         return fileName
 
