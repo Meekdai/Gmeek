@@ -180,6 +180,23 @@ class GMEEK():
         if '<code class="notranslate">Gmeek-html' in post_body:
             post_body = re.sub(r'<code class="notranslate">Gmeek-html(.*?)</code>', lambda match: html.unescape(match.group(1)), post_body, flags=re.DOTALL)
 
+        if '<code class="notranslate">Markmap' in post_body:
+            markmap_template = '''
+            <style>
+                .markmap {
+                    position: relative;
+                }
+                .markmap > svg {
+                    width: 100%;
+                    height: 300px;
+                }
+            </style>
+            <div class="markmap">
+            <script type="text/template">
+            '''
+            post_body = re.sub(r'<code class="notranslate">Markmap\s*([\s\S]*?)\s*<\/code>', \
+                            lambda match: markmap_template + match.group(1) + '\n</script></div>', post_body, flags=re.DOTALL)
+
         postBase["postTitle"]=issue["postTitle"]
         postBase["postUrl"]=self.blogBase["homeUrl"]+"/"+issue["postUrl"]
         postBase["description"]=issue["description"]
