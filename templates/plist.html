@@ -103,7 +103,7 @@
       <path class="svgTop{{ postListJson[num]['top'] }}" d=""></path>
     </svg>
     <a class="listTitle" href="{{ postListJson[num]['postUrl']|e }}">{{ postListJson[num]['postTitle']|e }}</a>
-    <button class="copy-btn" data-url="{{ blogBase['homeUrl'] }}{{ postListJson[num]['postUrl'] }}" title="复制文章链接">📋</button>
+    <button class="copy-btn" data-url="{{ blogBase['homeUrl'] }}{{ postListJson[num]['postUrl'] }}" title="copy link">copy link</button>
   </div>
   <div class="listLabels">
     {% if postListJson[num]['commentNum']>0 %}
