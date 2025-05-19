@@ -30,13 +30,21 @@
 #cmButton{height:48px;margin-top:48px;}
 #comments{margin-top:64px;}
 .g-emoji{font-size:24px;}
-
-#alignToggleBtn {
-    margin: 24px auto;
-    display: block;
-    padding: 8px 12px;
-    font-size: 14px;
-    cursor: pointer;
+.btn-invisible.circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  line-height: 0;
+}
+.btn-invisible.circle svg {
+  width: 16px;
+  height: 16px;
 }
 @media (max-width: 600px) {
     body {padding: 8px;}
@@ -82,10 +90,12 @@
     </a>
     <a id="copyLinkBtn" class="btn btn-invisible circle">
       <svg class="octicon" width="16" height="16" fill="currentColor" >
+        <path d="M7 10h1v2H7v-2zM3 2v2H2v12h12v-3h2v4H2V2h1z"></path>
       </svg>
     </a>
     <a id="alignToggleBtn" class="btn btn-invisible circle">
         <svg class="octicon" width="16" height="16" fill="currentColor">
+            <path d="M7 10h1v2H7v-2zM3 2v2H2v12h12v-3h2v4H2V2h1z"></path>
         </svg>
     </a>
 </div>
