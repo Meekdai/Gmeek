@@ -73,6 +73,11 @@
     </a>
 
 </div>
+<button id="copyLinkBtn" class="btn btn-invisible circle" title="复制文章链接">
+  <svg class="octicon" width="16" height="16" fill="currentColor">
+    <path d="M7 10h1v2H7v-2zM3 2v2H2v12h12v-3h2v4H2V2h1z"></path>
+  </svg>
+</button>
 {% endblock %}
 
 {% block content %}
@@ -95,7 +100,14 @@ document.getElementById("pathHome").setAttribute("d",IconList["home"]);
     span.innerHTML="{{ blogBase['commentNum'] }}";
     cmButton.appendChild(span);
 {%- endif %}
-
+document.getElementById("copyLinkBtn").addEventListener("click", () => {
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    alert("文章链接已复制！");
+  }).catch(() => {
+    alert("复制失败，请手动复制链接");
+  });
+});
 {% if blogBase['needComment']==1 %}
 function openComments(){
     cm=document.getElementById("comments");
