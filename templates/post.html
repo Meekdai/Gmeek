@@ -24,12 +24,22 @@
     margin: 0 auto;
     padding-left: 16px;
     padding-right: 16px;
+    text-align: center;
 }
 #postBody hr{height:2px;}
 
 #cmButton{height:48px;margin-top:48px;}
 #comments{margin-top:64px;}
 .g-emoji{font-size:24px;}
+
+#alignToggleBtn {
+    margin: 24px auto;
+    display: block;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
 @media (max-width: 600px) {
     body {padding: 8px;}
     .postTitle{font-size:24px;}
@@ -50,6 +60,7 @@
 {{ blogBase['style'] }}
 
 {% endblock %}
+
 {% block header %}
 <h1 class="postTitle">{{ blogBase['postTitle'] }}</h1>
 <div class="title-right">
@@ -71,9 +82,8 @@
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
     </a>
-
 </div>
-<button id="copyLinkBtn" class="btn btn-invisible circle" title="复制文章链接">
+<button id="copyLinkBtn" class="btn btn-invisible circle" title="copy link">
   <svg class="octicon" width="16" height="16" fill="currentColor">
     <path d="M7 10h1v2H7v-2zM3 2v2H2v12h12v-3h2v4H2V2h1z"></path>
   </svg>
@@ -81,7 +91,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="markdown-body" id="postBody" style="text-align:center;">{{ blogBase['postBody'] }}</div>
+<button id="alignToggleBtn">切换文字对齐方式</button>
+<div class="markdown-body" id="postBody">{{ blogBase['postBody'] }}</div>
 <div style="font-size:small;margin-top:8px;float:right;">{{ blogBase['bottomText'] }}</div>
 {% if blogBase['needComment']==1 %}
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">{{ i18n['comments'] }}</button>
@@ -93,13 +104,7 @@
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 {% if blogBase['showPostSource']==1 %}document.getElementById("pathIssue").setAttribute("d",IconList["github"]);{% endif %}
-{% if blogBase['commentNum']>0 -%}
-    cmButton=document.getElementById("cmButton");
-    span=document.createElement("span");
-    span.setAttribute("class","Counter");
-    span.innerHTML="{{ blogBase['commentNum'] }}";
-    cmButton.appendChild(span);
-{%- endif %}
+
 document.getElementById("copyLinkBtn").addEventListener("click", () => {
   const url = window.location.href;
   navigator.clipboard.writeText(url).then(() => {
@@ -108,7 +113,19 @@ document.getElementById("copyLinkBtn").addEventListener("click", () => {
     alert("复制失败，请手动复制链接");
   });
 });
+
+document.getElementById("alignToggleBtn").addEventListener("click", function () {
+  const postBody = document.getElementById("postBody");
+  const currentAlign = postBody.style.textAlign;
+  if (currentAlign === "center") {
+    postBody.style.textAlign = "left";
+  } else {
+    postBody.style.textAlign = "center";
+  }
+});
+
 {% if blogBase['needComment']==1 %}
+
 function openComments(){
     cm=document.getElementById("comments");
     cmButton=document.getElementById("cmButton");
@@ -147,7 +164,7 @@ function iFrameLoading(){
         }
     }
 }
-{%- endif %}
+{% endif %}
 
 {% if blogBase['highlight']!=0 -%}
 document.addEventListener('DOMContentLoaded', () => {
