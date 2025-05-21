@@ -23,8 +23,22 @@
 .SideNav-item .Label{color: #fff;margin-left:4px;}
 .d-flex{min-width:0;}
 .listTitle{overflow:hidden;white-space:nowrap;text-overflow: ellipsis;max-width: 100%;}
+
 .listLabels{white-space:nowrap;display:flex;}
 .listLabels object{max-height:16px;max-width:24px;}
+
+.copy-btn {
+  margin-left: 6px;
+  font-size: 12px;
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+.copy-btn:hover {
+  background: #ddd;
+}
 
 @media (max-width: 600px) {
     body {padding: 8px;}
@@ -83,22 +97,29 @@
 <div style="margin-bottom: 16px;">{{ blogBase['subTitle'] }}</div>
 <nav class="SideNav border">
 {% for num in postListJson -%}
-<a class="SideNav-item d-flex flex-items-center flex-justify-between" href="{{ postListJson[num]['postUrl']|e }}">
-    <div class="d-flex flex-items-center">
-        <svg class="SideNav-icon octicon" style="witdh:16px;height:16px"><path class="svgTop{{ postListJson[num]['top'] }}" d=""></path>
-        </svg>
-        <span class="listTitle">{{ postListJson[num]['postTitle']|e }}</span>
-    </div>
-    <div class="listLabels">
-        {% if postListJson[num]['commentNum']>0 %}<span class="Label" style="background-color:{{ blogBase['commentLabelColor'] }}">{{ postListJson[num]['commentNum'] }}</span>{% endif %}
-        {% for label in postListJson[num]['labels'] -%}
-        <span class="Label LabelName" style="background-color:{{ blogBase['labelColorDict'][label] }}"><object><a style="color:#fff" href="tag.html#{{ label }}">{{ label }}</a></object></span>
-        {%- endfor %}
-        <span class="Label LabelTime" style="background-color:{{ postListJson[num]['dateLabelColor'] }}">{{ postListJson[num]['createdDate'] }}</span>
-    </div>
-</a>
+<div class="SideNav-item d-flex flex-items-center flex-justify-between">
+  <div class="d-flex flex-items-center">
+    <svg class="SideNav-icon octicon" style="width:16px;height:16px">
+      <path class="svgTop{{ postListJson[num]['top'] }}" d=""></path>
+    </svg>
+    <a class="listTitle" href="{{ postListJson[num]['postUrl']|e }}">{{ postListJson[num]['postTitle']|e }}</a>
+    <button class="copy-btn" data-url="{{ blogBase['homeUrl'] }}{{ postListJson[num]['postUrl'] }}" title="copy link">🔗</button>
+  </div>
+  <div class="listLabels">
+    {% if postListJson[num]['commentNum']>0 %}
+      <span class="Label" style="background-color:{{ blogBase['commentLabelColor'] }}">{{ postListJson[num]['commentNum'] }}</span>
+    {% endif %}
+    {% for label in postListJson[num]['labels'] %}
+      <span class="Label LabelName" style="background-color:{{ blogBase['labelColorDict'][label] }}">
+        <object><a style="color:#fff" href="tag.html#{{ label }}">{{ label }}</a></object>
+      </span>
+    {% endfor %}
+    <span class="Label LabelTime" style="background-color:{{ postListJson[num]['dateLabelColor'] }}">{{ postListJson[num]['createdDate'] }}</span>
+  </div>
+</div>
 {%- endfor %}
 </nav>
+
 {%- if blogBase['prevUrl']!='disabled' or blogBase['nextUrl']!='disabled' -%}
 <nav class="paginate-container" aria-label="Pagination">
     <div class="pagination">
@@ -113,7 +134,6 @@
         {% else -%}
         <a class="next_page" rel="next" href="{{ blogBase['homeUrl'] }}{{ blogBase['nextUrl'] }}" aria-label="Next Page">{{ i18n['Next'] }}</a>
         {%- endif -%}
-
     </div>
 </nav>
 {%- endif %}
@@ -140,6 +160,33 @@ document.getElementById("{{ key }}").setAttribute("d",value=IconList["{{ key }}"
 {% for num in blogBase['singeListJson'] -%}
 document.getElementById("{{ blogBase['singeListJson'][num]['postTitle'] }}").setAttribute("d",value=IconList["{{ blogBase['singeListJson'][num]['labels'][0] }}"]);
 {%- endfor %}
+
+
+document.querySelectorAll('.copy-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const url = button.getAttribute('data-url');
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('链接已复制！');
+    }).catch(() => {
+      showToast('复制失败');
+    });
+  });
+});
+
+function showToast(msg) {
+  const toast = document.createElement("div");
+  toast.innerText = msg;
+  toast.style.position = "fixed";
+  toast.style.bottom = "20px";
+  toast.style.right = "20px";
+  toast.style.background = "#222";
+  toast.style.color = "#fff";
+  toast.style.padding = "8px 12px";
+  toast.style.borderRadius = "6px";
+  toast.style.zIndex = 10000;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2000);
+}
 </script>
 {{ blogBase['indexScript'] }}
 {% endblock %}
