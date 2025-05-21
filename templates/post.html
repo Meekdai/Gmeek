@@ -19,6 +19,26 @@
 .title-right .circle{padding: 14px 16px;margin-right:8px;}
 #postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
 #postBody hr{height:2px;}
+#postBody .paragraph {
+    display: block;
+    position: relative;
+    padding-right: 30px;
+    cursor: pointer;
+    user-select: text;
+  }
+  #postBody .paragraph.highlighted {
+    background-color: #ffffcc;
+  }
+  #postBody .paragraph .note-text {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.9em;
+    color: #333;
+    background: #fffae6;
+    border-left: 3px solid #f0c000;
+    padding: 2px 6px;
+    user-select: text;
+  }
 #cmButton{height:48px;margin-top:48px;}
 #comments{margin-top:64px;}
 .g-emoji{font-size:24px;}
@@ -38,6 +58,31 @@
     padding: 5px 8px;
     font-size: 12px;
 }{% endif %}
+
+.highlighted-sentence {
+    background: yellow;
+    transition: background 0.3s ease;
+}
+#backToTopBtn {
+  position: fixed;
+  bottom: 40px;
+  right: 30px;
+  z-index: 999;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: opacity 0.3s ease;
+}
+
+#backToTopBtn:hover {
+  background-color: #0056b3;
+}
 </style>
 {{ blogBase['style'] }}
 
@@ -64,6 +109,16 @@
         </svg>
     </a>
 
+    <a id="ttsBtn" class="btn btn-invisible circle" title="Read">
+        <svg class="octicon" width="16" height="16" >
+            <path d="M4 4 v8 l6 -4 -6 -4 z" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    <a id="exportNotesBtn" class="btn btn-invisible circle" title="导出笔记" href="javascript:void(0)">
+        <svg width="16" height="16" class="octicon">
+            <path d="M5 3v2h6V3h2v2h1a1 1 0 011 1v2H2V6a1 1 0 011-1h1V3h2zm-3 6h14v2a1 1 0 01-1 1H3a1 1 0 01-1-1V9zm0 4h14v2H2v-2z"></path>
+        </svg>
+    </a>
 </div>
 {% endblock %}
 
@@ -74,12 +129,21 @@
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">{{ i18n['comments'] }}</button>
 <div class="comments" id="comments"></div>
 {% endif %}
+
+<button id="backToTopBtn" title="返回顶部" style="display: none;">
+  <svg width="24" height="24" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 8l6 6H6z"/>
+  </svg>
+</button>
 {% endblock %}
 
 {% block script %}
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+//document.getElementById("read").setAttribute("d",IconList["startread"]);
+console.log(IconList["startread"]);
 {% if blogBase['showPostSource']==1 %}document.getElementById("pathIssue").setAttribute("d",IconList["github"]);{% endif %}
+
 {% if blogBase['commentNum']>0 -%}
     cmButton=document.getElementById("cmButton");
     span=document.createElement("span");
@@ -128,6 +192,279 @@ function iFrameLoading(){
     }
 }
 {%- endif %}
+document.getElementById('exportNotesBtn')?.addEventListener('click', () => {
+  const notesData = JSON.parse(localStorage.getItem('myParagraphNotes') || '{}');
+  if (!Object.keys(notesData).length) {
+    alert('你还没有收藏任何段落');
+    return;
+  }
+
+  let exportText = '我的段落笔记：\n\n';
+
+  for (const [pid, note] of Object.entries(notesData)) {
+  const paraElem = document.getElementById(pid);
+  if (!paraElem) continue;
+  const paraText = paraElem.cloneNode(true);
+  paraText.querySelectorAll('.note-text').forEach(n => n.remove());
+  const pureText = paraText.innerText.replace(/\n/g, ' ');
+  exportText += `段落 ${pid.replace('para-', '')}：\n${pureText}\n笔记：${note}\n\n`;
+    }
+
+  const blob = new Blob([exportText], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '我的段落笔记.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+(function() {
+  const STORAGE_KEY = 'postScrollPosition';
+  window.addEventListener('load', () => {
+    const savedPos = localStorage.getItem(STORAGE_KEY);
+    if (savedPos) {
+      window.scrollTo(0, parseInt(savedPos, 10));
+    }
+  });
+
+  let saveTimeout = null;
+  window.addEventListener('scroll', () => {
+    if (saveTimeout) return;
+    saveTimeout = setTimeout(() => {
+      localStorage.setItem(STORAGE_KEY, window.scrollY);
+      saveTimeout = null;
+    }, 200);
+  });
+})();
+
+let originalHTML = "";
+(() => {
+  const ttsBtn = document.getElementById('ttsBtn');
+  const ttsRateSelect = document.getElementById('ttsRate');
+  const postBody = document.getElementById('postBody');
+  let utterance = null;
+  let isSpeaking = false;
+  let sentenceSpans = [];
+  let currentIndex = 0;
+
+  function resetTTSButton() {
+    ttsBtn.title = "朗读/暂停";
+    ttsBtn.querySelector('path').setAttribute('d', "M4 4v8l6-4-6-4z"); // 播放图标
+  }
+
+  function getCleanTextFromPostBody() {
+  const postBody = document.getElementById('postBody');
+  const clone = postBody.cloneNode(true);
+  clone.querySelectorAll('mark, .highlight, [data-note="true"]').forEach(el => {
+    const textNode = document.createTextNode(el.innerText || el.textContent || '');
+    el.replaceWith(textNode);
+  });
+
+  return clone.innerText.trim();
+}
+  function clearHighlights() {
+    sentenceSpans.forEach(span => span.classList.remove("highlighted-sentence"));
+  }
+
+  function scrollIntoViewSmoothly(el) {
+    el.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
+
+  function splitTextIntoSentences(text) {
+    return text.match(/[^。！？]+[。！？]?/g) || [text];
+  }
+
+  function prepareSentences() {
+    const postBody = document.getElementById('postBody');
+    const text = Array.from(document.querySelectorAll('#postBody .paragraph'))
+      .map(p => {
+        // 拿掉 .note-text 的内容
+        const clone = p.cloneNode(true);
+        clone.querySelectorAll('.note-text').forEach(n => n.remove());
+        return clone.innerText.trim();
+      })
+      .filter(Boolean)
+      .join('\n');
+    const sentences = splitTextIntoSentences(text);
+    originalHTML = postBody.innerHTML;
+    postBody.innerHTML = ""; // 清空内容
+    sentenceSpans = sentences.map(s => {
+      const span = document.createElement("span");
+      span.textContent = s;
+      span.style.display = "inline";
+      postBody.appendChild(span);
+      postBody.appendChild(document.createTextNode(" ")); // 保持间距
+      return span;
+    });
+    return sentences;
+  }
+
+  function speakSentences(sentences) {
+    if (!window.speechSynthesis) return alert("不支持语音合成");
+    if (!sentences.length) return;
+
+    currentIndex = 0;
+    isSpeaking = true;
+
+    function speakNext() {
+      if (currentIndex >= sentences.length) {
+        isSpeaking = false;
+        resetTTSButton();
+        postBody.innerHTML = originalHTML;
+        return;
+      }
+
+      const text = sentences[currentIndex];
+      utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "zh-CN";
+      utterance.rate = parseFloat(ttsRateSelect?.value || 1);
+
+      utterance.onstart = () => {
+        clearHighlights();
+        const span = sentenceSpans[currentIndex];
+        if (span) {
+          span.classList.add("highlighted-sentence");
+          scrollIntoViewSmoothly(span);
+        }
+      };
+
+      utterance.onend = () => {
+        currentIndex++;
+        speakNext();
+      };
+
+      utterance.onerror = () => {
+        isSpeaking = false;
+        resetTTSButton();
+        alert("朗读出错");
+      };
+
+      speechSynthesis.speak(utterance);
+    }
+
+    speakNext();
+  }
+
+  ttsBtn.addEventListener("click", () => {
+    if (!window.speechSynthesis) {
+      alert('你的浏览器不支持语音合成功能');
+      return;
+    }
+
+    if (isSpeaking) {
+      if (speechSynthesis.paused) {
+        speechSynthesis.resume();
+        ttsBtn.title = "暂停朗读";
+        ttsBtn.querySelector('path').setAttribute('d', "M6 4h2v8H6zM10 4h2v8h-2z");
+      } else {
+        speechSynthesis.pause();
+        ttsBtn.title = "继续朗读";
+        ttsBtn.querySelector('path').setAttribute('d', "M4 4v8l6-4-6-4z");
+      }
+    } else {
+      speechSynthesis.cancel();
+      clearHighlights();
+      const sentences = prepareSentences();
+      speakSentences(sentences);
+      ttsBtn.title = "暂停朗读";
+      ttsBtn.querySelector('path').setAttribute('d', "M6 4h2v8H6zM10 4h2v8h-2z");
+    }
+  });
+})();
+
+
+(function() {
+  const STORAGE_KEY = 'myParagraphNotes';
+  const postBody = document.getElementById('postBody');
+
+  if (!postBody) return;
+
+  const text = postBody.innerText || postBody.textContent;
+  const lines = text.split(/\n+/).filter(line => line.trim().length > 0);
+
+  postBody.innerHTML = '';
+
+  lines.forEach((line, index) => {
+    const span = document.createElement('span');
+    span.className = 'paragraph';
+    span.id = 'para-' + index;
+    span.textContent = line.trim();
+    postBody.appendChild(span);
+  });
+
+  let notesData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+
+  function saveNotes() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(notesData));
+  }
+
+  function renderParagraph(p) {
+  const pid = p.id;
+  const oldNote = p.querySelector('.note-text');
+  if (oldNote) oldNote.remove();
+
+  if (notesData[pid]) {
+    p.classList.add('highlighted');
+    const noteElem = document.createElement('div');
+    noteElem.className = 'note-text';
+    noteElem.textContent = notesData[pid];
+    noteElem.style.fontSize = '0.9em';
+    noteElem.style.color = '#888';
+    noteElem.style.marginTop = '4px';
+    noteElem.setAttribute('data-note', 'true');
+    p.appendChild(noteElem);
+  } else {
+    p.classList.remove('highlighted');
+  }
+}
+
+  function setupParagraph(p) {
+    p.addEventListener('click', () => {
+      const pid = p.id;
+      const currentNote = notesData[pid] || '';
+      const userInput = prompt('编辑笔记（留空将删除）：', currentNote);
+
+      if (userInput === null) return; // 取消
+
+      if (userInput.trim() === '') {
+        delete notesData[pid];
+      } else {
+        notesData[pid] = userInput.trim();
+      }
+
+      renderParagraph(p);
+      saveNotes();
+    });
+  }
+
+  document.querySelectorAll('#postBody .paragraph').forEach(p => {
+    renderParagraph(p);
+    setupParagraph(p);
+  });
+})();
+
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('backToTopBtn');
+  if (document.documentElement.scrollTop > 300 || document.body.scrollTop > 300) {
+    btn.style.display = 'block';
+  } else {
+    btn.style.display = 'none';
+  }
+});
+
+document.getElementById('backToTopBtn').addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
 
 {% if blogBase['highlight']!=0 -%}
 document.addEventListener('DOMContentLoaded', () => {
@@ -197,5 +534,6 @@ document.addEventListener('DOMContentLoaded', () => {
 {%- endif %}
 
 </script>
+
 {{ blogBase['script'] }}
 {% endblock %}
