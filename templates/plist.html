@@ -85,7 +85,7 @@
 {% for num in postListJson -%}
 <a class="SideNav-item d-flex flex-items-center flex-justify-between" href="{{ postListJson[num]['postUrl']|e }}">
     <div class="d-flex flex-items-center">
-        <svg class="SideNav-icon octicon" style="witdh:16px;height:16px"><path class="svgTop{{ postListJson[num]['top'] }}" d=""></path>
+        <svg class="SideNav-icon octicon" style="width:16px;height:16px"><path class="svgTop{{ postListJson[num]['top'] }}" d=""></path>
         </svg>
         <span class="listTitle">{{ postListJson[num]['postTitle']|e }}</span>
     </div>
