@@ -424,6 +424,9 @@ class GMEEK():
         issue=self.repo.get_issue(int(number_str))
         if issue.state == "open":
             listJsonName=self.addOnePostJson(issue)
+            if listJsonName is None:
+                print("====== issue has no labels, skip ======")
+                return
             self.createPostHtml(self.blogBase[listJsonName]["P"+number_str])
             self.createPlistHtml()
             self.createFeedXml()
